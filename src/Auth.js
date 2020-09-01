@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import LoginForm from './widgets/LoginForm';
-import useFetch from './hooks/useFetch';
+import apiFetch from './utils/apiFetch';
 
 const Auth = ({children}) => {
     const [loggedIn, setLoggedIn] = useState(false);
 
+    const onLogin = (username, password) => {
+        apiFetch('api-token-auth/', {username: username, password: password}).then(j => console.log(j));
+    };
+
     if (!loggedIn) {
-        return (<LoginForm onLogin={(username, password) => {
-            useFetch('api-auth/', {username: username, password: password});
-        }} />);
+        return (<LoginForm onLogin={onLogin} />);
     }
 
 
