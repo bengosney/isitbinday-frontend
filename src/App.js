@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 import LoginScreen from './screens/LoginScreen';
+import Auth from './Auth';
 
 import 'semantic-ui-css/semantic.min.css';
 
 function App() {
+
+  const [loggedIn, setLoggedIn] = useState(false);
+
   return (
+    <Auth>
     <Router>
       <div className="App">
         <header className="App-header">
@@ -24,9 +29,6 @@ function App() {
         <div>
           <Switch>
             <Route exact path="/">
-              <LoginScreen />
-            </Route>
-            <Route path="/test">
               <div>
                 <h1>Home</h1>
               </div>
@@ -35,6 +37,7 @@ function App() {
         </div>
       </div>
     </Router>
+    </Auth>
   );
 }
 
