@@ -8,6 +8,8 @@ import PublicRoute from './utils/PublicRoute';
 import PrivateRoute from './utils/PrivateRoute';
 
 import 'semantic-ui-css/semantic.min.css';
+import TaskListScreen from './screens/TaskListScreen';
+import LoggedInScreen from './screens/LoggedInScreen';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -28,19 +30,15 @@ function App() {
               <header className="App-header">
                 <ul>
                   <li>
-                    <Link to="/">Home</Link>
+                    <Link to="/dashboard">Home</Link>
                   </li>
                   <li>
-                    <Link to="/test">Test Page</Link>
+                    <Link to="/dashboard/tasks">Task List</Link>
                   </li>
                 </ul>
               </header>
               <hr />
-              <div>
-                <div>
-                  <h1>Home</h1>
-                </div>
-              </div>
+              <LoggedInScreen />
             </div>
           </PrivateRoute>
         </Switch>
