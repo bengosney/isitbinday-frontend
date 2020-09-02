@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react';
+import { authContext } from '../Auth';
 
-const LoginForm = ({ onLogin }) => {
+const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  const { login } = useContext(authContext);
 
   return (
     <Grid textAlign="center" style={{ height: '80vh' }} verticalAlign="middle">
@@ -30,7 +33,7 @@ const LoginForm = ({ onLogin }) => {
               placeholder="Password"
               type="password"
             />
-            <Button color="teal" fluid size="large" onClick={() => onLogin(username, password)}>
+            <Button color="teal" fluid size="large" onClick={() => login(username, password)}>
               Login
             </Button>
           </Segment>
