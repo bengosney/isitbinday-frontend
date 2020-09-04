@@ -4,6 +4,24 @@ import apiFetch from './utils/apiFetch';
 
 export const authContext = React.createContext({ loggedIn: false });
 
+export const refreshToken = async () => {
+  const refresh = localStorage.getItem('refresh');
+
+  if (refresh === null) {
+    return false;
+  }
+
+  localStorage.removeItem('token');
+  localStorage.removeItem('refresh');
+
+  const res = await apiFetch('api/token/refresh/', { refresh });
+
+  localStorage.setItem('token', res.access);
+  localStorage.setItem('refresh', res.refresh);
+
+  return true;
+};
+
 const Auth = ({ children }) => {
   const ACTION_LOGGEDIN = 'loggedIn';
   const ACTION_LOGGEDOUT = 'loggedOut';
@@ -14,7 +32,8 @@ const Auth = ({ children }) => {
     (state, action) => {
       switch (action.type) {
         case ACTION_LOGGEDIN:
-          localStorage.setItem('token', action.token);
+          localStorage.setItem('token', action.tokens.access);
+          localStorage.setItem('refresh', action.tokens.refresh);
           return { loggedIn: true };
         case ACTION_LOGGEDOUT:
           return { loggedIn: false };
@@ -26,8 +45,8 @@ const Auth = ({ children }) => {
   );
 
   const login = (username, password) => {
-    apiFetch('api-token-auth/', { username: username, password: password }).then((res) =>
-      loginDispatch({ type: ACTION_LOGGEDIN, token: res.token })
+    apiFetch('api/token/', { username: username, password: password }).then((res) =>
+      loginDispatch({ type: ACTION_LOGGEDIN, tokens: res })
     );
   };
   const logout = () => loginDispatch({ type: ACTION_LOGGEDOUT });
