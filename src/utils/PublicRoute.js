@@ -9,7 +9,7 @@ const PublicRoute = ({ children, ...rest }) => {
     <Route
       {...rest}
       render={({ location }) =>
-        !loggedIn ? children : <Redirect to={{ pathname: '/dashboard', state: { from: location } }} />
+        !loggedIn ? children : <Redirect to={{ pathname: '/iibd', state: { from: location } }} />
       }
     />
   );
