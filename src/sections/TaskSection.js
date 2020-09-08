@@ -1,30 +1,35 @@
-import React from 'react';
-import { useRouteMatch, Route, Switch, useLocation, Link } from 'react-router-dom';
-import { Menu, Button } from 'semantic-ui-react';
+import React, { useState } from 'react';
+import { useRouteMatch, Route, Switch } from 'react-router-dom';
+import { Segment } from 'semantic-ui-react';
 import TaskList from '../widgets/TaskList';
+import NewTask from '../widgets/NewTask';
 
 const TaskSection = () => {
   const { path } = useRouteMatch();
+  const [refresh, setRefresh] = useState(0);
 
   const getUrl = (slug) => {
     return `${path}/${slug}`.replace('//', '/');
   };
 
   const listUrl = getUrl('');
-  const addUrl = getUrl('add');
+  const editUrl = getUrl(':id');
 
   return (
     <React.Fragment>
       <Switch>
         <Route exact path={listUrl}>
           <h1>List</h1>
-          <TaskList />
-          <Button as={Link} to={addUrl}>
-            Add
-          </Button>
+          <Segment>
+            <TaskList refreshKey={refresh} />
+          </Segment>
+          <Segment>
+            <NewTask postSave={() => setRefresh(refresh + 1)} />
+          </Segment>
         </Route>
-        <Route path={addUrl}>
-          <h1>add</h1>
+        <Route path={editUrl}>
+          <h1>Edit</h1>
+          <NewTask />
         </Route>
       </Switch>
     </React.Fragment>

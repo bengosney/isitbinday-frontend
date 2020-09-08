@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useCallback, useReducer } from 'react';
-import LoginForm from './widgets/LoginForm';
+import React, { useReducer } from 'react';
 import apiFetch from './utils/apiFetch';
 
 export const authContext = React.createContext({ loggedIn: false });

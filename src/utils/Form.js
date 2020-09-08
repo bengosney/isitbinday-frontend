@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { useFormikContext, Field as FormikField, useField } from 'formik';
 import { Form as UIForm } from 'semantic-ui-react';
-import { useQuery } from '@apollo/client';
-import { CammelToTitle } from '../utils/string';
+import { CammelToTitle } from './string';
 
 const Field = ({ as, children, processor, label = null, ...props }) => {
   const [field, meta] = useField(props);
@@ -61,25 +60,6 @@ const FormRadio = (props) => <Field as={UIForm.Radio} processor={checkBoxProcess
 const FormSelect = (props) => <Field as={UIForm.Select} {...props} />;
 const FormTextArea = (props) => <Field as={UIForm.TextArea} {...props} />;
 
-const QueryDropdown = ({ query, textProp, disabled = false, placeholder = null, ...props }) => {
-  const { loading, error, data } = useQuery(query);
-
-  if (error) return <p>{`${error}`}</p>;
-
-  const _data = loading ? [] : data[Object.keys(data)[0]];
-
-  const options = _data.map((e) => ({ text: e[textProp], key: e._id, value: e._id }));
-
-  const extraProps = {
-    search: options.length > 25,
-    scrolling: options.length > 15,
-    disabled: disabled || loading,
-    placeholder: loading ? 'Loading...' : placeholder,
-  };
-
-  return <FormDropdown options={options} {...extraProps} {...props} />;
-};
-
 export const Form = React.forwardRef((props, ref) => {
   const { action, ...rest } = props;
   const _action = action || '#';
@@ -97,6 +77,5 @@ Form.Input = FormInput;
 Form.Radio = FormRadio;
 Form.Select = FormSelect;
 Form.TextArea = FormTextArea;
-Form.QueryDropdown = QueryDropdown;
 
 Form.displayName = 'Form';

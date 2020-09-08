@@ -1,9 +1,8 @@
-import React, { useState, useContext, useCallback, useEffect } from 'react';
-import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react';
+import React from 'react';
 import { useApiFetch } from '../utils/apiFetch';
 
-const TaskList = () => {
-  const data = useApiFetch('api/tasks/');
+const TaskList = ({refreshKey = 0}) => {
+  const data = useApiFetch('api/tasks/', null, refreshKey);
 
   if (data == null) {
     return <div>Loading</div>;

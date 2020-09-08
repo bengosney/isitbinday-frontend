@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
@@ -8,11 +8,10 @@ import PrivateRoute from './utils/PrivateRoute';
 
 import 'semantic-ui-css/semantic.min.css';
 import PrivateSection from './sections/PrivateSection';
-import LoginForm from './screens/LoginScreen';
+import LoginForm from './widgets/LoginForm';
+
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
-
   return (
     <div className="App">
       <Auth>

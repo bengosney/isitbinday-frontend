@@ -1,4 +1,4 @@
-import { authContext, refreshToken } from '../Auth';
+import { refreshToken } from '../Auth';
 import { useState, useEffect } from 'react';
 
 const apiFetch = async (url, args = null) => {
@@ -22,12 +22,9 @@ const apiFetch = async (url, args = null) => {
     options.headers.Authorization = `Bearer ${token}`;
   }
 
-  console.log(`fetching ${url} ${token != null ? 'with auth': ''}`);
   const res = await fetch(`http://localhost:8000/${url}`, options);
-  if (res.status == 401) {
-    console.log('refresh the token');
+  if (res.status === 401) {
     const refreshed = await refreshToken();
-    console.log('refreshed', refreshed);
     if (refreshed) {
       return apiFetch(url, args);
     }
@@ -37,12 +34,12 @@ const apiFetch = async (url, args = null) => {
   return json;
 };
 
-export const useApiFetch = (url, args = null) => {
+export const useApiFetch = (url, args = null, refreshKey = 0) => {
   const [response, setResponse] = useState(null);
 
   useEffect(() => {
     apiFetch(url, args).then((res) => setResponse(res));
-  }, [url, args]);
+  }, [url, args, refreshKey]);
 
   return response;
 };

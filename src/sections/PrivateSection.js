@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouteMatch, Route, Switch, useLocation, Link, Redirect } from 'react-router-dom';
-import { Menu, Button } from 'semantic-ui-react';
+import { Menu,  Container } from 'semantic-ui-react';
 import TaskSection from './TaskSection';
 
 const PrivateSection = () => {
@@ -22,11 +22,12 @@ const PrivateSection = () => {
 
   const { pathname } = useLocation();
 
+
+
   return (
-    <React.Fragment>
+    <Container>
       <Menu>
         {menuItems.map((i) => {
-            console.log(i.name, i.url, pathname);
           return (
             <Menu.Item as={Link} key={i.url} active={pathname.startsWith(i.url)} to={i.url}>
               {i.name}
@@ -46,7 +47,7 @@ const PrivateSection = () => {
           <h1>Sprints</h1>
         </Route>
       </Switch>
-    </React.Fragment>
+    </Container>
   );
 };
 
