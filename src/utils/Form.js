@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useFormikContext, Field as FormikField, useField } from 'formik';
 import { Form as UIForm } from 'semantic-ui-react';
-import { CammelToTitle } from './string';
+import { CammelToTitle, SnakeToTitle } from './string';
 
 const Field = ({ as, children, processor, label = null, ...props }) => {
   const [field, meta] = useField(props);
@@ -10,7 +10,7 @@ const Field = ({ as, children, processor, label = null, ...props }) => {
   const extras = {
     error: meta.touched && meta.error,
     name: name,
-    label: label || CammelToTitle(name),
+    label: label || SnakeToTitle(CammelToTitle(name)),
   };
 
   const _processor = processor || ((p) => p);
