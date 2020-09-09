@@ -35,7 +35,6 @@ const PrivateSection = () => {
           );
         })}
       </Menu>
-      <Redirect exact from={path} to={dashboardUrl} />
       <Switch>
         <Route path={dashboardUrl}>
           <h1>dashboard</h1>

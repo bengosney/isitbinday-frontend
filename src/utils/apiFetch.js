@@ -1,6 +1,8 @@
 import { refreshToken } from '../Auth';
 import { useState, useEffect } from 'react';
 
+export const origin = 'http://localhost:8000';
+
 const apiFetch = async (url, args = null) => {
   const token = localStorage.getItem('token');
 
@@ -22,7 +24,7 @@ const apiFetch = async (url, args = null) => {
     options.headers.Authorization = `Bearer ${token}`;
   }
 
-  const res = await fetch(`http://localhost:8000/${url}`, options);
+  const res = await fetch(`${origin}/${url}`, options);
   if (res.status === 401) {
     const refreshed = await refreshToken();
     if (refreshed) {
