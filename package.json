@@ -11,6 +11,7 @@
     "lint-staged": "^10.2.13",
     "prettier": "^2.1.1",
     "react": "^16.13.1",
+    "react-beautiful-dnd": "^13.0.0",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
