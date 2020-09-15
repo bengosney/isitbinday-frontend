@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import apiFetch, { useApiFetch } from '../utils/apiFetch';
 import { Button, Pagination, Card } from 'semantic-ui-react';
 import { UCFirst } from '../utils/string';
+import { Stack } from '@chakra-ui/core';
 
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
@@ -52,6 +53,12 @@ const TaskList = ({ refreshKey = 0, limit = 15, offset = 0 }) => {
 
     const items = reorder(tasks, result.source.index, result.destination.index);
 
+    let pos = 1;
+    //const positions = items.map((i) => ({ id: i.id, position: pos++ }));
+    const positions = items.map((i) => ({ id: i.id, position: pos++ }));
+
+    apiFetch(`api/tasks/position/`, { positions });
+
     setTasks(items);
   };
 
@@ -60,7 +67,7 @@ const TaskList = ({ refreshKey = 0, limit = 15, offset = 0 }) => {
       <DragDropContext onDragEnd={(e) => dragEnd(e)}>
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
-            <div {...provided.droppableProps} ref={provided.innerRef}>
+            <Stack {...provided.droppableProps} ref={provided.innerRef}>
               {tasks.map(({ id, title, effort, state, available_state_transitions, position }, index) => (
                 <Draggable key={id} draggableId={`${id}`} index={index}>
                   {(provided, snapshot) => (
@@ -77,7 +84,7 @@ const TaskList = ({ refreshKey = 0, limit = 15, offset = 0 }) => {
                 </Draggable>
               ))}
               {provided.placeholder}
-            </div>
+            </Stack>
           )}
         </Droppable>
       </DragDropContext>
