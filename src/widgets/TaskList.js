@@ -19,6 +19,8 @@ const TaskList = ({ refreshKey = 0, limit = 15, offset = 0 }) => {
   const [states, setStates] = useState([]);
   const [tasks, setTasks] = useState(null);
   const [count, setCount] = useState(0);
+  const [droppableStates, setDroppableStates] = useState([]);
+  const [dragItem, setDragItem] = useState(null);
   const [currentRefreshKey, setCurrentRefreshKey] = useState(refreshKey);
   const refresh = () => setCurrentRefreshKey(currentRefreshKey + 1);
 
@@ -32,7 +34,7 @@ const TaskList = ({ refreshKey = 0, limit = 15, offset = 0 }) => {
     }
   }, [data]);
 
-  const statesResponse = useApiFetch(`api/tasks/kanbanStates/`);
+  const statesResponse = useApiFetch(`api/tasks/states/`);
   useEffect(() => {
     if (statesResponse !== null) {
       const { states: _states = [] } = statesResponse;
@@ -68,23 +70,53 @@ const TaskList = ({ refreshKey = 0, limit = 15, offset = 0 }) => {
     apiFetch(`api/tasks/position/`, { positions });
 
     setTasks(items);
+    setDragItem(null);
+    setDroppableStates([]);
+  };
+
+  const dragStart = (e) => {
+    const _dragItem = tasks.find((t) => t.id == e.draggableId);
+    setDragItem(_dragItem);
+    setDroppableStates(_dragItem.available_state_transitions);
+    console.log(_dragItem);
+  };
+
+  const getBorderColour = (state) => {
+    if (droppableStates.includes(state)) {
+      return 'green';
+    }
+
+    if (state == (dragItem || {}).state) {
+      return 'blue';
+    }
+
+    return 'white';
   };
 
   return (
     <React.Fragment>
-      <DragDropContext onDragEnd={(e) => dragEnd(e)}>
+      <DragDropContext onDragEnd={(e) => dragEnd(e)} onDragStart={(e) => dragStart(e)}>
         <Grid templateColumns={`repeat(${states.length}, 1fr)`} gap={6}>
           {states.map((state) => (
-            <Stack>
+            <Stack key={state}>
               <Text>{state}</Text>
-              <Droppable key={state} droppableId={state}>
+              <Droppable
+                droppableId={state}
+                isDropDisabled={!droppableStates.includes(state) && state != (dragItem || {}).state}
+              >
                 {(provided, snapshot) => (
-                  <Stack {...provided.droppableProps} ref={provided.innerRef}>
+                  <Stack
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    border="1px solid"
+                    borderColor={getBorderColour(state)}
+                  >
                     {tasks.map(
                       ({ id, title, effort, state: taskState, available_state_transitions, position }, index) => {
                         if (state !== taskState) {
                           return null;
                         }
+
                         return (
                           <Draggable key={id} draggableId={`${id}`} index={index}>
                             {(provided, snapshot) => (
