@@ -3,6 +3,17 @@ import apiFetch from './utils/apiFetch';
 
 export const authContext = React.createContext({ loggedIn: false });
 
+export const clearAuth = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('refresh');
+};
+
+export const checkAuth = () => {
+  const refresh = localStorage.getItem('refresh');
+
+  return refresh !== null;
+};
+
 export const refreshToken = async () => {
   const refresh = localStorage.getItem('refresh');
 
@@ -10,10 +21,13 @@ export const refreshToken = async () => {
     return false;
   }
 
-  localStorage.removeItem('token');
-  localStorage.removeItem('refresh');
+  clearAuth();
 
   const res = await apiFetch('api/token/refresh/', { refresh });
+
+  if (res.status !== 200) {
+    return false;
+  }
 
   localStorage.setItem('token', res.access);
   localStorage.setItem('refresh', res.refresh);

@@ -1,4 +1,4 @@
-import { refreshToken } from '../Auth';
+import { refreshToken, clearAuth } from '../Auth';
 import { useState, useEffect } from 'react';
 
 export const origin = 'http://localhost:8000';
@@ -26,11 +26,15 @@ const apiFetch = async (url, args = null) => {
 
   const res = await fetch(`${origin}/${url}`, options);
   if (res.status === 401) {
+    console.log('trying refresh');
     const refreshed = await refreshToken();
     if (refreshed) {
       return apiFetch(url, args);
+    } else {
+      clearAuth();
     }
   }
+
   const json = await res.json();
 
   return json;
