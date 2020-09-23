@@ -25,10 +25,6 @@ export const refreshToken = async () => {
 
   const res = await apiFetch('api/token/refresh/', { refresh });
 
-  if (res.status !== 200) {
-    return false;
-  }
-
   localStorage.setItem('token', res.access);
   localStorage.setItem('refresh', res.refresh);
 

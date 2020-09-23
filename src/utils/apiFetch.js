@@ -29,6 +29,7 @@ const apiFetch = async (url, args = null) => {
     console.log('trying refresh');
     const refreshed = await refreshToken();
     if (refreshed) {
+      console.log('retrying request', url);
       return apiFetch(url, args);
     } else {
       clearAuth();

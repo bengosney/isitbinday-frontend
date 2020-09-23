@@ -19,6 +19,7 @@ const TaskList = ({ refreshKey = 0, limit = 15, offset = 0 }) => {
   const [states, setStates] = useState([]);
   const [tasks, setTasks] = useState(null);
   const [count, setCount] = useState(0);
+  const [transitionMap, setTransitionMap] = useState({});
   const [droppableStates, setDroppableStates] = useState([]);
   const [dragItem, setDragItem] = useState(null);
   const [currentRefreshKey, setCurrentRefreshKey] = useState(refreshKey);
@@ -37,8 +38,14 @@ const TaskList = ({ refreshKey = 0, limit = 15, offset = 0 }) => {
   const statesResponse = useApiFetch(`api/tasks/states/`);
   useEffect(() => {
     if (statesResponse !== null) {
-      const { states: _states = [] } = statesResponse;
-      setStates(_states);
+      console.log(statesResponse.states);
+      setStates(statesResponse.states.map(s => s.name));
+      const map = {};
+      statesResponse.states.forEach(s => {
+        s.transitions.forEach(t => map[t] = s.name)
+      });
+
+      setTransitionMap(map);
     }
   }, [statesResponse]);
 
@@ -53,7 +60,7 @@ const TaskList = ({ refreshKey = 0, limit = 15, offset = 0 }) => {
       </Button>
     ));
 
-  if (tasks === null || tasks.length === 0) {
+  if (tasks === null || typeof tasks == 'undefined' || tasks.length === 0) {
     return <div>Loading...</div>;
   }
 
@@ -77,8 +84,12 @@ const TaskList = ({ refreshKey = 0, limit = 15, offset = 0 }) => {
   const dragStart = (e) => {
     const _dragItem = tasks.find((t) => t.id == e.draggableId);
     setDragItem(_dragItem);
-    setDroppableStates(_dragItem.available_state_transitions);
     console.log(_dragItem);
+
+    const availableStates = [];
+
+    _dragItem.available_state_transitions.forEach((ast) => availableStates.push(transitionMap[ast]));
+    setDroppableStates(availableStates);
   };
 
   const getBorderColour = (state) => {
@@ -97,7 +108,7 @@ const TaskList = ({ refreshKey = 0, limit = 15, offset = 0 }) => {
     <React.Fragment>
       <DragDropContext onDragEnd={(e) => dragEnd(e)} onDragStart={(e) => dragStart(e)}>
         <Grid templateColumns={`repeat(${states.length}, 1fr)`} gap={6}>
-          {states.map((state) => (
+          {states.filter(state => state.name !== '').map((state) => (
             <Stack key={state}>
               <Text>{state}</Text>
               <Droppable
@@ -138,40 +149,6 @@ const TaskList = ({ refreshKey = 0, limit = 15, offset = 0 }) => {
           ))}
         </Grid>
       </DragDropContext>
-      <DragDropContext onDragEnd={(e) => dragEnd(e)}>
-        <Droppable droppableId="droppable">
-          {(provided, snapshot) => (
-            <Stack {...provided.droppableProps} ref={provided.innerRef}>
-              {tasks.map(({ id, title, effort, state, available_state_transitions, position }, index) => (
-                <Draggable key={id} draggableId={`${id}`} index={index}>
-                  {(provided, snapshot) => (
-                    <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                      <Card>
-                        <Card.Content>
-                          <Card.Header>{title}</Card.Header>
-                          <Card.Meta>State: {state}</Card.Meta>
-                        </Card.Content>
-                        <Card.Content extra>{makeButtons(id, available_state_transitions)}</Card.Content>
-                      </Card>
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </Stack>
-          )}
-        </Droppable>
-      </DragDropContext>
-      <Pagination
-        activePage={currentPage}
-        totalPages={pages}
-        onPageChange={(e, { activePage }) => setCurrentOffset((activePage - 1) * limit)}
-        size="mini"
-        firstItem={null}
-        lastItem={null}
-        prevItem={null}
-        nextItem={null}
-      />
     </React.Fragment>
   );
 };
