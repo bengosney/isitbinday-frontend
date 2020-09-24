@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRouteMatch, Route, Switch, useLocation, Link, Redirect } from 'react-router-dom';
 import { Menu,  Container } from 'semantic-ui-react';
+import Nav from '../widgets/Nav';
 import TaskSection from './TaskSection';
 
 const PrivateSection = () => {
@@ -26,15 +27,15 @@ const PrivateSection = () => {
 
   return (
     <Container>
-      <Menu>
+      <Nav>
         {menuItems.map((i) => {
           return (
-            <Menu.Item as={Link} key={i.url} active={pathname.startsWith(i.url)} to={i.url}>
+            <Nav.Item as={Link} key={i.url} active={pathname.startsWith(i.url)} to={i.url}>
               {i.name}
-            </Menu.Item>
+            </Nav.Item>
           );
         })}
-      </Menu>
+      </Nav>
       <Switch>
         <Route path={dashboardUrl}>
           <h1>dashboard</h1>

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import apiFetch, { useApiFetch } from '../utils/apiFetch';
-import { Button, Pagination, Card } from 'semantic-ui-react';
 import { UCFirst } from '../utils/string';
-import { Stack, Grid, Text, Box } from '@chakra-ui/core';
+import { Stack, Grid, Text, Box, Button } from '@chakra-ui/core';
 
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
@@ -38,7 +37,6 @@ const TaskList = ({ refreshKey = 0, limit = 15, offset = 0 }) => {
   const statesResponse = useApiFetch(`api/tasks/states/`);
   useEffect(() => {
     if (statesResponse !== null) {
-      console.log(statesResponse.states);
       setStates(statesResponse.states.map(s => s.name));
       const map = {};
       statesResponse.states.forEach(s => {
@@ -48,6 +46,8 @@ const TaskList = ({ refreshKey = 0, limit = 15, offset = 0 }) => {
       setTransitionMap(map);
     }
   }, [statesResponse]);
+
+  console.log('transitionMap', transitionMap);
 
   const pages = Math.ceil(count / limit);
   const currentPage = currentOffset / limit + 1;
@@ -94,11 +94,11 @@ const TaskList = ({ refreshKey = 0, limit = 15, offset = 0 }) => {
 
   const getBorderColour = (state) => {
     if (droppableStates.includes(state)) {
-      return 'green';
+      return 'green.300';
     }
 
     if (state == (dragItem || {}).state) {
-      return 'blue';
+      return 'blue.300';
     }
 
     return 'white';
@@ -110,7 +110,7 @@ const TaskList = ({ refreshKey = 0, limit = 15, offset = 0 }) => {
         <Grid templateColumns={`repeat(${states.length}, 1fr)`} gap={6}>
           {states.filter(state => state.name !== '').map((state) => (
             <Stack key={state}>
-              <Text>{state}</Text>
+              <Text>{UCFirst(state)}</Text>
               <Droppable
                 droppableId={state}
                 isDropDisabled={!droppableStates.includes(state) && state != (dragItem || {}).state}
@@ -119,8 +119,10 @@ const TaskList = ({ refreshKey = 0, limit = 15, offset = 0 }) => {
                   <Stack
                     {...provided.droppableProps}
                     ref={provided.innerRef}
-                    border="1px solid"
-                    borderColor={getBorderColour(state)}
+                    background={getBorderColour(state)}
+                    padding={4}
+                    border={'1px solid'}
+                    borderColor={'gray.300'}
                   >
                     {tasks.map(
                       ({ id, title, effort, state: taskState, available_state_transitions, position }, index) => {
@@ -131,11 +133,17 @@ const TaskList = ({ refreshKey = 0, limit = 15, offset = 0 }) => {
                         return (
                           <Draggable key={id} draggableId={`${id}`} index={index}>
                             {(provided, snapshot) => (
-                              <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                <Box key={`${state}-${id}`} border="1px solid lightgray" padding={5}>
-                                  <Text>{title}</Text>
-                                </Box>
-                              </div>
+                              <Box
+                                key={`${state}-${id}`}
+                                border="1px solid lightgray"
+                                padding={5}
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                background={'gray.50'}
+                              >
+                                <Text>{title}</Text>
+                              </Box>
                             )}
                           </Draggable>
                         );

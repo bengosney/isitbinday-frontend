@@ -3,6 +3,7 @@ import { useRouteMatch, Route, Switch } from 'react-router-dom';
 import { Segment } from 'semantic-ui-react';
 import TaskList from '../widgets/TaskList';
 import NewTask from '../widgets/NewTask';
+import { Box, Stack } from '@chakra-ui/core';
 
 const TaskSection = () => {
   const { path } = useRouteMatch();
@@ -19,13 +20,10 @@ const TaskSection = () => {
     <React.Fragment>
       <Switch>
         <Route exact path={listUrl}>
-          <h1>List</h1>
-          <Segment>
+          <Stack my={6}>
             <TaskList refreshKey={refresh} />
-          </Segment>
-          <Segment>
             <NewTask postSave={() => setRefresh(refresh + 1)} />
-          </Segment>
+          </Stack>
         </Route>
         <Route path={editUrl}>
           <h1>Edit</h1>
