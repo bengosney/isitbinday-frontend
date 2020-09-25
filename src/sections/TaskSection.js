@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useRouteMatch, Route, Switch } from 'react-router-dom';
-import { Segment } from 'semantic-ui-react';
 import TaskList from '../widgets/TaskList';
 import NewTask from '../widgets/NewTask';
-import { Box, Stack } from '@chakra-ui/core';
+import { Stack } from '@chakra-ui/core';
 
 const TaskSection = () => {
   const { path } = useRouteMatch();

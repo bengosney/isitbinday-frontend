@@ -47,6 +47,4 @@ const customTheme = {
   },
 };
 
-console.log(customTheme);
-
 export default customTheme;

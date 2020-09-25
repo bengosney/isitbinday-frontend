@@ -48,6 +48,10 @@ export const useApiFetch = (url, args = null, refreshKey = 0) => {
     apiFetch(url, args).then((res) => setResponse(res));
   }, [url, args, refreshKey]);
 
+  if (typeof response === 'undefined') {
+    return null;
+  }
+  
   return response;
 };
 

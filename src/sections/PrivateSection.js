@@ -1,6 +1,5 @@
 import React from 'react';
-import { useRouteMatch, Route, Switch, useLocation, Link, Redirect } from 'react-router-dom';
-import { Menu,  Container } from 'semantic-ui-react';
+import { useRouteMatch, Route, Switch, useLocation, Link } from 'react-router-dom';
 import Nav from '../widgets/Nav';
 import TaskSection from './TaskSection';
 
@@ -26,7 +25,7 @@ const PrivateSection = () => {
 
 
   return (
-    <Container>
+    <div>
       <Nav>
         {menuItems.map((i) => {
           return (
@@ -47,7 +46,7 @@ const PrivateSection = () => {
           <h1>Sprints</h1>
         </Route>
       </Switch>
-    </Container>
+    </div>
   );
 };
 
