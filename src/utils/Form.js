@@ -1,81 +1,155 @@
 import * as React from 'react';
-import { useFormikContext, Field as FormikField, useField } from 'formik';
-import { Form as UIForm } from 'semantic-ui-react';
-import { CammelToTitle, SnakeToTitle } from './string';
+import { useFormikContext, Field as FormikField, useField, Form as FormikForm, Formik } from 'formik';
+import { Input, Select, Button, Checkbox, Textarea, Radio, RadioGroup, Stack, Text, Box } from '@chakra-ui/core';
+import { CammelToTitle } from '../utils/string';
+import ErrorMessage from '../widgets/ErrorMessage';
+import Loader from '../widgets/Loader';
 
-const Field = ({ as, children, processor, label = null, ...props }) => {
+const Field = ({ as, children, processor, label = null, showLabel = true, ...props }) => {
   const [field, meta] = useField(props);
   const { name } = props;
-
+  const { error = null, touched } = meta;
+  const _error = touched && error;
+  const _label = label || CammelToTitle(name || 'broken');
   const extras = {
-    error: meta.touched && meta.error,
     name: name,
-    label: label || SnakeToTitle(CammelToTitle(name)),
+    label: _label,
+    id: name,
   };
 
   const _processor = processor || ((p) => p);
   const newProps = { ...field, ...props, ...extras };
 
-  return React.createElement(as, _processor(newProps), children);
+  const element = React.createElement(as, _processor(newProps), children);
+
+  const errors = error !== null ? <Text as='span'>{` - ${error}`}</Text> : '';
+
+  return (
+    <Stack>
+      <Box color={_error ? 'form.error' : ''}>
+        {showLabel ? (
+          <Text as="label" htmlFor={name}>
+            {_label}
+            {errors}
+          </Text>
+        ) : null}
+        {element}
+      </Box>
+    </Stack>
+  );
 };
 
-const checkBoxProcessor = ({ value, name, onChange, onBlur, ...props }) => {
-  const _onChange = (e, { checked }) => {
-    e.target.name = name;
-    e.target.value = checked;
+const MyCheckbox = ({ label, error, ...props }) => <Checkbox {...props}>{label}</Checkbox>;
 
-    return onChange(e);
-  };
-
-  const _onBlur = (e) => {};
-
-  return { ...props, checked: value, name: name, onChange: _onChange, onBlur: _onBlur };
+const checkBoxProcessor = ({ value, name, ...props }) => {
+  return { ...props, isChecked: value, name: name };
 };
 
-const dropdownProcessor = ({ name, onChange, onBlur, placeholder = null, ...props }) => {
-  const _onChange = (e, { value }) => {
+const radioProcessor = ({ value, name, onChange, ...props }) => {
+  const _onChange = (value) => {
+    const e = { target: {} };
     e.target.name = name;
-    e.value = value;
     e.target.value = value;
 
     return onChange(e);
   };
 
-  const _onBlur = (e) => {};
-
-  const extras = {
-    placeholder: placeholder || `Select a ${name}`,
-  };
-
-  return { ...props, ...extras, name: name, onChange: _onChange, onBlur: _onBlur };
+  return { ...props, isChecked: value, name: name, onChange: _onChange };
 };
 
-const FormField = (props) => <Field as={UIForm.Field} {...props} />;
-const FormButton = (props) => <FormikField as={UIForm.Button} {...props} />;
-const FormCheckbox = (props) => <Field as={UIForm.Checkbox} processor={checkBoxProcessor} {...props} />;
-const FormDropdown = (props) => <Field as={UIForm.Dropdown} processor={dropdownProcessor} {...props} />;
-const FormGroup = (props) => <Field as={UIForm.Group} {...props} />;
-const FormInput = (props) => <Field as={UIForm.Input} {...props} />;
-const FormRadio = (props) => <Field as={UIForm.Radio} processor={checkBoxProcessor} {...props} />;
-const FormSelect = (props) => <Field as={UIForm.Select} {...props} />;
-const FormTextArea = (props) => <Field as={UIForm.TextArea} {...props} />;
+const dropdownProcessor = ({ name, placeholder = null, ...props }) => {
+  const extras = {
+    placeholder: placeholder || `Select a ${CammelToTitle(name)}`,
+    name: name,
+  };
 
-export const Form = React.forwardRef((props, ref) => {
+  return { ...props, ...extras };
+};
+
+const AutoSelect = ({ options = [], ...props }) => (
+  <Select {...props}>
+    {options.map((o) => (
+      <option value={o.value} key={o.key}>
+        {o.text}
+      </option>
+    ))}
+  </Select>
+);
+
+const AutoRadio = ({ options = [], isChecked, ...props }) => (
+  <RadioGroup value={isChecked} {...props}>
+    <Stack direction="row">
+      {options.map((o) => (
+        <Radio value={o.value} key={o.key}>
+          {o.text}
+        </Radio>
+      ))}
+    </Stack>
+  </RadioGroup>
+);
+
+const DateField = ({ onChange, ...props }) => {
+  const _onChange = (e) => onChange(e);
+
+  return <Input onChange={(e) => _onChange(e)} {...props} />;
+};
+
+const BoolField = (props) => (
+  <AutoRadio
+    options={[
+      { text: 'Yes', key: 'yes', value: true },
+      { text: 'No', key: 'no', value: false },
+    ]}
+    {...props}
+  />
+);
+
+const FormField = (props) => <Field as={Input} {...props} />;
+const FormButton = (props) => <FormikField as={Button} {...props} />;
+const FormCheckbox = (props) => <Field as={MyCheckbox} processor={checkBoxProcessor} showLabel={false} {...props} />;
+const FormDropdown = (props) => <Field as={AutoSelect} processor={dropdownProcessor} {...props} />;
+//const FormGroup = (props) => <Field as={UIForm.Group} {...props} />;
+const FormInput = (props) => <Field as={Input} {...props} />;
+const FormDateField = (props) => <Field as={DateField} {...props} />;
+const FormRadio = (props) => <Field as={AutoRadio} processor={radioProcessor} {...props} />;
+const FormSelect = (props) => <Field as={AutoSelect} {...props} />;
+const FormTextArea = (props) => <Field as={Textarea} {...props} />;
+const FormBoolField = (props) => <Field as={BoolField} {...props} />;
+
+export const InnerForm = React.forwardRef((props, ref) => {
   const { action, ...rest } = props;
   const _action = action || '#';
   const { handleReset, handleSubmit } = useFormikContext();
 
-  return <UIForm onSubmit={handleSubmit} ref={ref} onReset={handleReset} action={_action} {...rest} />;
+  return <form onSubmit={handleSubmit} ref={ref} onReset={handleReset} action={_action} {...rest} />;
 });
+
+export const Form = ({ children, error = '', loading = false, ...props }) => (
+  <Formik {...props}>
+    {(props) => {
+      const { dirty, isSubmitting, isValidating } = props;
+
+      return (
+        <React.Fragment>
+          <ErrorMessage title={'There was an issue saving details'} message={`${error}`} />
+          <Loader loading={isSubmitting || isValidating || loading} content="Saving" />
+          <InnerForm>{children}</InnerForm>
+        </React.Fragment>
+      );
+    }}
+  </Formik>
+);
 
 Form.Field = FormField;
 Form.Button = FormButton;
 Form.Checkbox = FormCheckbox;
 Form.Dropdown = FormDropdown;
-Form.Group = FormGroup;
+//Form.Group = FormGroup;
 Form.Input = FormInput;
 Form.Radio = FormRadio;
 Form.Select = FormSelect;
 Form.TextArea = FormTextArea;
+Form.DateField = FormDateField;
+Form.BoolField = FormBoolField;
 
 Form.displayName = 'Form';

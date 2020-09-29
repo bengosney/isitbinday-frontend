@@ -11,6 +11,7 @@ import PrivateRoute from './utils/PrivateRoute';
 
 import PrivateSection from './sections/PrivateSection';
 import LoginForm from './widgets/LoginForm';
+import Logout from './widgets/Logout';
 
 console.log(customTheme);
 
@@ -30,6 +31,9 @@ function App() {
               </PublicRoute>
               <PrivateRoute path="/iibd">
                 <PrivateSection />
+              </PrivateRoute>
+              <PrivateRoute path="/logout">
+                <Logout />
               </PrivateRoute>
             </Switch>
           </Router>

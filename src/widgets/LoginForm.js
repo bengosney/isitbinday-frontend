@@ -1,6 +1,14 @@
 import React, { useState, useContext } from 'react';
-import { Button, Form, Grid, Header, Segment } from 'semantic-ui-react';
+import { Button, Grid, Header, Segment } from 'semantic-ui-react';
+import { Form } from '../utils/Form';
 import { authContext } from '../Auth';
+import * as Yup from 'yup';
+import { Formik } from 'formik';
+
+const loginSchema = Yup.object().shape({
+  username: Yup.string().required('Required').ensure(),
+  password: Yup.string().required('Required').ensure(),
+});
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
@@ -14,29 +22,19 @@ const LoginForm = () => {
         <Header as="h2" color="teal" textAlign="center">
           Log-in to your account
         </Header>
-        <Form size="large">
-          <Segment>
-            <Form.Input
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              fluid
-              icon="user"
-              iconPosition="left"
-              placeholder="E-mail address"
-            />
-            <Form.Input
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              fluid
-              icon="lock"
-              iconPosition="left"
-              placeholder="Password"
-              type="password"
-            />
-            <Button color="teal" fluid size="large" onClick={() => login(username, password)}>
-              Login
-            </Button>
-          </Segment>
+        <Form
+          initialValues={loginSchema.cast({})}
+          validationSchema={loginSchema}
+          onSubmit={async (values) => {
+            console.log('form submit', values);
+            // login(username, password);
+          }}
+        >
+            <Segment>
+              <Form.Input name={'username'} />
+              <Form.Input name={'password'} type="password" />
+              <Form.Button type="submit">Login</Form.Button>
+            </Segment>
         </Form>
       </Grid.Column>
     </Grid>

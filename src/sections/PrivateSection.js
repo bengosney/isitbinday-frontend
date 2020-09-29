@@ -2,6 +2,8 @@ import React from 'react';
 import { useRouteMatch, Route, Switch, useLocation, Link } from 'react-router-dom';
 import Nav from '../widgets/Nav';
 import TaskSection from './TaskSection';
+import { Spacer } from '@chakra-ui/core';
+
 
 const PrivateSection = () => {
   const { path } = useRouteMatch();
@@ -34,6 +36,10 @@ const PrivateSection = () => {
             </Nav.Item>
           );
         })}
+        <Spacer />
+        <Nav.Item as={Link} to={'/logout'}>
+          Logout
+        </Nav.Item>
       </Nav>
       <Switch>
         <Route path={dashboardUrl}>

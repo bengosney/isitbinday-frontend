@@ -45,6 +45,8 @@ const Auth = ({ children }) => {
           localStorage.setItem('refresh', action.tokens.refresh);
           return { loggedIn: true };
         case ACTION_LOGGEDOUT:
+          localStorage.removeItem('token');
+          localStorage.removeItem('refresh');
           return { loggedIn: false };
         default:
           throw new Error(`${action.type} not supported`);
