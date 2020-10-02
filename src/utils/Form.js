@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useFormikContext, Field as FormikField, useField, Form as FormikForm, Formik } from 'formik';
 import { Input, Select, Button, Checkbox, Textarea, Radio, RadioGroup, Stack, Text, Box } from '@chakra-ui/core';
-import { CammelToTitle } from '../utils/string';
+import { ToTitleCase } from '../utils/string';
 import ErrorMessage from '../widgets/ErrorMessage';
 import Loader from '../widgets/Loader';
 
@@ -10,7 +10,7 @@ const Field = ({ as, children, processor, label = null, showLabel = true, ...pro
   const { name } = props;
   const { error = null, touched } = meta;
   const _error = touched && error;
-  const _label = label || CammelToTitle(name || 'broken');
+  const _label = label || ToTitleCase(name || 'broken');
   const extras = {
     name: name,
     label: _label,
@@ -59,7 +59,7 @@ const radioProcessor = ({ value, name, onChange, ...props }) => {
 
 const dropdownProcessor = ({ name, placeholder = null, ...props }) => {
   const extras = {
-    placeholder: placeholder || `Select a ${CammelToTitle(name)}`,
+    placeholder: placeholder || `Select a ${ToTitleCase(name)}`,
     name: name,
   };
 
@@ -117,11 +117,13 @@ const FormTextArea = (props) => <Field as={Textarea} {...props} />;
 const FormBoolField = (props) => <Field as={BoolField} {...props} />;
 
 export const InnerForm = React.forwardRef((props, ref) => {
-  const { action, ...rest } = props;
+  const { action, children, ...rest } = props;
   const _action = action || '#';
   const { handleReset, handleSubmit } = useFormikContext();
 
-  return <form onSubmit={handleSubmit} ref={ref} onReset={handleReset} action={_action} {...rest} />;
+  return <form onSubmit={handleSubmit} ref={ref} onReset={handleReset} action={_action} {...rest}>
+    <Stack>{children}</Stack>
+  </form>;
 });
 
 export const Form = ({ children, error = '', loading = false, ...props }) => (

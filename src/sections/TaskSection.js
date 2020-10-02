@@ -21,7 +21,7 @@ const TaskSection = () => {
         <Route exact path={listUrl}>
           <Stack my={6}>
             <TaskList refreshKey={refresh} />
-            <NewTask postSave={() => setRefresh(refresh + 1)} />
+            <NewTask postSave={() => setRefresh(Math.random())} />
           </Stack>
         </Route>
         <Route path={editUrl}>

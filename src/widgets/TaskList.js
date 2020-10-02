@@ -22,6 +22,10 @@ const TaskList = ({ refreshKey = 0 }) => {
   const [currentRefreshKey, setCurrentRefreshKey] = useState(refreshKey);
   const refresh = () => setCurrentRefreshKey(currentRefreshKey + 1);
 
+  useEffect(() => {
+    setCurrentRefreshKey(currentRefreshKey + refreshKey);
+  }, [refreshKey]);
+
   const limit = 100;
   const offset = 0;
 

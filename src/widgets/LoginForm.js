@@ -11,9 +11,6 @@ const loginSchema = Yup.object().shape({
 });
 
 const LoginForm = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-
   const { login } = useContext(authContext);
 
   return (
@@ -26,15 +23,15 @@ const LoginForm = () => {
           initialValues={loginSchema.cast({})}
           validationSchema={loginSchema}
           onSubmit={async (values) => {
-            console.log('form submit', values);
-            // login(username, password);
+            const { username, password } = values;
+            login(username, password);
           }}
         >
-            <Segment>
-              <Form.Input name={'username'} />
-              <Form.Input name={'password'} type="password" />
-              <Form.Button type="submit">Login</Form.Button>
-            </Segment>
+          <Segment>
+            <Form.Input name={'username'} />
+            <Form.Input name={'password'} type="password" />
+            <Form.Button type="submit">Login</Form.Button>
+          </Segment>
         </Form>
       </Grid.Column>
     </Grid>

@@ -11,6 +11,6 @@ export const STATES = [STATE_DRAFT, STATE_TODO, STATE_DOING, STATE_DONE, STATE_C
 export const TaskSchema = Yup.object().shape({
   title: Yup.string().max(255, 'Too long').required('Required').ensure(),
   due_date: Yup.date(),
-  effort: Yup.number().moreThan(-1).default(0),
+  effort: Yup.number().moreThan(-1),
   blocked_by: Yup.string().url().ensure(),
 });
