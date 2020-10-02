@@ -15,6 +15,7 @@ const reorder = (list, startIndex, endIndex) => {
 
 const TaskList = ({ refreshKey = 0 }) => {
   const [states, setStates] = useState([]);
+  const [hiddenStates, setHiddenStates] = useState([]);
   const [tasks, setTasks] = useState(null);
   const [transitionMap, setTransitionMap] = useState({});
   const [droppableStates, setDroppableStates] = useState([]);
@@ -51,6 +52,15 @@ const TaskList = ({ refreshKey = 0 }) => {
     }
   }, [statesResponse]);
 
+  const hiddenStatesResponse = useApiFetch(`api/tasks/hidden_states/`);
+  useEffect(() => {
+    if (hiddenStatesResponse !== null) {
+      console.log(hiddenStatesResponse);
+      const { states: _states = [] } = hiddenStatesResponse;
+      setHiddenStates(_states);
+    }
+  }, [hiddenStatesResponse]);
+
   const callAction = (id, action) => apiFetch(`api/tasks/${id}/${action}`).then(() => refresh());
 
   if (tasks === null || typeof tasks == 'undefined' || tasks.length === 0) {
@@ -66,7 +76,7 @@ const TaskList = ({ refreshKey = 0 }) => {
 
     const _dragItem = tasks.find((t) => t.id === parseInt(result.draggableId));
     const action = Object.keys(transitionMap).find((key) => transitionMap[key] === result.destination.droppableId);
-    
+
     if (_dragItem.state !== result.destination.droppableId) {
       callAction(_dragItem.id, action);
     }
@@ -106,6 +116,25 @@ const TaskList = ({ refreshKey = 0 }) => {
   return (
     <React.Fragment>
       <DragDropContext onDragEnd={(e) => dragEnd(e)} onDragStart={(e) => dragStart(e)}>
+        <Grid>
+          {hiddenStates.map((state) => (
+            <React.Fragment key={state.name}>
+              <Droppable droppableId={state.name} isDropDisabled={!droppableStates.includes(state)}>
+                {(provided, snapshot) => (
+                  <Box
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    border="1px solid lightgray"
+                    padding={5}
+                    background={getBorderColour(state)}
+                  >
+                    <Text>{UCFirst(state.name)}</Text>
+                  </Box>
+                )}
+              </Droppable>
+            </React.Fragment>
+          ))}
+        </Grid>
         <Grid templateColumns={`repeat(${states.length}, 1fr)`} gap={6}>
           {states.map((state) => (
             <Stack key={state}>
