@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import apiFetch, { useApiFetch } from '../utils/apiFetch';
 import { UCFirst } from '../utils/string';
 import { Stack, Grid, Text, Box } from '@chakra-ui/core';
@@ -38,17 +38,22 @@ const TaskList = ({ refreshKey = 0 }) => {
     }
   }, [data]);
 
+  const mapTransitions = (states) => {
+    const map = transitionMap;
+    states.forEach((s) => {
+      s.transitions.forEach((t) => (map[t] = s.name));
+    });
+
+    setTransitionMap(map);
+  }
+
   const statesResponse = useApiFetch(`api/tasks/states/`);
   useEffect(() => {
     if (statesResponse !== null) {
       const { states: _states = [] } = statesResponse;
       setStates(_states.map((s) => s.name));
-      const map = {};
-      _states.forEach((s) => {
-        s.transitions.forEach((t) => (map[t] = s.name));
-      });
 
-      setTransitionMap(map);
+      mapTransitions(_states);
     }
   }, [statesResponse]);
 
@@ -58,6 +63,8 @@ const TaskList = ({ refreshKey = 0 }) => {
       console.log(hiddenStatesResponse);
       const { states: _states = [] } = hiddenStatesResponse;
       setHiddenStates(_states);
+
+      mapTransitions(_states);
     }
   }, [hiddenStatesResponse]);
 
@@ -119,7 +126,7 @@ const TaskList = ({ refreshKey = 0 }) => {
         <Grid>
           {hiddenStates.map((state) => (
             <React.Fragment key={state.name}>
-              <Droppable droppableId={state.name} isDropDisabled={!droppableStates.includes(state)}>
+              <Droppable droppableId={state.name} /*isDropDisabled={!droppableStates.includes(state)}*/>
                 {(provided, snapshot) => (
                   <Box
                     {...provided.droppableProps}
