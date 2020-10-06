@@ -15,21 +15,36 @@ export const checkAuth = () => {
 };
 
 export const refreshToken = async () => {
-  const refresh = localStorage.getItem('refresh');
+  if (refreshToken.isRefreshing === false) {
+    refreshToken.isRefreshing = true;
+    console.log('new refresh promise');
+    refreshToken.refreshPromise = new Promise((resolve, reject) => {
+      (async () => {
+        const refresh = localStorage.getItem('refresh');
 
-  if (refresh === null) {
-    return false;
+        if (refresh === null) {
+          console.log('No refresh token', refresh);
+          reject('No refresh token');
+        }
+
+        clearAuth();
+
+        const res = await apiFetch('api/token/refresh/', { refresh });
+
+        localStorage.setItem('token', res.access);
+        localStorage.setItem('refresh', res.refresh);
+
+        refreshToken.isRefreshing = false;
+        resolve(true);
+      })();
+    });
   }
 
-  clearAuth();
-
-  const res = await apiFetch('api/token/refresh/', { refresh });
-
-  localStorage.setItem('token', res.access);
-  localStorage.setItem('refresh', res.refresh);
-
-  return true;
+  return refreshToken.refreshPromise;
 };
+
+refreshToken.refreshPromise = null;
+refreshToken.isRefreshing = false;
 
 const Auth = ({ children }) => {
   const ACTION_LOGGEDIN = 'loggedIn';

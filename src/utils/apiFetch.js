@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 
 export const origin = 'http://localhost:8000';
 
-const apiFetch = async (url, args = null) => {
+const _apiFetch = async (url, args = null) => {
   const token = localStorage.getItem('token');
 
   const options =
@@ -24,14 +24,19 @@ const apiFetch = async (url, args = null) => {
     options.headers.Authorization = `Bearer ${token}`;
   }
 
-  const res = await fetch(`${origin}/${url}`, options);
+  return fetch(`${origin}/${url}`, options)
+};
+
+const apiFetch = async (url, args = null) => {
+  let res = await _apiFetch(url, args);
   if (res.status === 401) {
     console.log('trying refresh');
     const refreshed = await refreshToken();
     if (refreshed) {
       console.log('retrying request', url);
-      return apiFetch(url, args);
+      res = await _apiFetch(url, args);
     } else {
+      console.log('failed refesh');
       clearAuth();
     }
   }
