@@ -1,9 +1,8 @@
-import React, { useState, useContext } from 'react';
-import { Button, Grid, Header, Segment } from 'semantic-ui-react';
+import React, { useContext } from 'react';
+import { Grid, Header, Segment } from 'semantic-ui-react';
 import { Form } from '../utils/Form';
 import { authContext } from '../Auth';
 import * as Yup from 'yup';
-import { Formik } from 'formik';
 
 const loginSchema = Yup.object().shape({
   username: Yup.string().required('Required').ensure(),

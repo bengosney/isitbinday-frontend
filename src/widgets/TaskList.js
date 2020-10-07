@@ -23,14 +23,10 @@ const TaskList = ({ refreshKey = 0 }) => {
   const [currentRefreshKey, setCurrentRefreshKey] = useState(refreshKey);
   const refresh = () => setCurrentRefreshKey(currentRefreshKey + 1);
 
-  useEffect(() => {
-    setCurrentRefreshKey(currentRefreshKey + refreshKey);
-  }, [refreshKey]);
-
   const limit = 100;
   const offset = 0;
 
-  const data = useApiFetch(`api/tasks/?limit=${limit}&offset=${offset}`, null, currentRefreshKey);
+  const data = useApiFetch(`api/tasks/?limit=${limit}&offset=${offset}`, null, `${currentRefreshKey} + ${refreshKey}`);
   useEffect(() => {
     if (data !== null) {
       const { results } = data;
@@ -38,14 +34,17 @@ const TaskList = ({ refreshKey = 0 }) => {
     }
   }, [data]);
 
-  const mapTransitions = (states) => {
-    const map = transitionMap;
-    states.forEach((s) => {
-      s.transitions.forEach((t) => (map[t] = s.name));
-    });
+  const mapTransitions = useCallback(
+    (states) => {
+      const map = transitionMap;
+      states.forEach((s) => {
+        s.transitions.forEach((t) => (map[t] = s.name));
+      });
 
-    setTransitionMap(map);
-  }
+      setTransitionMap(map);
+    },
+    [transitionMap]
+  );
 
   const statesResponse = useApiFetch(`api/tasks/states/`);
   useEffect(() => {
@@ -55,7 +54,7 @@ const TaskList = ({ refreshKey = 0 }) => {
 
       mapTransitions(_states);
     }
-  }, [statesResponse]);
+  }, [statesResponse, mapTransitions]);
 
   const hiddenStatesResponse = useApiFetch(`api/tasks/hidden_states/`);
   useEffect(() => {
@@ -66,7 +65,7 @@ const TaskList = ({ refreshKey = 0 }) => {
 
       mapTransitions(_states);
     }
-  }, [hiddenStatesResponse]);
+  }, [hiddenStatesResponse, mapTransitions]);
 
   const callAction = (id, action) => apiFetch(`api/tasks/${id}/${action}`).then(() => refresh());
 

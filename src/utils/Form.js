@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useFormikContext, Field as FormikField, useField, Form as FormikForm, Formik } from 'formik';
+import { useFormikContext, Field as FormikField, useField, Formik } from 'formik';
 import { Input, Select, Button, Checkbox, Textarea, Radio, RadioGroup, Stack, Text, Box } from '@chakra-ui/core';
 import { ToTitleCase } from '../utils/string';
 import ErrorMessage from '../widgets/ErrorMessage';
@@ -108,7 +108,6 @@ const FormField = (props) => <Field as={Input} {...props} />;
 const FormButton = (props) => <FormikField as={Button} {...props} />;
 const FormCheckbox = (props) => <Field as={MyCheckbox} processor={checkBoxProcessor} showLabel={false} {...props} />;
 const FormDropdown = (props) => <Field as={AutoSelect} processor={dropdownProcessor} {...props} />;
-//const FormGroup = (props) => <Field as={UIForm.Group} {...props} />;
 const FormInput = (props) => <Field as={Input} {...props} />;
 const FormDateField = (props) => <Field as={DateField} {...props} />;
 const FormRadio = (props) => <Field as={AutoRadio} processor={radioProcessor} {...props} />;
@@ -131,7 +130,7 @@ export const InnerForm = React.forwardRef((props, ref) => {
 export const Form = ({ children, error = '', loading = false, ...props }) => (
   <Formik {...props}>
     {(props) => {
-      const { dirty, isSubmitting, isValidating } = props;
+      const { isSubmitting, isValidating } = props;
 
       return (
         <React.Fragment>
@@ -148,7 +147,6 @@ Form.Field = FormField;
 Form.Button = FormButton;
 Form.Checkbox = FormCheckbox;
 Form.Dropdown = FormDropdown;
-//Form.Group = FormGroup;
 Form.Input = FormInput;
 Form.Radio = FormRadio;
 Form.Select = FormSelect;
