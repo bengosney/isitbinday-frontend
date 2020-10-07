@@ -22,7 +22,7 @@ const Field = ({ as, children, processor, label = null, showLabel = true, ...pro
 
   const element = React.createElement(as, _processor(newProps), children);
 
-  const errors = error !== null ? <Text as='span'>{` - ${error}`}</Text> : '';
+  const errors = error !== null ? <Text as="span">{` - ${error}`}</Text> : '';
 
   return (
     <Stack>
@@ -121,9 +121,11 @@ export const InnerForm = React.forwardRef((props, ref) => {
   const _action = action || '#';
   const { handleReset, handleSubmit } = useFormikContext();
 
-  return <form onSubmit={handleSubmit} ref={ref} onReset={handleReset} action={_action} {...rest}>
-    <Stack>{children}</Stack>
-  </form>;
+  return (
+    <form onSubmit={handleSubmit} ref={ref} onReset={handleReset} action={_action} {...rest}>
+      <Stack>{children}</Stack>
+    </form>
+  );
 });
 
 export const Form = ({ children, error = '', loading = false, ...props }) => (

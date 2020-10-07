@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { TaskSchema } from '../schemas/TaskSchema';
 import { Form } from '../utils/Form';
-import { Formik } from 'formik';
 import apiFetch from '../utils/apiFetch';
-import * as Yup from 'yup';
 
 const TaskForm = ({ details, postSave = null }) => {
   const [apiLoading, setApiLoading] = useState(false);
@@ -13,16 +11,16 @@ const TaskForm = ({ details, postSave = null }) => {
       initialValues={TaskSchema.cast(details)}
       validationSchema={TaskSchema}
       loading={apiLoading}
-      onSubmit={async (values) => {
+      onSubmit={async (values, {resetForm}) => {
         setApiLoading(true);
         
         await apiFetch('api/tasks/', values);
 
         if (postSave !== null) {
-          console.log('calling post save');
           postSave();
         }
 
+        resetForm();
         setApiLoading(false);
       }}
     >
