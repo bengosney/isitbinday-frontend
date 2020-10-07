@@ -11,9 +11,9 @@ const TaskForm = ({ details, postSave = null }) => {
       initialValues={TaskSchema.cast(details)}
       validationSchema={TaskSchema}
       loading={apiLoading}
-      onSubmit={async (values, {resetForm}) => {
+      onSubmit={async (values, { resetForm }) => {
         setApiLoading(true);
-        
+
         await apiFetch('api/tasks/', values);
 
         if (postSave !== null) {

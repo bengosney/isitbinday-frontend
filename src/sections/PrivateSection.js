@@ -4,7 +4,6 @@ import Nav from '../widgets/Nav';
 import TaskSection from './TaskSection';
 import { Spacer } from '@chakra-ui/core';
 
-
 const PrivateSection = () => {
   const { path } = useRouteMatch();
 
@@ -23,8 +22,6 @@ const PrivateSection = () => {
   ];
 
   const { pathname } = useLocation();
-
-
 
   return (
     <div>

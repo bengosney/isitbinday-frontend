@@ -13,8 +13,9 @@
   }
 }
 
-html, body {
-  background: #abc
+html,
+body {
+  background: #abc;
 }
 
 .App-header {

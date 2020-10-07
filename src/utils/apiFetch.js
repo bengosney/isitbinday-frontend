@@ -24,7 +24,7 @@ const _apiFetch = async (url, args = null) => {
     options.headers.Authorization = `Bearer ${token}`;
   }
 
-  return fetch(`${origin}/${url}`, options)
+  return fetch(`${origin}/${url}`, options);
 };
 
 const apiFetch = async (url, args = null) => {
@@ -56,7 +56,7 @@ export const useApiFetch = (url, args = null, refreshKey = 0) => {
   if (typeof response === 'undefined') {
     return null;
   }
-  
+
   return response;
 };
 
