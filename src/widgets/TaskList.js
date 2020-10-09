@@ -4,6 +4,7 @@ import { UCFirst } from '../utils/string';
 import { Stack, Grid, Text, Box } from '@chakra-ui/core';
 
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import TaskCard from './TaskCard';
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -160,31 +161,22 @@ const TaskList = ({ refreshKey = 0 }) => {
                       borderColor={'gray.300'}
                       height={'100%'}
                     >
-                      {tasks.map(
-                        ({ id, title, effort, state: taskState, available_state_transitions, position }, index) => {
-                          if (state !== taskState) {
-                            return null;
-                          }
-
-                          return (
-                            <Draggable key={id} draggableId={`${id}`} index={index}>
-                              {(provided, snapshot) => (
-                                <Box
-                                  key={`${state}-${id}`}
-                                  border="1px solid lightgray"
-                                  padding={5}
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                  background={'gray.50'}
-                                >
-                                  <Text>{title}</Text>
-                                </Box>
-                              )}
-                            </Draggable>
-                          );
+                      {tasks.map((task, index) => {
+                        const { id, title, effort, state: taskState, available_state_transitions, position } = task;
+                        if (state !== taskState) {
+                          return null;
                         }
-                      )}
+
+                        return (
+                          <Draggable key={id} draggableId={`${id}`} index={index}>
+                            {(provided, snapshot) => (
+                              <Box ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                <TaskCard task={task} />
+                              </Box>
+                            )}
+                          </Draggable>
+                        );
+                      })}
                       {provided.placeholder}
                     </Stack>
                   )}
