@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import { Grid, Header, Segment } from 'semantic-ui-react';
 import { Form } from '../utils/Form';
 import { authContext } from '../Auth';
+import { Heading, Stack, Divider } from '@chakra-ui/core';
 import * as Yup from 'yup';
 
 const loginSchema = Yup.object().shape({
@@ -13,11 +13,11 @@ const LoginForm = () => {
   const { login } = useContext(authContext);
 
   return (
-    <Grid textAlign="center" style={{ height: '80vh' }} verticalAlign="middle">
-      <Grid.Column style={{ maxWidth: 450 }}>
-        <Header as="h2" color="teal" textAlign="center">
+    <Stack maxW={"25rem"} margin={'auto'} height={'100vh'} justify={'center'} spacing={4}>
+        <Heading as="h2" color="teal" textAlign="center">
           Log-in to your account
-        </Header>
+        </Heading>
+        <Divider />
         <Form
           initialValues={loginSchema.cast({})}
           validationSchema={loginSchema}
@@ -26,14 +26,13 @@ const LoginForm = () => {
             login(username, password);
           }}
         >
-          <Segment>
+          <Stack>
             <Form.Input name={'username'} />
             <Form.Input name={'password'} type="password" />
             <Form.Button type="submit">Login</Form.Button>
-          </Segment>
+          </Stack>
         </Form>
-      </Grid.Column>
-    </Grid>
+      </Stack>
   );
 };
 export default LoginForm;
