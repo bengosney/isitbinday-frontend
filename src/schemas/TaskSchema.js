@@ -9,8 +9,9 @@ export const STATE_CANCELED = 'canceled';
 export const STATES = [STATE_DRAFT, STATE_TODO, STATE_DOING, STATE_DONE, STATE_CANCELED];
 
 export const TaskSchema = Yup.object().shape({
+  id: Yup.number().moreThan(-1).default(0),
   title: Yup.string().max(255, 'Too long').required('Required').ensure(),
-  due_date: Yup.date(),
+  due_date: Yup.date().nullable(),
   effort: Yup.number().moreThan(-1),
   blocked_by: Yup.string().url().ensure(),
 });

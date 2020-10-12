@@ -6,15 +6,21 @@ import apiFetch from '../utils/apiFetch';
 const TaskForm = ({ details, postSave = null }) => {
   const [apiLoading, setApiLoading] = useState(false);
 
+  console.log('task', details);
+
   return (
     <Form
-      initialValues={TaskSchema.cast(details)}
+      initialValues={TaskSchema.cast(details, { stripUnknown: true })}
       validationSchema={TaskSchema}
       loading={apiLoading}
       onSubmit={async (values, { resetForm }) => {
         setApiLoading(true);
 
-        await apiFetch('api/tasks/', values);
+        if (values.id > 0) {
+          await apiFetch(`api/tasks/${values.id}/`, values);
+        } else {
+          await apiFetch('api/tasks/', values);
+        }
 
         if (postSave !== null) {
           postSave();

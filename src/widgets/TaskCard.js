@@ -15,6 +15,7 @@ import {
   Input,
 } from '@chakra-ui/core';
 import NewTask from './NewTask';
+import EditTask from './EditTask';
 
 const TaskCard = ({ task }) => {
   const { id, title, effort, state, available_state_transitions, position } = task;
@@ -34,7 +35,7 @@ const TaskCard = ({ task }) => {
             <DrawerHeader>Edit Task</DrawerHeader>
 
             <DrawerBody>
-              <NewTask />
+              <EditTask task={task} />
             </DrawerBody>
 
             <DrawerFooter>

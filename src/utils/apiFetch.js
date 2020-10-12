@@ -3,13 +3,13 @@ import { useState, useEffect } from 'react';
 
 export const origin = 'http://localhost:8000';
 
-const _apiFetch = async (url, args = null) => {
+const _apiFetch = async (url, args = null, method = null) => {
   const token = localStorage.getItem('token');
 
   const options =
     args != null
       ? {
-          method: 'post',
+          method: method || 'post',
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
@@ -17,6 +17,7 @@ const _apiFetch = async (url, args = null) => {
           body: JSON.stringify(args),
         }
       : {
+          method: method || 'get',
           headers: {},
         };
 
@@ -28,13 +29,15 @@ const _apiFetch = async (url, args = null) => {
 };
 
 const apiFetch = async (url, args = null) => {
-  let res = await _apiFetch(url, args);
+  const method = typeof args?.id === 'undefined' ? null : 'patch';
+
+  let res = await _apiFetch(url, args, method);
   if (res.status === 401) {
     console.log('trying refresh');
     const refreshed = await refreshToken();
     if (refreshed) {
       console.log('retrying request', url);
-      res = await _apiFetch(url, args);
+      res = await _apiFetch(url, args, method);
     } else {
       console.log('failed refesh');
       clearAuth();
