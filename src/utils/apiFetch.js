@@ -29,7 +29,7 @@ const _apiFetch = async (url, args = null, method = null) => {
 };
 
 const apiFetch = async (url, args = null) => {
-  const method = typeof args?.id === 'undefined' ? null : 'patch';
+  const method = parseInt(args?.id || 0) > 0 ? 'patch' : null;
 
   let res = await _apiFetch(url, args, method);
   if (res.status === 401) {

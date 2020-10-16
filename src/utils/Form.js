@@ -1,9 +1,24 @@
 import * as React from 'react';
 import { useFormikContext, Field as FormikField, useField, Formik } from 'formik';
-import { Input, Select, Button, Checkbox, Textarea, Radio, RadioGroup, Stack, Text, Box } from '@chakra-ui/core';
+import {
+  Input,
+  Select,
+  Button,
+  Checkbox,
+  Textarea,
+  Radio,
+  RadioGroup,
+  Stack,
+  Text,
+  Box,
+} from '@chakra-ui/core';
 import { ToTitleCase } from '../utils/string';
 import ErrorMessage from '../widgets/ErrorMessage';
 import Loader from '../widgets/Loader';
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+
+
+import 'react-day-picker/lib/style.css';
 
 const Field = ({ as, children, processor, label = null, showLabel = true, ...props }) => {
   const [field, meta] = useField(props);
@@ -88,10 +103,20 @@ const AutoRadio = ({ options = [], isChecked, ...props }) => (
   </RadioGroup>
 );
 
-const DateField = ({ onChange, ...props }) => {
-  const _onChange = (e) => onChange(e);
-
-  return <Input onChange={(e) => _onChange(e)} {...props} />;
+const DateField = ({ value: initalValue = '', ...props }) => {
+  return (
+    <>
+      <DayPickerInput
+        format={'MM/dd/yyyy'}
+        placeholder={''}
+        formatDate={(date, format, local) => {
+          return new Intl.DateTimeFormat('en-GB').format(new Date(date));
+        }}
+        component={React.forwardRef((props, ref) => <Input ref={ref} {...props} />)}
+        {...props}
+      />
+    </>
+  );
 };
 
 const BoolField = (props) => (

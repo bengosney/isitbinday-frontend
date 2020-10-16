@@ -16,6 +16,8 @@ const TaskForm = ({ details, postSave = null }) => {
       onSubmit={async (values, { resetForm }) => {
         setApiLoading(true);
 
+        console.log('onSubmit', values);
+
         if (values.id > 0) {
           await apiFetch(`api/tasks/${values.id}/`, values);
         } else {
@@ -31,7 +33,7 @@ const TaskForm = ({ details, postSave = null }) => {
       }}
     >
       <Form.Input name="title" />
-      <Form.Input name="due_date" />
+      <Form.DateField name="due_date" />
       <Form.Input name="effort" />
       <Form.Input name="blocked_by" />
       <Form.Button type={'submit'}>Save</Form.Button>

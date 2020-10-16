@@ -162,7 +162,7 @@ const TaskList = ({ refreshKey = 0 }) => {
                       height={'100%'}
                     >
                       {tasks.map((task, index) => {
-                        const { id, title, effort, state: taskState, available_state_transitions, position } = task;
+                        const { id, state: taskState } = task;
                         if (state !== taskState) {
                           return null;
                         }

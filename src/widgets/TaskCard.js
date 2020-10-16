@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import {
   Box,
   Text,
@@ -12,21 +12,29 @@ import {
   DrawerBody,
   DrawerFooter,
   Button,
-  Input,
+  Stack,
+  IconButton,
 } from '@chakra-ui/core';
-import NewTask from './NewTask';
 import EditTask from './EditTask';
+import { MdModeEdit } from 'react-icons/md';
 
 const TaskCard = ({ task }) => {
-  const { id, title, effort, state, available_state_transitions, position } = task;
+  const { id, title, effort, state, due } = task;
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const buttonRef = useRef();
 
   return (
     <>
-      <Box key={`${state}-${id}`} border="1px solid lightgray" padding={5} background={'gray.50'} onClick={onOpen}>
-        <Heading fontSize={'1em'}>{title}</Heading>
-        <Text>{`Effort: ${effort || '-'}`}</Text>
+      <Box key={`${state}-${id}`} border="1px solid lightgray" padding={5} background={'gray.50'}>
+        <Stack>
+          <Heading fontSize={'1em'}>{title}</Heading>
+          <Stack direction={'row'} justify={'space-between'}>
+            <Stack>
+              <Text>{`Effort: ${effort || '-'}`}</Text>
+              <Text>{`Due: ${due || '-'}`}</Text>
+            </Stack>
+            <IconButton colorScheme={'blue'} size={'sm'} aria-label="Edit" icon={<MdModeEdit />} onClick={onOpen} />
+          </Stack>
+        </Stack>
       </Box>
       <Drawer isOpen={isOpen} onClose={onClose} placement={'right'}>
         <DrawerOverlay>
