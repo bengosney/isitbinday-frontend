@@ -1,22 +1,10 @@
 import * as React from 'react';
 import { useFormikContext, Field as FormikField, useField, Formik } from 'formik';
-import {
-  Input,
-  Select,
-  Button,
-  Checkbox,
-  Textarea,
-  Radio,
-  RadioGroup,
-  Stack,
-  Text,
-  Box,
-} from '@chakra-ui/core';
+import { Input, Select, Button, Checkbox, Textarea, Radio, RadioGroup, Stack, Text, Box } from '@chakra-ui/core';
 import { ToTitleCase } from '../utils/string';
 import ErrorMessage from '../widgets/ErrorMessage';
 import Loader from '../widgets/Loader';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
-
 
 import 'react-day-picker/lib/style.css';
 
@@ -112,7 +100,9 @@ const DateField = ({ value: initalValue = '', ...props }) => {
         formatDate={(date, format, local) => {
           return new Intl.DateTimeFormat('en-GB').format(new Date(date));
         }}
-        component={React.forwardRef((props, ref) => <Input ref={ref} {...props} />)}
+        component={React.forwardRef((props, ref) => (
+          <Input ref={ref} {...props} />
+        ))}
         {...props}
       />
     </>
@@ -152,21 +142,38 @@ export const InnerForm = React.forwardRef((props, ref) => {
   );
 });
 
-export const Form = ({ children, error = '', loading = false, ...props }) => (
-  <Formik {...props}>
-    {(props) => {
-      const { isSubmitting, isValidating } = props;
+export const Form = ({
+  children,
+  error = '',
+  loading = false,
+  initialValues = {},
+  validationSchema = null,
+  ...props
+}) => {
+  if (validationSchema !== null) {
+    const description = validationSchema.describe();
+    const { fields } = description;
 
-      return (
-        <React.Fragment>
-          <ErrorMessage title={'There was an issue saving details'} message={`${error}`} />
-          <Loader loading={isSubmitting || isValidating || loading} content="Saving" />
-          <InnerForm>{children}</InnerForm>
-        </React.Fragment>
-      );
-    }}
-  </Formik>
-);
+    Object.keys(fields).map((key) => (!(key in initialValues) ? (initialValues[key] = '') : null));
+    initialValues = validationSchema.cast(initialValues, { stripUnknown: true });
+  }
+
+  return (
+    <Formik validationSchema={validationSchema} initialValues={initialValues} {...props}>
+      {(props) => {
+        const { isSubmitting, isValidating } = props;
+
+        return (
+          <React.Fragment>
+            <ErrorMessage title={'There was an issue saving details'} message={`${error}`} />
+            <Loader loading={isSubmitting || isValidating || loading} content="Saving" />
+            <InnerForm>{children}</InnerForm>
+          </React.Fragment>
+        );
+      }}
+    </Formik>
+  );
+};
 
 Form.Field = FormField;
 Form.Button = FormButton;
