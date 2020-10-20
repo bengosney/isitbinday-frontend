@@ -14,4 +14,5 @@ export const TaskSchema = Yup.object().shape({
   due_date: Yup.date().nullable(),
   effort: Yup.number().moreThan(0).nullable(),
   blocked_by: Yup.string().url().ensure(),
+  repeats: Yup.string().ensure().default(''),
 });

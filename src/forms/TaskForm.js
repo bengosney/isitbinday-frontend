@@ -6,8 +6,6 @@ import apiFetch from '../utils/apiFetch';
 const TaskForm = ({ details, postSave = null }) => {
   const [apiLoading, setApiLoading] = useState(false);
 
-  console.log('task', details);
-
   return (
     <Form
       initialValues={TaskSchema.cast(details, { stripUnknown: true })}
@@ -36,6 +34,7 @@ const TaskForm = ({ details, postSave = null }) => {
       <Form.DateField name="due_date" />
       <Form.Input name="effort" />
       <Form.Input name="blocked_by" />
+      <Form.Input name="repeats" />
       <Form.Button type={'submit'}>Save</Form.Button>
     </Form>
   );
