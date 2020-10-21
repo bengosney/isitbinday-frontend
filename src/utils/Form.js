@@ -154,18 +154,20 @@ export const Form = ({
     const description = validationSchema.describe();
     const { fields } = description;
 
-    Object.keys(fields).map((key) => (!(key in initialValues) ? (initialValues[key] = '') : null));
     initialValues = validationSchema.cast(initialValues, { stripUnknown: true });
+    Object.keys(fields).map((key) => (!(key in initialValues) ? (initialValues[key] = undefined) : null));
   }
 
   return (
     <Formik validationSchema={validationSchema} initialValues={initialValues} {...props}>
       {(props) => {
-        const { isSubmitting, isValidating } = props;
+        const { isSubmitting, isValidating, errors } = props;
+
+        console.log('isSubmitting', isSubmitting, 'isValidating', isValidating, props);
 
         return (
           <React.Fragment>
-            <ErrorMessage title={'There was an issue saving details'} message={`${error}`} />
+            <ErrorMessage title={''} message={`${Object.values(errors).join(', ')}`} />
             <Loader loading={isSubmitting || isValidating || loading} content="Saving" />
             <InnerForm>{children}</InnerForm>
           </React.Fragment>
