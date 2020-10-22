@@ -7,6 +7,7 @@ import Loader from '../widgets/Loader';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 
 import 'react-day-picker/lib/style.css';
+import './Form.css';
 
 const Field = ({ as, children, processor, label = null, showLabel = true, ...props }) => {
   const [field, meta] = useField(props);
@@ -93,7 +94,7 @@ const AutoRadio = ({ options = [], isChecked, ...props }) => (
 
 const DateField = ({ value: initalValue = '', ...props }) => {
   return (
-    <>
+    <Box className={'DayPickerInputWrapper'}>
       <DayPickerInput
         format={'MM/dd/yyyy'}
         placeholder={''}
@@ -101,11 +102,11 @@ const DateField = ({ value: initalValue = '', ...props }) => {
           return new Intl.DateTimeFormat('en-GB').format(new Date(date));
         }}
         component={React.forwardRef((props, ref) => (
-          <Input ref={ref} {...props} />
+          <Input display={'block'} ref={ref} {...props} />
         ))}
         {...props}
       />
-    </>
+    </Box>
   );
 };
 
@@ -132,11 +133,10 @@ const FormBoolField = (props) => <Field as={BoolField} {...props} />;
 
 export const InnerForm = React.forwardRef((props, ref) => {
   const { action, children, ...rest } = props;
-  const _action = action || '#';
   const { handleReset, handleSubmit } = useFormikContext();
 
   return (
-    <form onSubmit={handleSubmit} ref={ref} onReset={handleReset} action={_action} {...rest}>
+    <form onSubmit={handleSubmit} ref={ref} onReset={handleReset} action={action || '#'} {...rest}>
       <Stack>{children}</Stack>
     </form>
   );
@@ -163,13 +163,13 @@ export const Form = ({
       {(props) => {
         const { isSubmitting, isValidating, errors } = props;
 
-        console.log('isSubmitting', isSubmitting, 'isValidating', isValidating, props);
-
         return (
           <React.Fragment>
-            <ErrorMessage title={''} message={`${Object.values(errors).join(', ')}`} />
-            <Loader loading={isSubmitting || isValidating || loading} content="Saving" />
-            <InnerForm>{children}</InnerForm>
+            <Stack>
+              <ErrorMessage title={''} message={`${Object.values(errors).join(', ')}`} />
+              <Loader loading={isSubmitting || isValidating || loading} content="Saving" />
+              <InnerForm>{children}</InnerForm>
+            </Stack>
           </React.Fragment>
         );
       }}
