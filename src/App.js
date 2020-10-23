@@ -2,7 +2,7 @@ import React from 'react';
 
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
-import { ChakraProvider, Container } from '@chakra-ui/core';
+import { ChakraProvider, Container, useColorModeValue, useColorMode, Button } from '@chakra-ui/core';
 import customTheme from './theme';
 
 import Auth from './Auth';
@@ -12,8 +12,7 @@ import PrivateRoute from './utils/PrivateRoute';
 import PrivateSection from './sections/PrivateSection';
 import LoginForm from './widgets/LoginForm';
 import Logout from './widgets/Logout';
-
-console.log(customTheme);
+import Home from './widgets/Home';
 
 function App() {
   return (
@@ -23,8 +22,7 @@ function App() {
           <Router>
             <Switch>
               <Route exact path="/">
-                <h1>Is is bin day?</h1>
-                <Link to="/login">Login</Link>
+                <Home />
               </Route>
               <PublicRoute path="/login">
                 <LoginForm />
