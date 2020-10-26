@@ -1,22 +1,9 @@
 import React from 'react';
-import {
-  Box,
-  Text,
-  Heading,
-  useDisclosure,
-  Drawer,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  DrawerHeader,
-  DrawerBody,
-  DrawerFooter,
-  Button,
-  Stack,
-  IconButton,
-} from '@chakra-ui/core';
+import { Box, Text, Heading, useDisclosure, Stack, IconButton } from '@chakra-ui/core';
 import EditTask from './EditTask';
 import { MdModeEdit } from 'react-icons/md';
+import Modal from '../widgets/Modal';
+import { Link } from 'react-router-dom';
 
 const TaskCard = ({ task }) => {
   const { id, title, effort, state, due } = task;
@@ -32,29 +19,12 @@ const TaskCard = ({ task }) => {
               <Text>{`Effort: ${effort || '-'}`}</Text>
               <Text>{`Due: ${due || '-'}`}</Text>
             </Stack>
-            <IconButton colorScheme={'blue'} size={'sm'} aria-label="Edit" icon={<MdModeEdit />} onClick={onOpen} />
+            <Link to={`tasks/${id}`}>
+              <IconButton colorScheme={'blue'} size={'sm'} aria-label="Edit" icon={<MdModeEdit />} />
+            </Link>
           </Stack>
         </Stack>
       </Box>
-      <Drawer isOpen={isOpen} onClose={onClose} placement={'right'}>
-        <DrawerOverlay>
-          <DrawerContent>
-            <DrawerCloseButton />
-            <DrawerHeader>Edit Task</DrawerHeader>
-
-            <DrawerBody>
-              <EditTask task={task} />
-            </DrawerBody>
-
-            <DrawerFooter>
-              <Button variant="outline" mr={3} onClick={onClose}>
-                Cancel
-              </Button>
-              <Button color="blue">Save</Button>
-            </DrawerFooter>
-          </DrawerContent>
-        </DrawerOverlay>
-      </Drawer>
     </>
   );
 };

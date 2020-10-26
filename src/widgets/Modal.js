@@ -7,7 +7,6 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  useDisclosure,
   Button,
 } from '@chakra-ui/core';
 
@@ -19,8 +18,8 @@ const Modal = ({ title,showFooter, children, ...props }) => {
         <ModalOverlay>
           <ModalContent>
             <ModalHeader>{title}</ModalHeader>
-            {onClose && <ModalCloseButton />}
             <ModalBody>{children}</ModalBody>
+            {onClose && <ModalCloseButton />}
 
             <ModalFooter>
               {onClose && showFooter && (
