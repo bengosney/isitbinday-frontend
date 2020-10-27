@@ -11,10 +11,8 @@ const TaskForm = ({ details, postSave = null }) => {
       initialValues={TaskSchema.cast(details, { stripUnknown: true })}
       validationSchema={TaskSchema}
       loading={apiLoading}
-      onSubmit={async (values, { resetForm }) => {
+      onSubmit={async (values, { resetForm: _resetForm }) => {
         setApiLoading(true);
-
-        console.log('onSubmit', values);
 
         if (values.id > 0) {
           await apiFetch(`api/tasks/${values.id}/`, values);
@@ -22,12 +20,16 @@ const TaskForm = ({ details, postSave = null }) => {
           await apiFetch('api/tasks/', values);
         }
 
-        if (postSave !== null) {
-          postSave();
-        }
+        const resetForm = () => {
+          _resetForm();
+          setApiLoading(false);
+        };
 
-        resetForm();
-        setApiLoading(false);
+        if (postSave !== null) {
+          postSave(resetForm);
+        } else {
+          resetForm();
+        }
       }}
     >
       <Form.Input name="title" />

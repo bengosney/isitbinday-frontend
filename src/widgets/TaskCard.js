@@ -1,13 +1,10 @@
 import React from 'react';
-import { Box, Text, Heading, useDisclosure, Stack, IconButton } from '@chakra-ui/core';
-import EditTask from './EditTask';
+import { Box, Text, Heading, Stack, IconButton } from '@chakra-ui/core';
 import { MdModeEdit } from 'react-icons/md';
-import Modal from '../widgets/Modal';
 import { Link } from 'react-router-dom';
 
 const TaskCard = ({ task }) => {
   const { id, title, effort, state, due } = task;
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
@@ -19,7 +16,7 @@ const TaskCard = ({ task }) => {
               <Text>{`Effort: ${effort || '-'}`}</Text>
               <Text>{`Due: ${due || '-'}`}</Text>
             </Stack>
-            <Link to={`tasks/${id}`}>
+            <Link to={`${id}`}>
               <IconButton colorScheme={'blue'} size={'sm'} aria-label="Edit" icon={<MdModeEdit />} />
             </Link>
           </Stack>

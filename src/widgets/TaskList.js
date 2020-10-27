@@ -5,6 +5,7 @@ import { Stack, Grid, Text, Box } from '@chakra-ui/core';
 
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import TaskCard from './TaskCard';
+import TaskModalSection from '../sections/TaskModalsSection';
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -14,20 +15,20 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-const TaskList = ({ refreshKey = 0 }) => {
+const TaskList = () => {
   const [states, setStates] = useState([]);
   const [hiddenStates, setHiddenStates] = useState([]);
   const [tasks, setTasks] = useState(null);
   const [transitionMap, setTransitionMap] = useState({});
   const [droppableStates, setDroppableStates] = useState([]);
   const [dragItem, setDragItem] = useState(null);
-  const [currentRefreshKey, setCurrentRefreshKey] = useState(refreshKey);
+  const [currentRefreshKey, setCurrentRefreshKey] = useState(0);
   const refresh = () => setCurrentRefreshKey(currentRefreshKey + 1);
 
   const limit = 100;
   const offset = 0;
 
-  const data = useApiFetch(`api/tasks/?limit=${limit}&offset=${offset}`, null, `${currentRefreshKey} + ${refreshKey}`);
+  const data = useApiFetch(`api/tasks/?limit=${limit}&offset=${offset}`, null, `${currentRefreshKey}`);
   useEffect(() => {
     if (data !== null) {
       const { results } = data;
@@ -60,7 +61,6 @@ const TaskList = ({ refreshKey = 0 }) => {
   const hiddenStatesResponse = useApiFetch(`api/tasks/hidden_states/`);
   useEffect(() => {
     if (hiddenStatesResponse !== null) {
-      console.log(hiddenStatesResponse);
       const { states: _states = [] } = hiddenStatesResponse;
       setHiddenStates(_states);
 
@@ -186,6 +186,7 @@ const TaskList = ({ refreshKey = 0 }) => {
           ))}
         </Grid>
       </DragDropContext>
+      <TaskModalSection refresh={refresh} />
     </React.Fragment>
   );
 };
