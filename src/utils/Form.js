@@ -165,11 +165,12 @@ export const Form = ({
 
         return (
           <React.Fragment>
-            <Stack>
-              <ErrorMessage title={''} message={`${Object.values(errors).join(', ')}`} />
-              <Loader loading={isSubmitting || isValidating || loading} content="Saving" />
-              <InnerForm>{children}</InnerForm>
-            </Stack>
+            <Loader loading={isSubmitting || isValidating || loading} content="Saving">
+              <Stack>
+                <ErrorMessage title={''} message={`${Object.values(errors).join(', ')}`} />
+                <InnerForm>{children}</InnerForm>
+              </Stack>
+            </Loader>
           </React.Fragment>
         );
       }}
