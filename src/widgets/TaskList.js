@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useReducer } from 'react';
 import apiFetch, { useApiFetch } from '../utils/apiFetch';
 import { UCFirst } from '../utils/string';
 import { Stack, Grid, Text, Box } from '@chakra-ui/core';
@@ -7,6 +7,8 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import TaskCard from './TaskCard';
 import TaskModalSection from '../sections/TaskModalsSection';
 
+import * as Yup from 'yup';
+
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
@@ -14,6 +16,17 @@ const reorder = (list, startIndex, endIndex) => {
 
   return result;
 };
+
+const stateShape = Yup.object().shape({
+  dueDateStates: Yup.array().default([]),
+  states: Yup.array().default([]),
+  hiddenStates: Yup.array().default([]),
+  tasks: Yup.array().nullable().default(null),
+  transitionMap: Yup.object().default({}),
+  droppableStates: Yup.array().default([]),
+  dragItem: Yup.mixed().nullable().default(0),
+  currentRefreshKey: Yup.number().default(0),
+});
 
 const TaskList = () => {
   const [states, setStates] = useState([]);
@@ -25,6 +38,26 @@ const TaskList = () => {
   const [currentRefreshKey, setCurrentRefreshKey] = useState(0);
   const refresh = () => setCurrentRefreshKey(currentRefreshKey + 1);
 
+  const [state, dispatch] = useReducer(
+    (state, action) => {
+      const makeState = (newState) => {
+        const _newState = {...state, ...newState};
+
+        return stateShape.cast(_newState);
+      }
+
+      switch (action.type) {
+        default:
+          if (typeof state[action.type] !== 'undefined') {
+            return makeState({[action.type]: action.data || undefined});
+          } else {
+            throw new Error(`Unsupported action type: ${action.type}`);
+          }
+      }
+    },
+    stateShape.cast({})
+  );
+
   const limit = 100;
   const offset = 0;
 
@@ -34,7 +67,13 @@ const TaskList = () => {
       const { results } = data;
       setTasks(results);
     }
+    dispatch({ type: 'tasks', data: data?.results || undefined });
   }, [data]);
+
+  const dueDateData = useApiFetch(`api/tasks/due_date_states/`);
+  useEffect(() => {
+    dispatch({ type: 'dueDateStates', data: dueDateData?.states || [] });
+  }, [dueDateData]);
 
   const mapTransitions = useCallback(
     (states) => {
