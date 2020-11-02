@@ -120,6 +120,7 @@ const TaskList = () => {
 
     if (_dragItem.state !== result.destination.droppableId) {
       callAction(_dragItem.id, action);
+      _dragItem.state = action;
     }
 
     let pos = 1;

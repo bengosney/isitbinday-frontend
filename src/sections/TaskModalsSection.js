@@ -17,7 +17,6 @@ const EditTaskRoute = ({ ...props }) => {
 const TaskModalSection = ({ refresh }) => {
   const { path } = useRouteMatch();
 
-  console.log(path);
   const getUrl = (slug) => {
     return `${path}/${slug}`.replace('//', '/');
   };
