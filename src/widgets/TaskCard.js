@@ -3,7 +3,7 @@ import { Box, Text, Heading, Stack, IconButton } from '@chakra-ui/core';
 import { MdModeEdit } from 'react-icons/md';
 import { Link, useRouteMatch } from 'react-router-dom';
 
-const TaskCard = ({ task }) => {
+const TaskCard = ({ task, showDueDate = true }) => {
   const { id, title, effort, state, due } = task;
   const { path } = useRouteMatch();
 
@@ -15,7 +15,7 @@ const TaskCard = ({ task }) => {
           <Stack direction={'row'} justify={'space-between'}>
             <Stack>
               <Text>{`Effort: ${effort || '-'}`}</Text>
-              <Text>{`Due: ${due || '-'}`}</Text>
+              {showDueDate && <Text>{`Due: ${due || '-'}`}</Text>}
             </Stack>
             <Link to={`${path}/${id}`.replace('//', '/')}>
               <IconButton colorScheme={'blue'} size={'sm'} aria-label="Edit" icon={<MdModeEdit />} />

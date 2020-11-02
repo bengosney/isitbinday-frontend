@@ -38,7 +38,7 @@ const TaskList = () => {
   const [currentRefreshKey, setCurrentRefreshKey] = useState(0);
   const refresh = () => setCurrentRefreshKey(currentRefreshKey + 1);
 
-  const [state, dispatch] = useReducer(
+  const [widgetState, dispatch] = useReducer(
     (state, action) => {
       const makeState = (newState) => {
         const _newState = {...state, ...newState};
@@ -210,7 +210,7 @@ const TaskList = () => {
                           <Draggable key={id} draggableId={`${id}`} index={index}>
                             {(provided, snapshot) => (
                               <Box ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                <TaskCard task={task} />
+                                <TaskCard task={task} showDueDate={widgetState.dueDateStates.includes(state)} />
                               </Box>
                             )}
                           </Draggable>
