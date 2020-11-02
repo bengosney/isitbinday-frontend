@@ -29,15 +29,6 @@ const stateShape = Yup.object().shape({
 });
 
 const TaskList = () => {
-  const [states, setStates] = useState([]);
-  const [hiddenStates, setHiddenStates] = useState([]);
-  const [tasks, setTasks] = useState(null);
-  const [transitionMap, setTransitionMap] = useState({});
-  const [droppableStates, setDroppableStates] = useState([]);
-  const [dragItem, setDragItem] = useState(null);
-  const [currentRefreshKey, setCurrentRefreshKey] = useState(0);
-  const refresh = () => setCurrentRefreshKey(currentRefreshKey + 1);
-
   const [widgetState, dispatch] = useReducer(
     (state, action) => {
       const makeState = (newState) => {
@@ -58,6 +49,10 @@ const TaskList = () => {
     stateShape.cast({})
   );
 
+  const { states, hiddenStates, tasks, transitionMap, droppableStates, dragItem, currentRefreshKey, dueDateStates } = widgetState;
+
+  const refresh = () => dispatch({type:'currentRefreshKey', data: currentRefreshKey + 1});
+
   const limit = 100;
   const offset = 0;
 
@@ -65,7 +60,7 @@ const TaskList = () => {
   useEffect(() => {
     if (data !== null) {
       const { results } = data;
-      setTasks(results);
+      dispatch({type:'tasks', data: results});
     }
     dispatch({ type: 'tasks', data: data?.results || undefined });
   }, [data]);
@@ -82,7 +77,7 @@ const TaskList = () => {
         s.transitions.forEach((t) => (map[t] = s.name));
       });
 
-      setTransitionMap(map);
+      dispatch({type:'transitionMap', data: map});
     },
     [transitionMap]
   );
@@ -91,7 +86,7 @@ const TaskList = () => {
   useEffect(() => {
     if (statesResponse !== null) {
       const { states: _states = [] } = statesResponse;
-      setStates(_states.map((s) => s.name));
+      dispatch({type: 'states', data: _states.map((s) => s.name)});
 
       mapTransitions(_states);
     }
@@ -101,7 +96,7 @@ const TaskList = () => {
   useEffect(() => {
     if (hiddenStatesResponse !== null) {
       const { states: _states = [] } = hiddenStatesResponse;
-      setHiddenStates(_states);
+      dispatch({type: 'hiddenStates', data: _states});
 
       mapTransitions(_states);
     }
@@ -132,19 +127,19 @@ const TaskList = () => {
 
     apiFetch(`api/tasks/position/`, { positions });
 
-    setTasks(items);
-    setDragItem(null);
-    setDroppableStates([]);
+    dispatch({type:'tasks', data: items});
+    dispatch({type:'dragItem', data: null});
+    dispatch({type: 'droppableStates', data: []});
   };
 
   const dragStart = (e) => {
     const _dragItem = tasks.find((t) => t.id === parseInt(e.draggableId));
-    setDragItem(_dragItem);
+    dispatch({type:'dragItem', data: _dragItem});
 
     const availableStates = [];
 
     _dragItem.available_state_transitions.forEach((ast) => availableStates.push(transitionMap[ast]));
-    setDroppableStates(availableStates);
+    dispatch({type: 'droppableStates', data: availableStates});
   };
 
   const getBorderColour = (state) => {
@@ -210,7 +205,7 @@ const TaskList = () => {
                           <Draggable key={id} draggableId={`${id}`} index={index}>
                             {(provided, snapshot) => (
                               <Box ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                <TaskCard task={task} showDueDate={widgetState.dueDateStates.includes(state)} />
+                                <TaskCard task={task} showDueDate={dueDateStates.includes(state)} />
                               </Box>
                             )}
                           </Draggable>
