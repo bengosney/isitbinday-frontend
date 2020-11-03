@@ -58,6 +58,7 @@ const Auth = ({ children }) => {
         case ACTION_LOGGEDIN:
           localStorage.setItem('token', action.tokens.access);
           localStorage.setItem('refresh', action.tokens.refresh);
+          apiFetch('api/tasks/auto_archive/');
           return { loggedIn: true };
         case ACTION_LOGGEDOUT:
           localStorage.removeItem('token');

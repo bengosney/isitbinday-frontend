@@ -18,7 +18,7 @@ const TaskModalSection = ({ refresh }) => {
     return `${path}/${slug}`.replace('//', '/');
   };
 
-  const editUrl = getUrl(':id');
+  const editUrl = getUrl('edit/:id');
   const newUrl = getUrl('new');
   const onClose = () => history.push(path);
 

@@ -17,7 +17,7 @@ const TaskCard = ({ task, showDueDate = true }) => {
               <Text>{`Effort: ${effort || '-'}`}</Text>
               {showDueDate && <Text>{`Due: ${due || '-'}`}</Text>}
             </Stack>
-            <Link to={`${path}/${id}`.replace('//', '/')}>
+            <Link to={`${path}/edit/${id}`.replace('//', '/')}>
               <IconButton colorScheme={'blue'} size={'sm'} aria-label="Edit" icon={<MdModeEdit />} />
             </Link>
           </Stack>

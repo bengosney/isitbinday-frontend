@@ -4,6 +4,7 @@ import TaskList from '../widgets/TaskList';
 import FAB from '../widgets/FAB';
 import { MdAdd } from 'react-icons/md';
 import { Stack } from '@chakra-ui/core';
+import ArchiveList from '../widgets/ArchiveList';
 
 const TaskSection = () => {
   const { path } = useRouteMatch();
@@ -14,12 +15,16 @@ const TaskSection = () => {
 
   const listUrl = getUrl('');
   const newUrl = getUrl('new');
+  const archiveUrl = getUrl('archived');
 
   const history = useHistory();
 
   return (
     <React.Fragment>
       <Switch>
+        <Route path={archiveUrl}>
+          <ArchiveList />
+        </Route>
         <Route path={listUrl}>
           <Stack my={6}>
             <TaskList />
