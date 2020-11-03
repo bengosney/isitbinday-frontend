@@ -1,4 +1,4 @@
-import { extendTheme, theme, useColorModeValue } from '@chakra-ui/core';
+import { extendTheme, theme } from '@chakra-ui/core';
 
 const customTheme = extendTheme({
   colors: {

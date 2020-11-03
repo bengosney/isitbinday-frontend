@@ -14,7 +14,6 @@ const TaskSection = () => {
 
   const listUrl = getUrl('');
   const newUrl = getUrl('new');
-  const onClose = () => history.push(path);
 
   const history = useHistory();
 

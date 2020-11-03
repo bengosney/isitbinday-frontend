@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import { ChakraProvider, Container, useColorModeValue, useColorMode, Button } from '@chakra-ui/core';
+import { ChakraProvider, Container } from '@chakra-ui/core';
 import customTheme from './theme';
 
 import Auth from './Auth';

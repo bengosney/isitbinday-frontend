@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useRouteMatch, Route, Switch, useHistory, useParams } from 'react-router-dom';
-import TaskList from '../widgets/TaskList';
+
 import NewTask from '../widgets/NewTask';
 import EditTask from '../widgets/EditTask';
-import FAB from '../widgets/FAB';
-import { MdAdd } from 'react-icons/md';
-import { Stack } from '@chakra-ui/core';
 import Modal from '../widgets/Modal';
 
 const EditTaskRoute = ({ ...props }) => {
