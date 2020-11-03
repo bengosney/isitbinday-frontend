@@ -29,29 +29,35 @@ const stateShape = Yup.object().shape({
 });
 
 const TaskList = () => {
-  const [widgetState, dispatch] = useReducer(
-    (state, action) => {
-      const makeState = (newState) => {
-        const _newState = {...state, ...newState};
+  const [widgetState, dispatch] = useReducer((state, action) => {
+    const makeState = (newState) => {
+      const _newState = { ...state, ...newState };
 
-        return stateShape.cast(_newState);
-      }
+      return stateShape.cast(_newState);
+    };
 
-      switch (action.type) {
-        default:
-          if (typeof state[action.type] !== 'undefined') {
-            return makeState({[action.type]: action.data || undefined});
-          } else {
-            throw new Error(`Unsupported action type: ${action.type}`);
-          }
-      }
-    },
-    stateShape.cast({})
-  );
+    switch (action.type) {
+      default:
+        if (typeof state[action.type] !== 'undefined') {
+          return makeState({ [action.type]: action.data || undefined });
+        } else {
+          throw new Error(`Unsupported action type: ${action.type}`);
+        }
+    }
+  }, stateShape.cast({}));
 
-  const { states, hiddenStates, tasks, transitionMap, droppableStates, dragItem, currentRefreshKey, dueDateStates } = widgetState;
+  const {
+    states,
+    hiddenStates,
+    tasks,
+    transitionMap,
+    droppableStates,
+    dragItem,
+    currentRefreshKey,
+    dueDateStates,
+  } = widgetState;
 
-  const refresh = () => dispatch({type:'currentRefreshKey', data: currentRefreshKey + 1});
+  const refresh = () => dispatch({ type: 'currentRefreshKey', data: currentRefreshKey + 1 });
 
   const limit = 100;
   const offset = 0;
@@ -60,7 +66,7 @@ const TaskList = () => {
   useEffect(() => {
     if (data !== null) {
       const { results } = data;
-      dispatch({type:'tasks', data: results});
+      dispatch({ type: 'tasks', data: results });
     }
     dispatch({ type: 'tasks', data: data?.results || undefined });
   }, [data]);
@@ -77,7 +83,7 @@ const TaskList = () => {
         s.transitions.forEach((t) => (map[t] = s.name));
       });
 
-      dispatch({type:'transitionMap', data: map});
+      dispatch({ type: 'transitionMap', data: map });
     },
     [transitionMap]
   );
@@ -86,7 +92,7 @@ const TaskList = () => {
   useEffect(() => {
     if (statesResponse !== null) {
       const { states: _states = [] } = statesResponse;
-      dispatch({type: 'states', data: _states.map((s) => s.name)});
+      dispatch({ type: 'states', data: _states.map((s) => s.name) });
 
       mapTransitions(_states);
     }
@@ -96,7 +102,7 @@ const TaskList = () => {
   useEffect(() => {
     if (hiddenStatesResponse !== null) {
       const { states: _states = [] } = hiddenStatesResponse;
-      dispatch({type: 'hiddenStates', data: _states});
+      dispatch({ type: 'hiddenStates', data: _states });
 
       mapTransitions(_states);
     }
@@ -127,21 +133,24 @@ const TaskList = () => {
     const positions = items.map((i) => ({ id: i.id, position: pos++ }));
 
     apiFetch(`api/tasks/position/`, { positions });
-    _dragItem.position = positions.filter((i) => i.id === _dragItem.id).map((i) => i.position).reduce((acc, cur) => cur, 0);
+    _dragItem.position = positions
+      .filter((i) => i.id === _dragItem.id)
+      .map((i) => i.position)
+      .reduce((acc, cur) => cur, 0);
 
-    dispatch({type:'tasks', data: items});
-    dispatch({type:'dragItem', data: null});
-    dispatch({type: 'droppableStates', data: []});
+    dispatch({ type: 'tasks', data: items });
+    dispatch({ type: 'dragItem', data: null });
+    dispatch({ type: 'droppableStates', data: [] });
   };
 
   const dragStart = (e) => {
     const _dragItem = tasks.find((t) => t.id === parseInt(e.draggableId));
-    dispatch({type:'dragItem', data: _dragItem});
+    dispatch({ type: 'dragItem', data: _dragItem });
 
     const availableStates = [];
 
     _dragItem.available_state_transitions.forEach((ast) => availableStates.push(transitionMap[ast]));
-    dispatch({type: 'droppableStates', data: availableStates});
+    dispatch({ type: 'droppableStates', data: availableStates });
   };
 
   const getBorderColour = (state) => {

@@ -10,7 +10,7 @@ import {
   Button,
 } from '@chakra-ui/core';
 
-const Modal = ({ title,showFooter, children, ...props }) => {
+const Modal = ({ title, showFooter, children, ...props }) => {
   const { onClose } = props;
   return (
     <>

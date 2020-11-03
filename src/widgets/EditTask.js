@@ -7,7 +7,7 @@ const EditTask = ({ taskID, postSave }) => {
   const data = useApiFetch(`api/tasks/${taskID}`);
 
   if (data === null) {
-      return <Loader />;
+    return <Loader />;
   }
 
   return (
