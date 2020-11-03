@@ -127,6 +127,7 @@ const TaskList = () => {
     const positions = items.map((i) => ({ id: i.id, position: pos++ }));
 
     apiFetch(`api/tasks/position/`, { positions });
+    _dragItem.position = positions.filter((i) => i.id === _dragItem.id).map((i) => i.position).reduce((acc, cur) => cur, 0);
 
     dispatch({type:'tasks', data: items});
     dispatch({type:'dragItem', data: null});
