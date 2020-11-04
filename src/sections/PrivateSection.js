@@ -13,6 +13,7 @@ const PrivateSection = () => {
 
   const dashboardUrl = getUrl('dashboard');
   const tasksUrl = getUrl('tasks');
+  const archivedTasksUrl = getUrl('tasks/archived');
   const sprintsUrl = getUrl('sprints');
 
   const menuItems = [
