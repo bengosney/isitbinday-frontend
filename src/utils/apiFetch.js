@@ -25,7 +25,9 @@ const _apiFetch = async (url, args = null, method = null) => {
     options.headers.Authorization = `Bearer ${token}`;
   }
 
-  return fetch(`${origin}/${url}`, options);
+  const cleanUrl = `${url}`.replace(`${origin}/`, '');
+
+  return fetch(`${origin}/${cleanUrl}`, options);
 };
 
 const apiFetch = async (url, args = null) => {
