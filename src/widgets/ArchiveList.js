@@ -1,25 +1,55 @@
-import React from 'react';
+import { Button, ButtonGroup, Heading, Stack, Text } from '@chakra-ui/core';
+import React, { useReducer } from 'react';
 import { useApiFetch } from '../utils/apiFetch';
 import Loader from './Loader';
 
-const ArchiveList = ({limit = 50, offset = 0}) => {
-  const data = useApiFetch(`api/archived-tasks/?limit=${limit}&offset=${offset}`);
+const ArchiveList = ({ limit = 25, offset = 0 }) => {
+  const [state, dispatch] = useReducer(
+    (state, action) => {
+      const { url, limit, offset } = action;
+      const newState = { ...state };
+
+      if (limit) {
+        newState.limit = limit;
+      }
+
+      if (offset) {
+        newState.offset = offset;
+      }
+
+      if (url) {
+        newState.url = url;
+      } else {
+        newState.url = `api/archived-tasks/?limit=${limit}&offset=${offset}`;
+      }
+
+      return newState;
+    },
+    { limit, offset }
+  );
+
+  const { url = `api/archived-tasks/?limit=${limit}&offset=${offset}` } = state;
+  const data = useApiFetch(url);
 
   if (data === null) {
     return <Loader />;
   }
 
-  const { results: archivedTasks = [] } = data;
+  console.log(data);
+
+  const { results: archivedTasks = [], next, previous } = data;
 
   return (
-    <div>
-      <p>ArchiveList</p>
-      <ul>
-        {archivedTasks.map((task) => {
-          return <li key={task.id}>{task.title}</li>;
-        })}
-      </ul>
-    </div>
+    <Stack>
+      <Heading>ArchiveList</Heading>
+      {archivedTasks.map((task) => {
+        return <Text key={task.id}>{task.title}</Text>;
+      })}
+      <ButtonGroup isAttached>
+        <Button onClick={() => dispatch({ url: data.previous })}>Previous</Button>
+        <Button onClick={() => dispatch({ url: data.next })}>Next</Button>
+      </ButtonGroup>
+    </Stack>
   );
 };
 
