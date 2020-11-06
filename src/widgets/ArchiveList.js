@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Heading, Stack, Text } from '@chakra-ui/core';
+import { Button, ButtonGroup, Heading, Stack, Text, Box } from '@chakra-ui/core';
 import React, { useReducer } from 'react';
 import { useApiFetch } from '../utils/apiFetch';
 import Loader from './Loader';
@@ -35,15 +35,17 @@ const ArchiveList = ({ limit = 25, offset = 0 }) => {
     return <Loader />;
   }
 
-  console.log(data);
-
   const { results: archivedTasks = [], next, previous } = data;
 
   return (
     <Stack>
       <Heading>ArchiveList</Heading>
       {archivedTasks.map((task) => {
-        return <Text key={task.id}>{task.title}</Text>;
+        return (
+          <Box>
+            <Text key={task.id}>{task.title} - {task.previous_state}</Text>
+          </Box>
+        );
       })}
       <ButtonGroup isAttached>
         <Button onClick={() => dispatch({ url: data.previous })}>Previous</Button>
