@@ -1,7 +1,7 @@
 import { refreshToken, clearAuth } from '../Auth';
 import { useState, useEffect } from 'react';
 
-export const origin = REACT_APP_API_URL || 'http://localhost:8000';
+export const origin = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
 const _apiFetch = async (url, args = null, method = null) => {
   const token = localStorage.getItem('token');
