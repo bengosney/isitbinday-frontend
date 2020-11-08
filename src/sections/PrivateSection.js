@@ -3,6 +3,8 @@ import { useRouteMatch, Route, Switch, useLocation, Link } from 'react-router-do
 import Nav from '../widgets/Nav';
 import TaskSection from './TaskSection';
 import { Spacer } from '@chakra-ui/core';
+import DashboardSection from './DashboardSection';
+import SprintSection from './SprintSection';
 
 const PrivateSection = () => {
   const { path } = useRouteMatch();
@@ -41,13 +43,13 @@ const PrivateSection = () => {
       </Nav>
       <Switch>
         <Route path={dashboardUrl}>
-          <h1>dashboard</h1>
+          <DashboardSection />
         </Route>
         <Route path={tasksUrl}>
           <TaskSection />
         </Route>
         <Route path={sprintsUrl}>
-          <h1>Sprints</h1>
+          <SprintSection />
         </Route>
       </Switch>
     </div>

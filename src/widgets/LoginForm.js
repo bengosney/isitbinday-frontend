@@ -3,6 +3,7 @@ import { Form } from '../utils/Form';
 import { authContext } from '../Auth';
 import { Heading, Stack, Divider } from '@chakra-ui/core';
 import * as Yup from 'yup';
+import usePageTitle from '../utils/usePageTitle';
 
 const loginSchema = Yup.object().shape({
   username: Yup.string().required('Required').ensure(),
@@ -10,6 +11,7 @@ const loginSchema = Yup.object().shape({
 });
 
 const LoginForm = () => {
+  usePageTitle('Login');
   const { login } = useContext(authContext);
   const [loading, setLoading] = useState(false);
 
