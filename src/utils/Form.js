@@ -1,6 +1,22 @@
 import * as React from 'react';
 import { useFormikContext, Field as FormikField, useField, Formik } from 'formik';
-import { Input, Select, Button, Checkbox, Textarea, Radio, RadioGroup, Stack, Text, Box } from '@chakra-ui/core';
+import {
+  Input,
+  Select,
+  Button,
+  Checkbox,
+  Textarea,
+  Radio,
+  RadioGroup,
+  Stack,
+  Text,
+  Box,
+  InputGroup,
+  InputRightAddon,
+  InputRightElement,
+  InputLeftAddon,
+  InputLeftElement,
+} from '@chakra-ui/core';
 import { ToTitleCase } from '../utils/string';
 import ErrorMessage from '../widgets/ErrorMessage';
 import Loader from '../widgets/Loader';
@@ -120,11 +136,26 @@ const BoolField = (props) => (
   />
 );
 
+const FancyInput = React.forwardRef((props, ref) => {
+  const { leftAddon, rightAddon, leftElement, rightElement, left, right, ...rest } = props;
+  return (
+    <InputGroup>
+      {left}
+      {leftAddon && <InputLeftAddon>{leftAddon}</InputLeftAddon>}
+      {leftElement && <InputLeftElement children={leftElement} />}
+      <Input {...rest} ref={ref} />
+      {rightElement && <InputRightElement children={rightElement} />}
+      {rightAddon && <InputRightAddon children={rightAddon} />}
+      {right}
+    </InputGroup>
+  );
+});
+
 const FormField = (props) => <Field as={Input} {...props} />;
 const FormButton = (props) => <FormikField as={Button} {...props} />;
 const FormCheckbox = (props) => <Field as={MyCheckbox} processor={checkBoxProcessor} showLabel={false} {...props} />;
 const FormDropdown = (props) => <Field as={AutoSelect} processor={dropdownProcessor} {...props} />;
-const FormInput = (props) => <Field as={Input} {...props} />;
+const FormInput = (props) => <Field as={FancyInput} {...props} />;
 const FormDateField = (props) => <Field as={DateField} {...props} />;
 const FormRadio = (props) => <Field as={AutoRadio} processor={radioProcessor} {...props} />;
 const FormSelect = (props) => <Field as={AutoSelect} {...props} />;
@@ -161,17 +192,14 @@ export const Form = ({
   return (
     <Formik validationSchema={validationSchema} initialValues={initialValues} {...props}>
       {(props) => {
-        const { isSubmitting, isValidating, errors } = props;
+        const { isSubmitting, isValidating, errors, touched } = props;
+        const error = touched && Object.values(errors).join(', ');
 
         return (
-          <React.Fragment>
-            <Loader loading={isSubmitting || isValidating || loading} content="Saving">
-              <Stack>
-                <ErrorMessage title={''} message={`${Object.values(errors).join(', ')}`} />
-                <InnerForm>{children}</InnerForm>
-              </Stack>
-            </Loader>
-          </React.Fragment>
+          <Loader loading={isSubmitting || isValidating || loading} content={loading || 'Saving'}>
+            <ErrorMessage title={'There was an issue saving details'} message={`${error}`} />
+            <InnerForm>{typeof children === 'function' ? children(props) : children}</InnerForm>
+          </Loader>
         );
       }}
     </Formik>

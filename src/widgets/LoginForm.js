@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Form } from '../utils/Form';
 import { authContext } from '../Auth';
 import { Heading, Stack, Divider } from '@chakra-ui/core';
@@ -11,6 +11,7 @@ const loginSchema = Yup.object().shape({
 
 const LoginForm = () => {
   const { login } = useContext(authContext);
+  const [loading, setLoading] = useState(false);
 
   return (
     <Stack maxW={'25rem'} margin={'auto'} height={'100vh'} justify={'center'} spacing={4}>
@@ -23,14 +24,22 @@ const LoginForm = () => {
         validationSchema={loginSchema}
         onSubmit={async (values) => {
           const { username, password } = values;
+          setLoading('Logging in...');
           login(username, password);
         }}
+        loading={loading}
       >
-        <Stack>
-          <Form.Input name={'username'} />
-          <Form.Input name={'password'} type="password" />
-          <Form.Button type="submit">Login</Form.Button>
-        </Stack>
+        {({ dirty }) => {
+          return (
+            <Stack>
+              <Form.Input name={'username'} />
+              <Form.Input name={'password'} type="password" />
+              <Form.Button type="submit" disabled={!dirty}>
+                Login
+              </Form.Button>
+            </Stack>
+          );
+        }}
       </Form>
     </Stack>
   );
