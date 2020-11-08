@@ -1,18 +1,12 @@
 import React from 'react';
 
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import { ChakraProvider, Container } from '@chakra-ui/core';
 import customTheme from './theme';
 
 import Auth from './Auth';
-import PublicRoute from './utils/PublicRoute';
-import PrivateRoute from './utils/PrivateRoute';
-
-import PrivateSection from './sections/PrivateSection';
-import LoginForm from './widgets/LoginForm';
-import Logout from './widgets/Logout';
-import Home from './widgets/Home';
+import MainAppSection from './sections/MainAppSection';
 
 function App() {
   return (
@@ -20,20 +14,7 @@ function App() {
       <Container maxW="xl" borderColor={'gray.100'}>
         <Auth>
           <Router>
-            <Switch>
-              <Route exact path="/">
-                <Home />
-              </Route>
-              <PublicRoute path="/login">
-                <LoginForm />
-              </PublicRoute>
-              <PrivateRoute path="/iibd">
-                <PrivateSection />
-              </PrivateRoute>
-              <PrivateRoute path="/logout">
-                <Logout />
-              </PrivateRoute>
-            </Switch>
+            <MainAppSection />
           </Router>
         </Auth>
       </Container>

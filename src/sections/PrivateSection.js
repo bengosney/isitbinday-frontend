@@ -13,7 +13,7 @@ const PrivateSection = () => {
     return `${path}/${slug}`.replace('//', '/');
   };
 
-  const dashboardUrl = getUrl('dashboard');
+  const dashboardUrl = getUrl('');
   const tasksUrl = getUrl('tasks');
   const archivedTasksUrl = getUrl('tasks/archived');
   const sprintsUrl = getUrl('sprints');
@@ -42,7 +42,7 @@ const PrivateSection = () => {
         </Nav.Item>
       </Nav>
       <Switch>
-        <Route path={dashboardUrl}>
+        <Route exact path={dashboardUrl}>
           <DashboardSection />
         </Route>
         <Route path={tasksUrl}>
