@@ -28,7 +28,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write src/**/*.js ; prettier --write src/**/*.css",
-    "postinstall": "husky install"
+    "postinstall": "npx husky install"
   },
   "eslintConfig": {
     "extends": "react-app"
