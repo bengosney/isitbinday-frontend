@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Spinner, Text, VStack } from '@chakra-ui/core';
 
 const Loader = ({ loading = true, content = 'Loading', children = false }) => {
-  if (children !== null) {
+  if (children) {
     return (
       <Box position={'relative'}>
         {children}
