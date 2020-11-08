@@ -31,7 +31,7 @@ const _apiFetch = async (url, args = null, method = null) => {
 };
 
 const apiFetch = async (url, args = null) => {
-  const method = parseInt(args?.id || 0) > 0 ? 'patch' : null;
+  const method = parseInt(args?.id || 0) > 0 ? 'put' : null;
 
   let res = await _apiFetch(url, args, method);
   if (res.status === 401) {
