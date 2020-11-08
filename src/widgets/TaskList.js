@@ -8,6 +8,7 @@ import TaskCard from './TaskCard';
 import TaskModalSection from '../sections/TaskModalsSection';
 
 import * as Yup from 'yup';
+import { Redirect, useLocation } from 'react-router-dom';
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -61,6 +62,7 @@ const TaskList = () => {
 
   const limit = 100;
   const offset = 0;
+  const location = useLocation();
 
   const data = useApiFetch(`api/tasks/?limit=${limit}&offset=${offset}`, null, `${currentRefreshKey}`);
   useEffect(() => {
@@ -110,7 +112,7 @@ const TaskList = () => {
 
   const callAction = (id, action) => apiFetch(`api/tasks/${id}/${action}`).then(() => refresh());
 
-  if (tasks === null || typeof tasks == 'undefined' || tasks.length === 0) {
+  if (tasks === null || typeof tasks == 'undefined') {
     return <div>Loading...</div>;
   }
 
@@ -164,6 +166,18 @@ const TaskList = () => {
 
     return 'white';
   };
+
+  if (tasks.length === 0) {
+    const redirectTo = `${location.pathname}/new`.replace('//', '/');
+    const redirect = location.pathname.endsWith('new') ? null : <Redirect to={redirectTo} />;
+    return (
+      <>
+        {redirect}
+        <Text>No tasks</Text>
+        <TaskModalSection refresh={refresh} />
+      </>
+    );
+  }
 
   return (
     <React.Fragment>
