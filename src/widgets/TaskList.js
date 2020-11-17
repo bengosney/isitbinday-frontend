@@ -179,6 +179,10 @@ const TaskList = () => {
     );
   }
 
+  const colWidth = 12;
+  const gapWidth = 1.5;
+  const minWidth = states.length * colWidth + (states.length - 1) * gapWidth;
+
   return (
     <React.Fragment>
       <DragDropContext onDragEnd={(e) => dragEnd(e)} onDragStart={(e) => dragStart(e)}>
@@ -201,9 +205,14 @@ const TaskList = () => {
             </React.Fragment>
           ))}
         </Grid>
-        <Grid templateColumns={`repeat(${states.length}, 1fr)`} gap={6}>
+        <Grid
+          width={'100%'}
+          minWidth={`${minWidth}rem`}
+          templateColumns={`repeat(${states.length}, 1fr)`}
+          gap={`${gapWidth}rem`}
+        >
           {states.map((state) => (
-            <Stack key={state}>
+            <Stack minWidth={`${colWidth}rem`} key={state}>
               <Text>{UCFirst(state)}</Text>
               <Box height={'100%'}>
                 <Droppable
