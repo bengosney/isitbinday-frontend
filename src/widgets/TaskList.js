@@ -221,7 +221,6 @@ const TaskList = () => {
                       borderColor={'gray.300'}
                       height={'100%'}
                       minHeight={'10vh'}
-                      direction={direction}
                     >
                       {tasks.map((task, index) => {
                         const { id, state: taskState } = task;
