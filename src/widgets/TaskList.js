@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useReducer } from 'react';
 import apiFetch, { useApiFetch } from '../utils/apiFetch';
 import { UCFirst } from '../utils/string';
-import { Stack, Grid, Text, Box } from '@chakra-ui/core';
+import { Stack, Grid, Text, Box, useBreakpointValue } from '@chakra-ui/core';
 
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import TaskCard from './TaskCard';
@@ -30,6 +30,7 @@ const stateShape = Yup.object().shape({
 });
 
 const TaskList = () => {
+  const direction = useBreakpointValue({ base: 'row', md: 'column' });
   const [widgetState, dispatch] = useReducer((state, action) => {
     const makeState = (newState) => {
       const _newState = { ...state, ...newState };
@@ -179,10 +180,6 @@ const TaskList = () => {
     );
   }
 
-  const colWidth = 12;
-  const gapWidth = 1.5;
-  const minWidth = states.length * colWidth + (states.length - 1) * gapWidth;
-
   return (
     <React.Fragment>
       <DragDropContext onDragEnd={(e) => dragEnd(e)} onDragStart={(e) => dragStart(e)}>
@@ -205,14 +202,9 @@ const TaskList = () => {
             </React.Fragment>
           ))}
         </Grid>
-        <Grid
-          width={'100%'}
-          minWidth={`${minWidth}rem`}
-          templateColumns={`repeat(${states.length}, 1fr)`}
-          gap={`${gapWidth}rem`}
-        >
+        <Grid templateColumns={direction == 'row' ? '1' : `repeat(${states.length}, 1fr)`} gap={6}>
           {states.map((state) => (
-            <Stack minWidth={`${colWidth}rem`} key={state}>
+            <Stack key={state}>
               <Text>{UCFirst(state)}</Text>
               <Box height={'100%'}>
                 <Droppable
@@ -228,6 +220,8 @@ const TaskList = () => {
                       border={'1px solid'}
                       borderColor={'gray.300'}
                       height={'100%'}
+                      minHeight={'10vh'}
+                      direction={direction}
                     >
                       {tasks.map((task, index) => {
                         const { id, state: taskState } = task;
