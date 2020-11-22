@@ -1,10 +1,16 @@
-import { Heading } from '@chakra-ui/core';
+import { Heading, Stack } from '@chakra-ui/core';
 import React from 'react';
 import usePageTitle from '../utils/usePageTitle';
+import Test from './Test';
 
 const DashboardSection = () => {
   usePageTitle('Dashboard');
-  return <Heading>Dashboard</Heading>;
+  return (
+    <Stack>
+      <Heading>Dashboard</Heading>
+      <Test />
+    </Stack>
+  );
 };
 
 export default DashboardSection;

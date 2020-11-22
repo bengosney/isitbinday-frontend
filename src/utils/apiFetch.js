@@ -1,9 +1,10 @@
 import { refreshToken, clearAuth } from '../Auth';
 import { useState, useEffect } from 'react';
 
-export const origin = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+//export const origin = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+export const origin = 'http://192.168.1.108:8000';
 
-const _apiFetch = async (url, args = null, method = null) => {
+const _apiFetch = (url, args = null, method = null) => {
   const token = localStorage.getItem('token');
 
   const options =
@@ -24,9 +25,10 @@ const _apiFetch = async (url, args = null, method = null) => {
   if (token != null) {
     options.headers.Authorization = `Bearer ${token}`;
   }
+  //options.mode = 'no-cors';
 
   const cleanUrl = `${url}`.replace(`${origin}/`, '');
-
+  console.log('fetching', `${origin}/${cleanUrl}`, options);
   return fetch(`${origin}/${cleanUrl}`, options);
 };
 
@@ -44,6 +46,10 @@ const apiFetch = async (url, args = null) => {
       console.log('failed refesh');
       clearAuth();
     }
+  }
+
+  if (!res.ok) {
+    return null;
   }
 
   const json = await res.json();
