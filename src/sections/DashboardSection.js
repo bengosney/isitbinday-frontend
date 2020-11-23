@@ -1,7 +1,7 @@
 import { Heading, Stack } from '@chakra-ui/core';
 import React from 'react';
 import usePageTitle from '../utils/usePageTitle';
-import Test from './Test';
+import Test from '../widgets/Test';
 
 const DashboardSection = () => {
   usePageTitle('Dashboard');

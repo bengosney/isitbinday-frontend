@@ -2,7 +2,7 @@ import React from 'react';
 import { useRouteMatch, Route, Switch, useLocation, Link } from 'react-router-dom';
 import Nav from '../widgets/Nav';
 import TaskSection from './TaskSection';
-import { Spacer } from '@chakra-ui/core';
+import { Spacer, Box } from '@chakra-ui/core';
 import DashboardSection from './DashboardSection';
 import SprintSection from './SprintSection';
 
@@ -17,25 +17,47 @@ const PrivateSection = () => {
   const tasksUrl = getUrl('tasks');
   const archivedTasksUrl = getUrl('tasks/archived');
   const sprintsUrl = getUrl('sprints');
+  const groceriesUrl = getUrl('groceries');
 
   const menuItems = [
     { name: 'Dashboard', url: dashboardUrl },
-    { name: 'Tasks', url: tasksUrl },
-    { name: 'Sprints', url: sprintsUrl },
+    {
+      name: 'ToDo',
+      items: [
+        { name: 'Tasks', url: tasksUrl },
+        { name: 'Archive', url: tasksUrl },
+        { name: 'Sprints', url: sprintsUrl },
+      ],
+    },
+    { name: 'Groceries', url: groceriesUrl },
   ];
 
   const { pathname } = useLocation();
 
+  const drawNav = (navItems) => {
+    return navItems.map((i) => {
+      const { items, url, name } = i;
+      if (typeof items != 'undefined') {
+        return (
+          <Box>
+            <Nav.Item as={'div'}>{name}</Nav.Item>
+            <Box>{drawNav(items)}</Box>
+          </Box>
+        );
+      }
+
+      return (
+        <Nav.Item as={Link} key={url} active={pathname.startsWith(url)} to={url}>
+          {name}
+        </Nav.Item>
+      );
+    });
+  };
+
   return (
     <div>
       <Nav>
-        {menuItems.map((i) => {
-          return (
-            <Nav.Item as={Link} key={i.url} active={pathname.startsWith(i.url)} to={i.url}>
-              {i.name}
-            </Nav.Item>
-          );
-        })}
+        {drawNav(menuItems)}
         <Spacer />
         <Nav.Item as={Link} to={'/logout'}>
           Logout
