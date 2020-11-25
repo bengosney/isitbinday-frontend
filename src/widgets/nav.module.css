@@ -1,0 +1,7 @@
+.navBlockInner {
+    display: none;
+}
+
+.navBlock:hover > .navBlockInner {
+    display: block;
+}

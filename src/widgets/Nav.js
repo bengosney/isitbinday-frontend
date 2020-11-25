@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { Box, Flex } from '@chakra-ui/core';
 
+import styles from './nav.module.css';
+
 export const NavItem = ({ children, active = false, ...props }) => (
   <Box mx={1}>
     <div>
@@ -18,13 +20,14 @@ export const NavBlock = ({ navItems, level = 0 }) => {
   return navItems.map((i) => {
     const { items, url, name } = i;
     const key = `${url}-${name}`;
+    console.log(styles);
     if (typeof items != 'undefined') {
       return (
-        <Box key={key} onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)} position={'relative'}>
+        <Box key={key} className={styles.navBlock} position={'relative'}>
           <Nav.Item as={'div'}>{name}</Nav.Item>
           <Box
+            className={styles.navBlockInner}
             position={'absolute'}
-            display={isOpen ? 'block' : 'none'}
             boxShadow={'0px 0px 5px 0px rgba(0,0,0,0.75)'}
             padding={2}
             bg="brand.600"
@@ -37,7 +40,7 @@ export const NavBlock = ({ navItems, level = 0 }) => {
     }
 
     return (
-      <Nav.Item as={Link} key={key} active={pathname.startsWith(url)} to={url}>
+      <Nav.Item className={styles.navItem} as={Link} key={key} active={pathname.startsWith(url)} to={url}>
         {name}
       </Nav.Item>
     );

@@ -5,7 +5,6 @@ import TaskSection from './TaskSection';
 import { Spacer, Box } from '@chakra-ui/core';
 import DashboardSection from './DashboardSection';
 import SprintSection from './SprintSection';
-import navStyles from '../styles/nav.css';
 
 const PrivateSection = () => {
   const { path } = useRouteMatch();
@@ -27,13 +26,6 @@ const PrivateSection = () => {
       items: [
         { name: 'Tasks', url: tasksUrl },
         { name: 'Archive', url: archivedTasksUrl },
-        {
-          name: 'sub test',
-          items: [
-            { name: 'bob', url: 'bob' },
-            { name: 'rat', url: 'rat' },
-          ],
-        },
         { name: 'Sprints', url: sprintsUrl },
       ],
     },
