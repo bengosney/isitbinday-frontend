@@ -5,6 +5,7 @@ import TaskSection from './TaskSection';
 import { Spacer, Box } from '@chakra-ui/core';
 import DashboardSection from './DashboardSection';
 import SprintSection from './SprintSection';
+import GroceriesSection from './GroceriesSection';
 
 const PrivateSection = () => {
   const { path } = useRouteMatch();
@@ -52,6 +53,9 @@ const PrivateSection = () => {
         </Route>
         <Route path={sprintsUrl}>
           <SprintSection />
+        </Route>
+        <Route path={groceriesUrl}>
+          <GroceriesSection />
         </Route>
       </Switch>
     </div>
