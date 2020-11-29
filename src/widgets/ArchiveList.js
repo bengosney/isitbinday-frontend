@@ -20,7 +20,7 @@ const ArchiveList = ({ limit = 25, offset = 0 }) => {
       if (url) {
         newState.url = url;
       } else {
-        newState.url = `api/archived-tasks/?limit=${limit}&offset=${offset}`;
+        newState.url = `api/tasks/archived-tasks/?limit=${limit}&offset=${offset}`;
       }
 
       return newState;
@@ -28,7 +28,7 @@ const ArchiveList = ({ limit = 25, offset = 0 }) => {
     { limit, offset }
   );
 
-  const { url = `api/archived-tasks/?limit=${limit}&offset=${offset}` } = state;
+  const { url = `api/tasks/archived-tasks/?limit=${limit}&offset=${offset}` } = state;
   const data = useApiFetch(url);
 
   if (data === null) {
@@ -43,7 +43,9 @@ const ArchiveList = ({ limit = 25, offset = 0 }) => {
       {archivedTasks.map((task) => {
         return (
           <Box>
-            <Text key={task.id}>{task.title} - {task.previous_state}</Text>
+            <Text key={task.id}>
+              {task.title} - {task.previous_state}
+            </Text>
           </Box>
         );
       })}

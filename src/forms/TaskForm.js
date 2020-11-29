@@ -15,9 +15,9 @@ const TaskForm = ({ details, postSave = null }) => {
         setApiLoading(true);
 
         if (values.id > 0) {
-          await apiFetch(`api/tasks/${values.id}/`, values);
+          await apiFetch(`api/tasks/tasks/${values.id}/`, values);
         } else {
-          await apiFetch('api/tasks/', values);
+          await apiFetch('api/tasks/tasks/', values);
         }
 
         const resetForm = () => {

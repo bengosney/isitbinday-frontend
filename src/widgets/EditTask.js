@@ -4,7 +4,7 @@ import { useApiFetch } from '../utils/apiFetch';
 import Loader from './Loader';
 
 const EditTask = ({ taskID, postSave }) => {
-  const data = useApiFetch(`api/tasks/${taskID}`);
+  const data = useApiFetch(`api/tasks/tasks/${taskID}`);
 
   if (data === null) {
     return <Loader />;

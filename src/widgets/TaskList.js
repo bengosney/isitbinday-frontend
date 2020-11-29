@@ -65,7 +65,7 @@ const TaskList = () => {
   const offset = 0;
   const location = useLocation();
 
-  const data = useApiFetch(`api/tasks/?limit=${limit}&offset=${offset}`, null, `${currentRefreshKey}`);
+  const data = useApiFetch(`api/tasks/tasks/?limit=${limit}&offset=${offset}`, null, `${currentRefreshKey}`);
   useEffect(() => {
     if (data !== null) {
       const { results } = data;
@@ -74,7 +74,7 @@ const TaskList = () => {
     dispatch({ type: 'tasks', data: data?.results || undefined });
   }, [data]);
 
-  const dueDateData = useApiFetch(`api/tasks/due_date_states/`);
+  const dueDateData = useApiFetch(`api/tasks/tasks/due_date_states/`);
   useEffect(() => {
     dispatch({ type: 'dueDateStates', data: dueDateData?.states || [] });
   }, [dueDateData]);
@@ -91,7 +91,7 @@ const TaskList = () => {
     [transitionMap]
   );
 
-  const statesResponse = useApiFetch(`api/tasks/states/`);
+  const statesResponse = useApiFetch(`api/tasks/tasks/states/`);
   useEffect(() => {
     if (statesResponse !== null) {
       const { states: _states = [] } = statesResponse;
@@ -101,7 +101,7 @@ const TaskList = () => {
     }
   }, [statesResponse, mapTransitions]);
 
-  const hiddenStatesResponse = useApiFetch(`api/tasks/hidden_states/`);
+  const hiddenStatesResponse = useApiFetch(`api/tasks/tasks/hidden_states/`);
   useEffect(() => {
     if (hiddenStatesResponse !== null) {
       const { states: _states = [] } = hiddenStatesResponse;
@@ -111,7 +111,7 @@ const TaskList = () => {
     }
   }, [hiddenStatesResponse, mapTransitions]);
 
-  const callAction = (id, action) => apiFetch(`api/tasks/${id}/${action}`).then(() => refresh());
+  const callAction = (id, action) => apiFetch(`api/tasks/tasks/${id}/${action}`).then(() => refresh());
 
   if (tasks === null || typeof tasks == 'undefined') {
     return <div>Loading...</div>;
@@ -135,7 +135,7 @@ const TaskList = () => {
     let pos = 1;
     const positions = items.map((i) => ({ id: i.id, position: pos++ }));
 
-    apiFetch(`api/tasks/position/`, { positions });
+    apiFetch(`api/tasks/tasks/position/`, { positions });
     _dragItem.position = positions
       .filter((i) => i.id === _dragItem.id)
       .map((i) => i.position)
