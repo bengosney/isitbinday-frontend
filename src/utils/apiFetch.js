@@ -35,20 +35,25 @@ const apiFetch = async (url, args = null) => {
 
   let res = await _apiFetch(url, args, method);
   if (res.status === 401) {
-    console.log('trying refresh');
-    const refreshed = await refreshToken();
-    if (refreshed) {
-      console.log('retrying request', url);
-      res = await _apiFetch(url, args, method);
-    } else {
-      console.log('failed refesh');
-      clearAuth();
+    try {
+      const refreshed = await refreshToken();
+      if (refreshed) {
+        res = await _apiFetch(url, args, method);
+      } else {
+        clearAuth();
+      }
+    } catch (e) {
+      window.location.href = '/login';
     }
   }
 
-  const json = await res.json();
+  if (res.status == 200) {
+    const json = await res.json();
 
-  return json;
+    return json;
+  }
+
+  throw new Error('Failed to fetch data', res.status);
 };
 
 export const useApiFetch = (url, args = null, refreshKey = 0) => {

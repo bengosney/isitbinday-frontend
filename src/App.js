@@ -12,11 +12,11 @@ function App() {
   return (
     <ChakraProvider resetCSS theme={customTheme}>
       <Container maxW="xl" borderColor={'gray.100'}>
-        <Auth>
-          <Router>
+        <Router>
+          <Auth>
             <MainAppSection />
-          </Router>
-        </Auth>
+          </Auth>
+        </Router>
       </Container>
     </ChakraProvider>
   );
