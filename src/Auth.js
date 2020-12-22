@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import apiFetch, { origin } from './utils/apiFetch';
+import apiFetch from './utils/apiFetch';
 
 export const authContext = React.createContext({ loggedIn: false });
 
@@ -29,17 +29,13 @@ export const refreshToken = async () => {
 
         clearAuth();
 
-        const res = await fetch(`${origin}/api/token/refresh/`, { refresh });
+        const res = await apiFetch('api/token/refresh/', { refresh });
 
-        if (res.status == 200) {
-          localStorage.setItem('token', res.access);
-          localStorage.setItem('refresh', res.refresh);
+        localStorage.setItem('token', res.access);
+        localStorage.setItem('refresh', res.refresh);
 
-          refreshToken.isRefreshing = false;
-          resolve(true);
-        }
-
-        reject(`Failed to fetch token: ${res.status}`);
+        refreshToken.isRefreshing = false;
+        resolve(true);
       })();
     });
   }
@@ -62,7 +58,7 @@ const Auth = ({ children }) => {
         case ACTION_LOGGEDIN:
           localStorage.setItem('token', action.tokens.access);
           localStorage.setItem('refresh', action.tokens.refresh);
-          apiFetch('api/tasks/tasks/auto_archive/');
+          apiFetch('api/tasks/auto_archive/');
           return { loggedIn: true };
         case ACTION_LOGGEDOUT:
           localStorage.removeItem('token');
