@@ -108,22 +108,14 @@ const AutoRadio = ({ options = [], isChecked, ...props }) => (
   </RadioGroup>
 );
 
-const DateField = ({ value: initalValue = '', ...props }) => {
-  return (
-    <Box className={'DayPickerInputWrapper'}>
-      <DayPickerInput
-        format={'MM/dd/yyyy'}
-        placeholder={''}
-        formatDate={(date, format, local) => {
-          return new Intl.DateTimeFormat('en-GB').format(new Date(date));
-        }}
-        component={React.forwardRef((props, ref) => (
-          <Input display={'block'} ref={ref} {...props} />
-        ))}
-        {...props}
-      />
-    </Box>
-  );
+const DateField = ({ value = '', ...props }) => {
+  if (typeof value == 'object') {
+    const year = `${value.getFullYear()}`;
+    const month = `${value.getMonth() + 1}`.padStart('0');
+    const date = `${value.getDate()}`.padStart('0');
+    value = [year, month, date].join('-');
+  }
+  return <Input type={'date'} format={'DD-MM-YYYY'} value={value} {...props} />;
 };
 
 const BoolField = (props) => (
