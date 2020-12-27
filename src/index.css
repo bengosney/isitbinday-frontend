@@ -13,6 +13,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-#root .DayPickerInput {
-  display: block;
+#root abbr[title] {
+  text-decoration: none;
+  border-bottom: 0.1em dotted;
 }
