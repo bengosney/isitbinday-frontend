@@ -4,8 +4,16 @@ import { MdModeEdit } from 'react-icons/md';
 import { Link, useRouteMatch } from 'react-router-dom';
 
 const TaskCard = ({ task, showDueDate = true }) => {
-  const { id, title, effort, state, due } = task;
+  const { id, title, effort, state, due_date } = task;
   const { path } = useRouteMatch();
+
+  let due = '-';
+  if (due_date) {
+    const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
+    const dateObj = new Date(due_date);
+    const days = Math.floor((dateObj.getTime() - new Date().getTime()) / 8.64e7);
+    due = <abbr title={`${dateObj.toDateString()}`}>{rtf.format(days, 'days')}</abbr>;
+  }
 
   return (
     <>
@@ -15,7 +23,7 @@ const TaskCard = ({ task, showDueDate = true }) => {
           <Stack direction={'row'} justify={'space-between'}>
             <Stack>
               <Text>{`Effort: ${effort || '-'}`}</Text>
-              {showDueDate && <Text>{`Due: ${due || '-'}`}</Text>}
+              {showDueDate && <Text>Due: {due}</Text>}
             </Stack>
             <Link to={`${path}/edit/${id}`.replace('//', '/')}>
               <IconButton colorScheme={'blue'} size={'sm'} aria-label="Edit" icon={<MdModeEdit />} />
