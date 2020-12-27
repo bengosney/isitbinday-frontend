@@ -109,7 +109,7 @@ const AutoRadio = ({ options = [], isChecked, ...props }) => (
 );
 
 const DateField = ({ value = '', ...props }) => {
-  if (typeof value == 'object') {
+  if (typeof value == 'object' && value !== null) {
     const year = `${value.getFullYear()}`;
     const month = `${value.getMonth() + 1}`.padStart('0');
     const date = `${value.getDate()}`.padStart('0');
