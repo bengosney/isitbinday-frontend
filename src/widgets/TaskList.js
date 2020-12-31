@@ -6,6 +6,7 @@ import { Stack, Grid, Text, Box, useBreakpointValue } from '@chakra-ui/core';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import TaskCard from './TaskCard';
 import TaskModalSection from '../sections/TaskModalsSection';
+import Loader from './Loader';
 
 import * as Yup from 'yup';
 import { Redirect, useLocation } from 'react-router-dom';
@@ -114,7 +115,7 @@ const TaskList = () => {
   const callAction = (id, action) => apiFetch(`api/tasks/tasks/${id}/${action}`).then(() => refresh());
 
   if (tasks === null || typeof tasks == 'undefined') {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   const dragEnd = (result) => {
