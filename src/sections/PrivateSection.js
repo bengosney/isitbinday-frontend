@@ -2,6 +2,7 @@ import React from 'react';
 import { useRouteMatch, Route, Switch, useLocation, Link } from 'react-router-dom';
 import Nav from '../widgets/Nav';
 import TaskSection from './TaskSection';
+import ProductSection from './ProductSection';
 import { Spacer } from '@chakra-ui/react';
 import DashboardSection from './DashboardSection';
 import SprintSection from './SprintSection';
@@ -15,12 +16,14 @@ const PrivateSection = () => {
 
   const dashboardUrl = getUrl('');
   const tasksUrl = getUrl('tasks');
+  const productsUrl = getUrl('products');
   const archivedTasksUrl = getUrl('tasks/archived');
   const sprintsUrl = getUrl('sprints');
 
   const menuItems = [
     { name: 'Dashboard', url: dashboardUrl },
     { name: 'Tasks', url: tasksUrl },
+    { name: 'Products', url: productsUrl },
     { name: 'Sprints', url: sprintsUrl },
   ];
 
@@ -47,6 +50,9 @@ const PrivateSection = () => {
         </Route>
         <Route path={tasksUrl}>
           <TaskSection />
+        </Route>
+        <Route path={productsUrl}>
+          <ProductSection />
         </Route>
         <Route path={sprintsUrl}>
           <SprintSection />

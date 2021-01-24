@@ -68,10 +68,6 @@ const TaskList = () => {
 
   const data = useApiFetch(`api/tasks/tasks/?limit=${limit}&offset=${offset}`, null, `${currentRefreshKey}`);
   useEffect(() => {
-    if (data !== null) {
-      const { results } = data;
-      dispatch({ type: 'tasks', data: results });
-    }
     dispatch({ type: 'tasks', data: data?.results || undefined });
   }, [data]);
 
