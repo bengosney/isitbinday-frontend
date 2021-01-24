@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Heading, Stack, Text, Box } from '@chakra-ui/core';
+import { Button, ButtonGroup, Heading, Stack, Text, Box } from '@chakra-ui/react';
 import React, { useReducer } from 'react';
 import { useApiFetch } from '../utils/apiFetch';
 import Loader from './Loader';

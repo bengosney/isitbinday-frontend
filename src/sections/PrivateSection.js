@@ -2,7 +2,7 @@ import React from 'react';
 import { useRouteMatch, Route, Switch, useLocation, Link } from 'react-router-dom';
 import Nav from '../widgets/Nav';
 import TaskSection from './TaskSection';
-import { Spacer } from '@chakra-ui/core';
+import { Spacer } from '@chakra-ui/react';
 import DashboardSection from './DashboardSection';
 import SprintSection from './SprintSection';
 

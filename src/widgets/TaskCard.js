@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Text, Heading, Stack, IconButton } from '@chakra-ui/core';
+import { Box, Text, Heading, Stack, IconButton } from '@chakra-ui/react';
 import { MdModeEdit } from 'react-icons/md';
 import { Link, useRouteMatch } from 'react-router-dom';
 
