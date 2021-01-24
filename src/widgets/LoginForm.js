@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Form } from '../utils/Form';
 import { authContext } from '../Auth';
-import { Heading, Stack, Divider } from '@chakra-ui/core';
+import { Heading, Stack, Divider } from '@chakra-ui/react';
 import * as Yup from 'yup';
 import usePageTitle from '../utils/usePageTitle';
 

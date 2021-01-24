@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useReducer } from 'react';
 import apiFetch, { useApiFetch } from '../utils/apiFetch';
 import { UCFirst } from '../utils/string';
-import { Stack, Grid, Text, Box, useBreakpointValue } from '@chakra-ui/core';
+import { Stack, Grid, Text, Box, useBreakpointValue } from '@chakra-ui/react';
 
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import TaskCard from './TaskCard';

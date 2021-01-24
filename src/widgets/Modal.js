@@ -8,7 +8,7 @@ import {
   ModalBody,
   ModalCloseButton,
   Button,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 
 const Modal = ({ title, showFooter, children, ...props }) => {
   const { onClose } = props;

@@ -16,7 +16,7 @@ import {
   InputRightElement,
   InputLeftAddon,
   InputLeftElement,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import { ToTitleCase } from '../utils/string';
 import ErrorMessage from '../widgets/ErrorMessage';
 import Loader from '../widgets/Loader';

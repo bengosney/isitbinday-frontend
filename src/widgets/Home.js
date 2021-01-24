@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, Heading, Button } from '@chakra-ui/core';
+import { Stack, Heading, Button } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { FcLock } from 'react-icons/fc';
 import usePageTitle from '../utils/usePageTitle';

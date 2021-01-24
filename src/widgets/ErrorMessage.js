@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, AlertIcon, AlertTitle, AlertDescription } from '@chakra-ui/core';
+import { Alert, AlertIcon, AlertTitle, AlertDescription } from '@chakra-ui/react';
 
 const ErrorMessage = ({ title, message, show = true, ...props }) => {
   const empty = (value) => typeof value == 'undefined' || ['', 'undefined'].indexOf(`${value}`) !== -1;

@@ -3,7 +3,7 @@ import { useRouteMatch, Route, Switch, useHistory } from 'react-router-dom';
 import TaskList from '../widgets/TaskList';
 import FAB from '../widgets/FAB';
 import { MdAdd } from 'react-icons/md';
-import { Heading, Stack } from '@chakra-ui/core';
+import { Heading, Stack } from '@chakra-ui/react';
 import ArchiveList from '../widgets/ArchiveList';
 import usePageTitle from '../utils/usePageTitle';
 

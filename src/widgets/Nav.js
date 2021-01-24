@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Flex } from '@chakra-ui/core';
+import { Box, Flex } from '@chakra-ui/react';
 
 export const NavItem = ({ children, active = false, ...props }) => (
   <Box mx={1}>
