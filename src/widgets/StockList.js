@@ -3,9 +3,10 @@ import apiFetch, { useApiFetch } from '../utils/apiFetch';
 import { UCFirst } from '../utils/string';
 import { Stack, Grid, Text, Box, useBreakpointValue } from '@chakra-ui/react';
 
-import StockInput from './StockInput';
+import StockInputList from './StockInputList';
 import * as Yup from 'yup';
 import { Redirect, useLocation } from 'react-router-dom';
+
 
 const stateShape = Yup.object().shape({
   stocks: Yup.array().default([]),
@@ -40,7 +41,11 @@ const StockList = ({ limit = 100, offset = 0 }) => {
   return (
     <>
       <h1>Stock List</h1>
-      <ul>
+      <table>
+        <thead>
+          <tr><th>Qty</th><th>Brand</th><th>Name</th></tr>
+        </thead>
+        <tbody>
         {Object.values(
           stocks.reduce((acc, stock) => {
             const { quantity } = stock;
@@ -51,12 +56,15 @@ const StockList = ({ limit = 100, offset = 0 }) => {
             return acc;
           }, {})
         ).map((stock) => (
-          <li key={stock.id}>
-            {stock.quantity} - {stock.product.name} - {stock.product.code}
-          </li>
+          <tr key={stock.id}>
+            <td>{stock.quantity}</td>
+            <td>{stock.product.brand.name}</td>
+            <td>{stock.product.name}</td>
+          </tr>
         ))}
-      </ul>
-      <StockInput />
+        </tbody>
+      </table>
+      <StockInputList />
     </>
   );
 };

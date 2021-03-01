@@ -3,12 +3,13 @@ import { useRouteMatch, Route, Switch, useLocation, Link } from 'react-router-do
 import Nav from '../widgets/Nav';
 import TaskSection from './TaskSection';
 import ProductSection from './ProductSection';
-import { Spacer } from '@chakra-ui/react';
+import { Spacer, useColorMode, Switch as FormSwitch } from '@chakra-ui/react';
 import DashboardSection from './DashboardSection';
 import SprintSection from './SprintSection';
 
 const PrivateSection = () => {
   const { path } = useRouteMatch();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   const getUrl = (slug) => {
     return `${path}/${slug}`.replace('//', '/');
@@ -40,6 +41,9 @@ const PrivateSection = () => {
           );
         })}
         <Spacer />
+        <Nav.Item>
+          <FormSwitch isChecked={colorMode === "dark"} onChange={() => toggleColorMode()} />
+        </Nav.Item>
         <Nav.Item as={Link} to={'/logout'}>
           Logout
         </Nav.Item>

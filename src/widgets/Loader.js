@@ -2,6 +2,13 @@ import React from 'react';
 import { Box, Spinner, Text, VStack } from '@chakra-ui/react';
 
 const Loader = ({ loading = true, content = 'Loading', children = false }) => {
+  const spinner = (
+    <VStack>
+      <Spinner />
+      <Text>{content}</Text>
+    </VStack>
+  );
+
   if (children) {
     return (
       <Box position={'relative'}>
@@ -18,22 +25,14 @@ const Loader = ({ loading = true, content = 'Loading', children = false }) => {
             justifyContent={'center'}
             alignItems={'center'}
           >
-            <VStack>
-              <Spinner />
-              <Text>{content}</Text>
-            </VStack>
+            {spinner}
           </Box>
         )}
       </Box>
     );
   }
 
-  return loading ? (
-    <VStack>
-      <Spinner />
-      <Text>{content}</Text>
-    </VStack>
-  ) : null;
+  return loading ? spinner : null;
 };
 
 export default Loader;

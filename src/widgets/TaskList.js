@@ -162,7 +162,7 @@ const TaskList = () => {
       return 'blue.300';
     }
 
-    return 'white';
+    return '';
   };
 
   if (tasks.length === 0) {
