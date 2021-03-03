@@ -7,6 +7,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import TaskCard from './TaskCard';
 import TaskModalSection from '../sections/TaskModalsSection';
 import Loader from './Loader';
+import Notification from './Notifications';
 
 import * as Yup from 'yup';
 import { Redirect, useLocation } from 'react-router-dom';
@@ -183,6 +184,7 @@ const TaskList = () => {
 
   return (
     <React.Fragment>
+      <Notification />
       <DragDropContext onDragEnd={(e) => dragEnd(e)} onDragStart={(e) => dragStart(e)}>
         <Grid>
           {hiddenStates.map((state) => (
