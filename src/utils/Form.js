@@ -50,7 +50,7 @@ const Field = ({ as, children, processor, label = null, showLabel = true, ...pro
         {showLabel ? (
           <Text as="label" htmlFor={name}>
             {_label}
-            {errors}
+            {_error && errors}
           </Text>
         ) : null}
         {element}
@@ -130,6 +130,7 @@ const BoolField = (props) => (
 
 const FancyInput = React.forwardRef((props, ref) => {
   const { leftAddon, rightAddon, leftElement, rightElement, left, right, ...rest } = props;
+  //rest.value = (typeof rest.value === 'undefined' ? '' : rest.value);
   return (
     <InputGroup>
       {left}
@@ -179,6 +180,15 @@ export const Form = ({
     const { fields } = description;
 
     initialValues = validationSchema.cast(initialValues, { stripUnknown: true });
+    initialValues = Object.keys(fields).reduce((iv, f) => {
+      if (typeof initialValues[f] == 'undefined' || initialValues[f] == null) {
+        iv[f] = '';
+      } else {
+        iv[f] = initialValues[f];
+      }
+
+      return iv;
+    }, {});
     Object.keys(fields).map((key) => (!(key in initialValues) ? (initialValues[key] = undefined) : null));
   }
 
