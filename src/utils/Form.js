@@ -50,7 +50,7 @@ const Field = ({ as, children, processor, label = null, showLabel = true, ...pro
         {showLabel ? (
           <Text as="label" htmlFor={name}>
             {_label}
-            {errors}
+            {_error && errors}
           </Text>
         ) : null}
         {element}
@@ -130,6 +130,7 @@ const BoolField = (props) => (
 
 const FancyInput = React.forwardRef((props, ref) => {
   const { leftAddon, rightAddon, leftElement, rightElement, left, right, ...rest } = props;
+  //rest.value = (typeof rest.value === 'undefined' ? '' : rest.value);
   return (
     <InputGroup>
       {left}
@@ -171,6 +172,7 @@ export const Form = ({
   loading = false,
   initialValues = {},
   validationSchema = null,
+  validateOnChange = false,
   ...props
 }) => {
   if (validationSchema !== null) {
@@ -178,15 +180,33 @@ export const Form = ({
     const { fields } = description;
 
     initialValues = validationSchema.cast(initialValues, { stripUnknown: true });
+    initialValues = Object.keys(fields).reduce((iv, f) => {
+      if (typeof initialValues[f] == 'undefined' || initialValues[f] == null) {
+        iv[f] = '';
+      } else {
+        iv[f] = initialValues[f];
+      }
+
+      return iv;
+    }, {});
     Object.keys(fields).map((key) => (!(key in initialValues) ? (initialValues[key] = undefined) : null));
   }
+
+  props.validateOnChange = validateOnChange;
 
   return (
     <Formik validationSchema={validationSchema} initialValues={initialValues} {...props}>
       {(props) => {
-        const { isSubmitting, isValidating, errors, touched } = props;
-        const error = touched && Object.values(errors).join(', ');
+        const { isSubmitting, isValidating, errors, touched, dirty, ...rest } = props;
+        const touchedErrors = Object.keys(errors).reduce((errs, e) => {
+          if (Object.keys(touched).includes(e)) {
+            errs[e] = errors[e];
+          }
+          return errs;
+        }, {});
 
+        const error = dirty ? Object.values(touchedErrors).join(', ') : '';
+        
         return (
           <Loader loading={isSubmitting || isValidating || loading} content={loading || 'Saving'}>
             <ErrorMessage title={'There was an issue saving details'} message={`${error}`} />

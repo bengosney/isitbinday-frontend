@@ -9,6 +9,7 @@ import PrivateSection from '../sections/PrivateSection';
 import LoginForm from '../widgets/LoginForm';
 import Logout from '../widgets/Logout';
 import Home from '../widgets/Home';
+import RegisterSection from './RegisterSection';
 
 const MainAppSection = () => {
   const { pathname } = useLocation();
@@ -19,8 +20,11 @@ const MainAppSection = () => {
       <Route exact path="/">
         <Home />
       </Route>
-      <PublicRoute path="/login">
+      <PublicRoute path={["/login/:action", "/login"]}>
         <LoginForm />
+      </PublicRoute>
+      <PublicRoute path="/register">
+        <RegisterSection />
       </PublicRoute>
       <PrivateRoute path="/iibd">
         <PrivateSection />
