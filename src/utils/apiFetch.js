@@ -151,6 +151,9 @@ const apiFetch = async (url, args = null) => {
     } else {
       clearAuth();
     }
+  } 
+  if (res.status > 299) {
+    throw new Error('Error!');
   }
 
   const json = await res.json();
