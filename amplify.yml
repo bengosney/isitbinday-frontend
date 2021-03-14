@@ -4,6 +4,7 @@ frontend:
     preBuild:
       commands:
         - yarn install
+        - sed -i "s/%%date%%/$(date '+%Y%m%d.%H%M')/g" src/config.js
     build:
       commands:
         - yarn run build
