@@ -20,6 +20,9 @@ const TaskForm = ({ details, postSave = null }) => {
           const date = `${due_date.getDate()}`.padStart('0');
           values.due_date = [year, month, date].join('-');
         }
+        if (values.due_date == "") {
+          values.due_date = null;
+        }
 
         if (values.id > 0) {
           await apiFetch(`api/tasks/tasks/${values.id}/`, values);
