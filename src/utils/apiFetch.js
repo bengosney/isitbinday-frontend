@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
+import {getConfig} from '../config';
 
-export const origin = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+export const origin = process.env.REACT_APP_API_URL || getConfig('api_origin', 'http://localhost:8000');
 
 const setLocalStorage = (key, value) => {
   localStorage.setItem(key, value);
@@ -151,9 +152,9 @@ const apiFetch = async (url, args = null) => {
     } else {
       clearAuth();
     }
-  } 
+  }
   if (res.status > 299) {
-    throw new Error('Error!');
+    throw new Error(`Error: ${res.status}`);
   }
 
   const json = await res.json();
