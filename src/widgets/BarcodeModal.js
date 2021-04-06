@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import BarcodeScannerComponent from 'react-webcam-barcode-scanner';
-import BarcodeReader from 'react-barcode-reader';
 import Modal from './Modal';
 
 import { Box } from '@chakra-ui/layout';
