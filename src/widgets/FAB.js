@@ -9,7 +9,8 @@ const FAB = ({ children, ...props }) => {
         position={'fixed'}
         bottom={'1rem'}
         right={'1rem'}
-        fontSize={'3rem'}
+        fontSize={'2.5rem'}
+        padding={'.5rem'}
         color={'white'}
         background={'brand.500'}
         borderRadius={'50%'}
