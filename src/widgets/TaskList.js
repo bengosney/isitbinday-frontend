@@ -233,7 +233,7 @@ const TaskList = () => {
                           <Draggable key={id} draggableId={`${id}`} index={index}>
                             {(provided, snapshot) => (
                               <Box ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                <TaskCard task={task} showDueDate={dueDateStates.includes(state)} />
+                                <TaskCard task={task} showDueDate={dueDateStates.includes(state)} onSateChange={() => refresh()} />
                               </Box>
                             )}
                           </Draggable>
