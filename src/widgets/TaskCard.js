@@ -8,7 +8,7 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }) => {
   const { id, title, effort, state, due_date, available_state_transitions } = task;
   const { path } = useRouteMatch();
 
-  let due = '-';
+  let due = null;
   if (due_date) {
     const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
     const dateObj = new Date(due_date);
@@ -22,13 +22,12 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }) => {
 
   return (
     <>
-      <Box key={`${state}-${id}`} border="1px solid lightgray" padding={5} background={'gray.50'}>
+      <Box key={`${state}-${id}`} border="1px solid lightgray" padding={4} background={'gray.50'}>
         <Stack>
           <Stack direction={'row'} justify={'space-between'}>
             <Stack>
               <Heading fontSize={'1em'}>{title}</Heading>
-              <Text>{`Effort: ${effort || '-'}`}</Text>
-              {showDueDate && <Text>Due: {due}</Text>}
+              {(showDueDate && due) && <Text>Due: {due}</Text>}
             </Stack>
             <Stack>
               <Link to={`${path}/edit/${id}`.replace('//', '/')}>
