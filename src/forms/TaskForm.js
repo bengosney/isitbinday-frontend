@@ -45,8 +45,10 @@ const TaskForm = ({ details, postSave = null }) => {
       <Form.Input name="title" />
       <Form.DateField name="due_date" />
       <Form.Input name="repeats" />
-      <Form.Input display="none" name="effort" />
-      <Form.Input display="none" name="blocked_by" />
+      <div style={{display: 'none'}}>
+        <Form.Input name="effort" />
+        <Form.Input name="blocked_by" />
+      </div>
       <Form.Button type={'submit'}>Save</Form.Button>
     </Form>
   );
