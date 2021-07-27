@@ -20,7 +20,7 @@ const TaskForm = ({ details, postSave = null }) => {
           const date = `${due_date.getDate()}`.padStart('0');
           values.due_date = [year, month, date].join('-');
         }
-        if (values.due_date == "") {
+        if (values.due_date == '') {
           values.due_date = null;
         }
 
@@ -45,7 +45,7 @@ const TaskForm = ({ details, postSave = null }) => {
       <Form.Input name="title" />
       <Form.DateField name="due_date" />
       <Form.Input name="repeats" />
-      <div style={{display: 'none'}}>
+      <div style={{ display: 'none' }}>
         <Form.Input name="effort" />
         <Form.Input name="blocked_by" />
       </div>

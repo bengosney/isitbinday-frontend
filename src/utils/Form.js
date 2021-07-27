@@ -206,7 +206,7 @@ export const Form = ({
         }, {});
 
         const error = dirty ? Object.values(touchedErrors).join(', ') : '';
-        
+
         return (
           <Loader loading={isSubmitting || isValidating || loading} content={loading || 'Saving'}>
             <ErrorMessage title={'There was an issue saving details'} message={`${error}`} />

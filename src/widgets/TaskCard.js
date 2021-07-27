@@ -27,7 +27,7 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }) => {
           <Stack direction={'row'} justify={'space-between'}>
             <Stack>
               <Heading fontSize={'1em'}>{title}</Heading>
-              {(showDueDate && due) && <Text>Due: {due}</Text>}
+              {showDueDate && due && <Text>Due: {due}</Text>}
             </Stack>
             <Stack>
               <Link to={`${path}/edit/${id}`.replace('//', '/')}>

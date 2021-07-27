@@ -49,16 +49,8 @@ const TaskList = () => {
     }
   }, stateShape.cast({}));
 
-  const {
-    states,
-    hiddenStates,
-    tasks,
-    transitionMap,
-    droppableStates,
-    dragItem,
-    currentRefreshKey,
-    dueDateStates,
-  } = widgetState;
+  const { states, hiddenStates, tasks, transitionMap, droppableStates, dragItem, currentRefreshKey, dueDateStates } =
+    widgetState;
 
   const refresh = () => dispatch({ type: 'currentRefreshKey', data: currentRefreshKey + 1 });
 
@@ -233,7 +225,11 @@ const TaskList = () => {
                           <Draggable key={id} draggableId={`${id}`} index={index}>
                             {(provided, snapshot) => (
                               <Box ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                <TaskCard task={task} showDueDate={dueDateStates.includes(state)} onSateChange={() => refresh()} />
+                                <TaskCard
+                                  task={task}
+                                  showDueDate={dueDateStates.includes(state)}
+                                  onSateChange={() => refresh()}
+                                />
                               </Box>
                             )}
                           </Draggable>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import {getConfig} from '../config';
+import { getConfig } from '../config';
 
 import { db } from '../db';
 
@@ -136,18 +136,18 @@ const getOptions = (args = null, method = null) => {
 };
 
 async function sha256(message) {
-  const msgBuffer = new TextEncoder().encode(message);                    
+  const msgBuffer = new TextEncoder().encode(message);
   const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
-  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  const hashHex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
 
   return hashHex;
 }
 
 const makeKey = async (url, args) => {
   const data = `${url}:${JSON.stringify(args)}`;
- return await sha256(data);
-}
+  return await sha256(data);
+};
 
 const apiFetch = async (url, args = null) => {
   const method = parseInt(args?.id || 0) > 0 ? 'put' : null;
@@ -177,7 +177,7 @@ const apiFetch = async (url, args = null) => {
 
   const key = await makeKey(url, args);
 
-  db.put({_id: key, data: json});
+  db.put({ _id: key, data: json });
 
   return json;
 };

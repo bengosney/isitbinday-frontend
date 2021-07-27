@@ -8,7 +8,6 @@ import usePageTitle from '../utils/usePageTitle';
 
 import BookModalSection from './BookModalSection';
 
-
 const BookSection = () => {
   usePageTitle('Library');
   const { path } = useRouteMatch();
