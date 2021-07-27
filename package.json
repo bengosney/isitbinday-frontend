@@ -13,6 +13,7 @@
     "framer-motion": ">=3.0.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.13",
+    "pouchdb-browser": "^7.2.2",
     "prettier": "^2.1.1",
     "react": "^16.13.1",
     "react-beautiful-dnd": "^13.0.0",
@@ -24,6 +25,7 @@
     "react-webcam-barcode-scanner": "^0.0.2-rc2",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^1.2.1",
+    "use-pouchdb": "^1.3.0",
     "yup": "^0.29.3"
   },
   "scripts": {
