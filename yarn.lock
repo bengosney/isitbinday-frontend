@@ -6242,6 +6242,11 @@
   "resolved" "https://registry.npmjs.org/ignore/-/ignore-4.0.6.tgz"
   "version" "4.0.6"
 
+"immediate@~3.0.5":
+  "integrity" "sha1-nbHb0Pr43m++D13V5Wu2BigN5ps="
+  "resolved" "https://registry.npmjs.org/immediate/-/immediate-3.0.6.tgz"
+  "version" "3.0.6"
+
 "immediate@3.3.0":
   "integrity" "sha512-HR7EVodfFUdQCTIeySw+WDRFJlPcLOJbXfwwZ7Oom6tjsvZ3bOkCDJHehQC3nxJrv7+f9XecwazynjU8e4Vw3Q=="
   "resolved" "https://registry.npmjs.org/immediate/-/immediate-3.3.0.tgz"
@@ -7477,6 +7482,13 @@
   dependencies:
     "prelude-ls" "~1.1.2"
     "type-check" "~0.3.2"
+
+"lie@3.1.1":
+  "integrity" "sha1-mkNrLMd0bKWd56QfpGmz77dr2H4="
+  "resolved" "https://registry.npmjs.org/lie/-/lie-3.1.1.tgz"
+  "version" "3.1.1"
+  dependencies:
+    "immediate" "~3.0.5"
 
 "lines-and-columns@^1.1.6":
   "integrity" "sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA="
@@ -9572,6 +9584,13 @@
   "resolved" "https://registry.npmjs.org/pouchdb-merge/-/pouchdb-merge-7.2.2.tgz"
   "version" "7.2.2"
 
+"pouchdb-promise@^6.1.2":
+  "integrity" "sha512-ruJaSFXwzsxRHQfwNHjQfsj58LBOY1RzGzde4PM5CWINZwFjCQAhZwfMrch2o/0oZT6d+Xtt0HTWhq35p3b0qw=="
+  "resolved" "https://registry.npmjs.org/pouchdb-promise/-/pouchdb-promise-6.4.3.tgz"
+  "version" "6.4.3"
+  dependencies:
+    "lie" "3.1.1"
+
 "pouchdb-selector-core@7.2.2":
   "integrity" "sha512-XYKCNv9oiNmSXV5+CgR9pkEkTFqxQGWplnVhO3W9P154H08lU0ZoNH02+uf+NjZ2kjse7Q1fxV4r401LEcGMMg=="
   "resolved" "https://registry.npmjs.org/pouchdb-selector-core/-/pouchdb-selector-core-7.2.2.tgz"
@@ -9579,6 +9598,13 @@
   dependencies:
     "pouchdb-collate" "7.2.2"
     "pouchdb-utils" "7.2.2"
+
+"pouchdb-upsert@^2.2.0":
+  "integrity" "sha1-QrFeQghI87KUw1BgWJ/bUc9/f18="
+  "resolved" "https://registry.npmjs.org/pouchdb-upsert/-/pouchdb-upsert-2.2.0.tgz"
+  "version" "2.2.0"
+  dependencies:
+    "pouchdb-promise" "^6.1.2"
 
 "pouchdb-utils@^7.2.2", "pouchdb-utils@7.2.2":
   "integrity" "sha512-XmeM5ioB4KCfyB2MGZXu1Bb2xkElNwF1qG+zVFbQsKQij0zvepdOUfGuWvLRHxTOmt4muIuSOmWZObZa3NOgzQ=="

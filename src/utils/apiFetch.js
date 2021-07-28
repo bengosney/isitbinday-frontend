@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useDoc } from 'use-pouchdb'
+
 import { getConfig } from '../config';
 
 import { db } from '../db';
@@ -144,9 +146,11 @@ async function sha256(message) {
   return hashHex;
 }
 
-const makeKey = async (url, args) => {
+export const makeKey = async (url, args) => {
   const data = `${url}:${JSON.stringify(args)}`;
-  return await sha256(data);
+  const hash = await sha256(data);
+
+  return `${hash}`.substr(0, 10);
 };
 
 const apiFetch = async (url, args = null) => {
@@ -173,21 +177,42 @@ const apiFetch = async (url, args = null) => {
     throw new Error(`Error: ${res.status}`);
   }
 
-  const json = await res.json();
-
-  const key = await makeKey(url, args);
-
-  db.put({ _id: key, data: json });
-
-  return json;
+  return await res.json();
 };
 
-export const useApiFetch = (url, args = null, refreshKey = 0) => {
+export const useApiFetch = (url, args = null, refreshKey = 0, key = null) => {
+  const [localResponse, setLocalResponse] = useState(null);
+  const [apiResponse, setApiResponse] = useState(null);
   const [response, setResponse] = useState(null);
+  const [_key, setKey] = useState(null);
 
   useEffect(() => {
-    apiFetch(url, args).then((res) => setResponse(res));
+    if (_key !== null && response != null) {
+      db.upsert(`${_key}`, () => ({ data: response }));
+    }
+  }, [response, _key]);
+
+  useEffect(() => {
+    if (key !== null) {
+      setKey(key);
+    } else {
+      makeKey(url, key).then((k) => setKey(k));
+    }
+  }, [key, url, args]);
+  
+  useEffect(() => {
+    if (_key !== null) {
+      db.get(`${_key}`).then(({data}) => setLocalResponse(data));
+    }
+  }, [_key]);
+
+  useEffect(() => {
+    apiFetch(url, args,).then((res) => setApiResponse(res));
   }, [url, args, refreshKey]);
+
+  useEffect(() => {
+    setResponse(apiResponse || localResponse);
+  }, [apiResponse, localResponse]);
 
   if (typeof response === 'undefined') {
     return null;
