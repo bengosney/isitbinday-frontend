@@ -18,9 +18,7 @@ const BookList = () => {
               <ListIcon as={BiBook} color="green.500" />
               {book.title}
             </Text>
-            <Text fontSize="sm">
-              {book.authors.map((author) => author.name).join(', ')}
-            </Text>
+            <Text fontSize="sm">{book.authors.map((author) => author.name).join(', ')}</Text>
           </ListItem>
         ))}
       </List>

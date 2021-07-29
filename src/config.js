@@ -1,7 +1,7 @@
 const dev = {
   service_worker: false,
   build: 'dev',
-  api_origin: 'http://192.168.1.108:8000',
+  api_origin: 'http://10.0.0.32:8000',
 };
 
 const prod = {

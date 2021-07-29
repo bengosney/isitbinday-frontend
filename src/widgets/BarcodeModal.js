@@ -14,15 +14,19 @@ const BarcodeModal = ({ onScan, onClose, ...rest }) => {
     }
   };
 
-  return (<Modal isOpen={true}>
-    {scanning && <BarcodeScannerComponent
+  return (
+    <Modal isOpen={true}>
+      {scanning && (
+        <BarcodeScannerComponent
           onUpdate={(err, result) => {
             if (result) {
               onScan(result.text);
             }
           }}
-        />}
-  </Modal>);
+        />
+      )}
+    </Modal>
+  );
 };
 
 export default BarcodeModal;

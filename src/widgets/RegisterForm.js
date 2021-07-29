@@ -13,10 +13,7 @@ const registerSchema = Yup.object().shape({
   /*.matches(
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
       'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character'
-    )*/ passwordConfirmation: Yup.string().oneOf(
-    [Yup.ref('password'), null],
-    'Passwords must match'
-  ),
+    )*/ passwordConfirmation: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match'),
   firstName: Yup.string().required('First name is required'),
   lastName: Yup.string().required('Last name is required').ensure(),
 });

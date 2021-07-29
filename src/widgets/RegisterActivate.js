@@ -13,7 +13,7 @@ const RegisterActivate = () => {
     if (!email) {
       setError(!email);
     } else {
-        history.replace('/login/activated');
+      history.replace('/login/activated');
     }
   });
 

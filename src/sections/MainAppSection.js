@@ -1,4 +1,4 @@
-import React , {useEffect} from 'react';
+import React, { useEffect } from 'react';
 
 import { Switch, Route, useLocation, Redirect } from 'react-router-dom';
 
@@ -31,7 +31,7 @@ const MainAppSection = () => {
       <Route exact path="/">
         <Home />
       </Route>
-      <PublicRoute path={["/login/:action", "/login"]}>
+      <PublicRoute path={['/login/:action', '/login']}>
         <LoginForm />
       </PublicRoute>
       <PublicRoute path="/register">
