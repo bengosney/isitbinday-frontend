@@ -1,11 +1,11 @@
 import React from 'react';
-import { Box, Text, Heading, Stack, IconButton } from '@chakra-ui/react';
+import { Box, Text, Heading, Stack, IconButton, Badge } from '@chakra-ui/react';
 import { MdModeEdit, MdDone } from 'react-icons/md';
 import apiFetch from '../utils/apiFetch';
 import { Link, useRouteMatch } from 'react-router-dom';
 
 const TaskCard = ({ task, showDueDate = true, onSateChange = null }) => {
-  const { id, title, effort, state, due_date, available_state_transitions } = task;
+  const { id, title, state, due_date, available_state_transitions, tags } = task;
   const { path } = useRouteMatch();
 
   let due = null;
@@ -28,6 +28,9 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }) => {
             <Stack>
               <Heading fontSize={'1em'}>{title}</Heading>
               {showDueDate && due && <Text>Due: {due}</Text>}
+              <Stack direction={'row'}>
+                {tags.map(tag => <Badge key={tag}>{tag}</Badge>)}
+              </Stack>
             </Stack>
             <Stack>
               <Link to={`${path}/edit/${id}`.replace('//', '/')}>
