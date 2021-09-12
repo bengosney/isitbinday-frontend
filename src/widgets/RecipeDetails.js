@@ -22,14 +22,16 @@ const RecipeDetails = () => {
         <Thead>
           <Tr>
             <Th>Ingredient</Th>
-            <Th>Amount</Th>
+            <Th>Quantity</Th>
+            <Th>Unit</Th>
           </Tr>
         </Thead>
         <Tbody>
           {details.ingredients.map((ingredient) => (
             <Tr key={ingredient.id}>
               <Td>{ingredient.name}</Td>
-              <Td>{ingredient.qty}</Td>
+              <Td>{Math.floor(ingredient.quantity_metric)}</Td>
+              <Td>{ingredient.quantity_metric_unit}</Td>
             </Tr>
           ))}
         </Tbody>
