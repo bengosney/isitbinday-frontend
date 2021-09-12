@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useReducer } from 'react';
 import apiFetch, { useApiFetch } from '../utils/apiFetch';
-import { List, ListItem, ListIcon, OrderedList, UnorderedList, Text } from '@chakra-ui/react';
-import { Table, Tbody, Tr, Th, Td, TableCaption, Thead } from '@chakra-ui/react';
+import { Stack, ListItem, ListIcon, OrderedList, Heading, Text, Box } from '@chakra-ui/react';
+import { Table, Tbody, Tr, Th, Td, Thead } from '@chakra-ui/react';
 import { BiFoodMenu, BiUser } from 'react-icons/bi';
 import { useRouteMatch, Route, Switch, useHistory, useParams, Link } from 'react-router-dom';
 
@@ -12,36 +12,55 @@ const RecipeDetails = () => {
   if (details === null) {
     return <div>Loading...</div>;
   }
-  console.log('details', details);
-  return (
-    <div>
-      <h1>{details.name}</h1>
-      <div>{details.description}</div>
 
-      <Table>
-        <Thead>
-          <Tr>
-            <Th>Ingredient</Th>
-            <Th>Quantity</Th>
-            <Th>Unit</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {details.ingredients.map((ingredient) => (
-            <Tr key={ingredient.id}>
-              <Td>{ingredient.name}</Td>
-              <Td>{Math.floor(ingredient.quantity_metric)}</Td>
-              <Td>{ingredient.quantity_metric_unit}</Td>
+  const SubHeading = ({ children, ...props }) => (
+    <Heading as="h3" size="md" paddingBottom="3" {...props}>
+      {children}
+    </Heading>
+  );
+
+  const Section = ({ children, ...props }) => (
+    <Box paddingTop="5" {...props}>
+      {children}
+    </Box>
+  );
+
+  return (
+    <Stack>
+      <Heading>{details.name}</Heading>
+      <Text>{details.description}</Text>
+
+      <Section>
+        <SubHeading>Ingredients</SubHeading>
+        <Table>
+          <Thead>
+            <Tr>
+              <Th>Ingredient</Th>
+              <Th>Quantity</Th>
+              <Th>Unit</Th>
             </Tr>
+          </Thead>
+          <Tbody>
+            {details.ingredients.map((ingredient) => (
+              <Tr key={ingredient.id}>
+                <Td>{ingredient.name}</Td>
+                <Td>{Math.floor(ingredient.quantity_metric)}</Td>
+                <Td>{ingredient.quantity_metric_unit}</Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </Section>
+
+      <Section>
+        <SubHeading>Instructions</SubHeading>
+        <OrderedList>
+          {details.steps.map((step) => (
+            <ListItem paddingBottom="2" key={step.id}>{step.description}</ListItem>
           ))}
-        </Tbody>
-      </Table>
-      <ol>
-        {details.steps.map((step) => (
-          <li key={step.id}>{step.description}</li>
-        ))}
-      </ol>
-    </div>
+        </OrderedList>
+      </Section>
+    </Stack>
   );
 };
 
