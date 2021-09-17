@@ -7,6 +7,7 @@ import { Heading, Stack } from '@chakra-ui/react';
 import usePageTitle from '../utils/usePageTitle';
 import RecipeList from '../widgets/RecipeList';
 import RecipeDetails from '../widgets/RecipeDetails';
+import RecipeForm from '../widgets/RecipeForm';
 
 const RecipeSection = () => {
   usePageTitle('Recipes');
@@ -19,7 +20,6 @@ const RecipeSection = () => {
   const listUrl = getUrl('');
   const viewUrl = getUrl('/:slug');
   const addUrl = getUrl('add');
-  const newUrl = getUrl('new');
 
   const history = useHistory();
 
@@ -27,6 +27,9 @@ const RecipeSection = () => {
     <React.Fragment>
       <Heading>Recipes</Heading>
       <Switch>
+        <Route path={addUrl}>
+          <RecipeForm />
+        </Route>
         <Route path={viewUrl}>
             <Stack my={6}>
                 <RecipeDetails />

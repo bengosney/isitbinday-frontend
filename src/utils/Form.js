@@ -25,9 +25,8 @@ import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 import './Form.css';
 
-const Field = ({ as, children, processor, label = null, showLabel = true, ...props }) => {
-  const [field, meta] = useField(props);
-  const { name } = props;
+const Field = ({ as, children, processor, name, label = null, showLabel = true, ...props }) => {
+  const [field, meta] = useField(Object.assign(props, { name }));
   const { error = null, touched } = meta;
   const _error = touched && error;
   const _label = label || ToTitleCase(name || 'broken');
@@ -43,6 +42,7 @@ const Field = ({ as, children, processor, label = null, showLabel = true, ...pro
   const element = React.createElement(as, _processor(newProps), children);
 
   const errors = error !== null ? <Text as="span">{` - ${error}`}</Text> : '';
+  console.log('field stuff', field, props);
 
   return (
     <Stack>
@@ -128,10 +128,8 @@ const BoolField = (props) => (
   />
 );
 
-const FancyInput = React.forwardRef((props, ref) => {
-  const { leftAddon, rightAddon, leftElement, rightElement, left, right, ...rest } = props;
-  //rest.value = (typeof rest.value === 'undefined' ? '' : rest.value);
-  return (
+const FancyInput = React.forwardRef(
+  ({ leftAddon, rightAddon, leftElement, rightElement, left, right, ...rest }, ref) => (
     <InputGroup>
       {left}
       {leftAddon && <InputLeftAddon>{leftAddon}</InputLeftAddon>}
@@ -141,8 +139,8 @@ const FancyInput = React.forwardRef((props, ref) => {
       {rightAddon && <InputRightAddon children={rightAddon} />}
       {right}
     </InputGroup>
-  );
-});
+  )
+);
 
 const FormField = (props) => <Field as={Input} {...props} />;
 const FormButton = (props) => <FormikField as={Button} {...props} />;
@@ -196,8 +194,7 @@ export const Form = ({
 
   return (
     <Formik validationSchema={validationSchema} initialValues={initialValues} {...props}>
-      {(props) => {
-        const { isSubmitting, isValidating, errors, touched, dirty, ...rest } = props;
+      {({ isSubmitting, isValidating, errors, touched, dirty, ...rest }) => {
         const touchedErrors = Object.keys(errors).reduce((errs, e) => {
           if (Object.keys(touched).includes(e)) {
             errs[e] = errors[e];
@@ -206,11 +203,12 @@ export const Form = ({
         }, {});
 
         const error = dirty ? Object.values(touchedErrors).join(', ') : '';
+        console.log('formik', rest, typeof children);
 
         return (
           <Loader loading={isSubmitting || isValidating || loading} content={loading || 'Saving'}>
             <ErrorMessage title={'There was an issue saving details'} message={`${error}`} />
-            <InnerForm>{typeof children === 'function' ? children(props) : children}</InnerForm>
+            <InnerForm>{typeof children === 'function' ? children(props, rest) : children}</InnerForm>
           </Loader>
         );
       }}
