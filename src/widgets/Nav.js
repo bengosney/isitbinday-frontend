@@ -12,9 +12,11 @@ export const NavItem = ({ children, active = false, ...props }) => (
 );
 
 const Nav = ({ children, ...props }) => (
-  <Flex as="nav" align="center" padding={2} bg="brand.600" color="white" {...props}>
-    {children}
-  </Flex>
+  <Box overflowX={'auto'} bg="brand.600">
+    <Flex as="nav" align="center" padding={2} color="white" {...props}>
+      {children}
+    </Flex>
+  </Box>
 );
 
 Nav.Item = NavItem;
