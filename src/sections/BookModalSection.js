@@ -28,7 +28,7 @@ const BookModalSection = () => {
     apiFetch(`api/books/book/lookup/${data}/`)
       .then(() => close())
       .catch((err) => {
-        console.log('scanning error', err);
+        //console.log('scanning error', err);
         close();
       });
   };

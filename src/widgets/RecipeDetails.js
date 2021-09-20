@@ -30,36 +30,40 @@ const RecipeDetails = () => {
       <Heading>{details.name}</Heading>
       <Text>{details.description}</Text>
 
-      <Section>
-        <SubHeading>Ingredients</SubHeading>
-        <Table>
-          <Thead>
-            <Tr>
-              <Th>Ingredient</Th>
-              <Th>Quantity</Th>
-              <Th>Unit</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {details.ingredients.map((ingredient) => (
-              <Tr key={ingredient.id}>
-                <Td>{ingredient.name}</Td>
-                <Td>{Math.floor(ingredient.quantity_metric)}</Td>
-                <Td>{ingredient.quantity_metric_unit}</Td>
+      <Stack direction={{base: "column", md:"row"}} spacing={4} >
+        <Box>
+          <SubHeading>Ingredients</SubHeading>
+          <Table>
+            <Thead>
+              <Tr>
+                <Th>Ingredient</Th>
+                <Th>Quantity</Th>
+                <Th>Unit</Th>
               </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </Section>
+            </Thead>
+            <Tbody>
+              {details.ingredients.map((ingredient) => (
+                <Tr key={ingredient.id}>
+                  <Td>{ingredient.name}</Td>
+                  <Td>{Math.floor(ingredient.quantity)}</Td>
+                  <Td>{ingredient.quantity_unit}</Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </Box>
 
-      <Section>
-        <SubHeading>Instructions</SubHeading>
-        <OrderedList>
-          {details.steps.map((step) => (
-            <ListItem paddingBottom="2" key={step.id}>{step.description}</ListItem>
-          ))}
-        </OrderedList>
-      </Section>
+        <Box>
+          <SubHeading>Instructions</SubHeading>
+          <OrderedList>
+            {details.steps.map((step) => (
+              <ListItem paddingBottom="2" key={step.id}>
+                {step.description}
+              </ListItem>
+            ))}
+          </OrderedList>
+        </Box>
+      </Stack>
     </Stack>
   );
 };
