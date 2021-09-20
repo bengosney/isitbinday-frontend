@@ -6,6 +6,7 @@ import { Spacer } from '@chakra-ui/react';
 import DashboardSection from './DashboardSection';
 import SprintSection from './SprintSection';
 import BookSection from './BookSection';
+import RecipeSection from './RecipeSection';
 
 const PrivateSection = () => {
   const { path } = useRouteMatch();
@@ -19,11 +20,13 @@ const PrivateSection = () => {
   const archivedTasksUrl = getUrl('tasks/archived');
   const sprintsUrl = getUrl('sprints');
   const booksUrl = getUrl('books');
+  const recipeUrl = getUrl('recipes');
 
   const menuItems = [
     { name: 'Dashboard', url: dashboardUrl },
     { name: 'Tasks', url: tasksUrl },
     { name: 'Books', url: booksUrl },
+    { name: 'Recipes', url: recipeUrl },
     // { name: 'Sprints', url: sprintsUrl },
   ];
 
@@ -56,6 +59,9 @@ const PrivateSection = () => {
         </Route>
         <Route path={booksUrl}>
           <BookSection />
+        </Route>
+        <Route path={recipeUrl}>
+          <RecipeSection />
         </Route>
       </Switch>
     </div>
