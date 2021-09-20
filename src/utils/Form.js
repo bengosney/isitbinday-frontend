@@ -42,7 +42,6 @@ const Field = ({ as, children, processor, name, label = null, showLabel = true, 
   const element = React.createElement(as, _processor(newProps), children);
 
   const errors = error !== null ? <Text as="span">{` - ${error}`}</Text> : '';
-  console.log('field stuff', field, props);
 
   return (
     <Stack>
@@ -191,19 +190,31 @@ export const Form = ({
   }
 
   props.validateOnChange = validateOnChange;
-
   return (
     <Formik validationSchema={validationSchema} initialValues={initialValues} {...props}>
       {({ isSubmitting, isValidating, errors, touched, dirty, ...rest }) => {
-        const touchedErrors = Object.keys(errors).reduce((errs, e) => {
-          if (Object.keys(touched).includes(e)) {
-            errs[e] = errors[e];
-          }
-          return errs;
-        }, {});
+        const reduceErrors = (errors) => {
+          return Object.keys(errors)
+            .reduce((errs, e) => {
+              const error = errors[e];
+              if (typeof error == 'object') {
+                return Object.assign(errs, reduceErrors(error));
+              }
+
+              errs[e] = error;
+              return errs;
+            }, [])
+            .reduce((errs, e) => {
+              if (Object.keys(touched).includes(e)) {
+                errs[e] = errors[e];
+              }
+              return errs;
+            }, {});
+        };
+
+        const touchedErrors = reduceErrors(errors);
 
         const error = dirty ? Object.values(touchedErrors).join(', ') : '';
-        console.log('formik', rest, typeof children);
 
         return (
           <Loader loading={isSubmitting || isValidating || loading} content={loading || 'Saving'}>

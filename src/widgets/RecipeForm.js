@@ -16,16 +16,13 @@ const StepForm = () => {
 const RecipeForm = ({ details = {} }) => {
   const jsonSchema = useApiFetch('openapi/?format=openapi-json');
   const units = useApiFetch('api/recipes/unit/');
-  const [ingredientCount, setIngredientCount] = useState(1);
 
   if (jsonSchema == null || units == null) {
     return <Text>Loading...</Text>;
   }
 
-  const schema = jsonSchema['components']['schemas']['recipe'];
   const unitOptions = units.results.map(item => ({key: item.id, value: item.id, text: item.name}));
 
-  console.log('inital', RecipeSchema.cast(details, { stripUnknown: true }));
   return (
     <Form initialValues={RecipeSchema.cast(details, { stripUnknown: true })} validationSchema={RecipeSchema}>
       {(_, { values, ...rest }) => {
@@ -34,7 +31,6 @@ const RecipeForm = ({ details = {} }) => {
             <Form.Input name="Name" />
             <Form.Input name="Description" />
             <Form.Input name="Time to cook" />
-            <div>{ingredientCount}</div>
             <FieldArray name="ingredients">
               {({ insert, remove, push }) => (
                 <>
