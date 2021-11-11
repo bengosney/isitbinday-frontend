@@ -7,7 +7,8 @@ import BarcodeModal from './BarcodeModal';
 import BarcodeInput from './BarcodeInput';
 
 const BookList = () => {
-  const apiResults = useApiFetch('api/books/book/');
+  const fetchUrl = 'api/books/book/?limit=100';
+  const apiResults = useApiFetch(fetchUrl);
   const [results, setResults] = useState(apiResults);
   const { results: books = [] } = results || {};
 
@@ -16,8 +17,9 @@ const BookList = () => {
   }, [apiResults])
 
   const onScan = (barcode) => {
+    console.log(`Scanned ${barcode}`);
     apiFetch(`api/books/book/lookup/${barcode}/`)
-      .then(() => apiFetch('api/books/book/'))
+      .then(() => apiFetch(fetchUrl))
       .then((res) => setResults(res));
   };
 
