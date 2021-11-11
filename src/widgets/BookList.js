@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import apiFetch, { useApiFetch } from '../utils/apiFetch';
-import { List, ListItem, ListIcon, OrderedList, UnorderedList, Text } from '@chakra-ui/react';
+import { List, ListItem, ListIcon, OrderedList, UnorderedList, Text, useToast } from '@chakra-ui/react';
 import { BiBook, BiUser } from 'react-icons/bi';
 
 import BarcodeModal from './BarcodeModal';
@@ -11,16 +11,28 @@ const BookList = () => {
   const apiResults = useApiFetch(fetchUrl);
   const [results, setResults] = useState(apiResults);
   const { results: books = [] } = results || {};
+  const toast = useToast()
+
+  const addMessage = (message, status = "success") => {
+    toast({
+      title: message,
+      status: status,
+      duration: 2000,
+      isClosable: true,
+    });    
+  };
 
   useEffect(() => {
     setResults(apiResults);
-  }, [apiResults])
+  }, [apiResults]);
 
   const onScan = (barcode) => {
-    console.log(`Scanned ${barcode}`);
+    addMessage(`Scanned ${barcode}`);
     apiFetch(`api/books/book/lookup/${barcode}/`)
       .then(() => apiFetch(fetchUrl))
-      .then((res) => setResults(res));
+      .then((res) => setResults(res))
+      .then(() => addMessage(`Added ${barcode}`))
+      .catch(() => addMessage(`Failed to add ${barcode}`, "error"));
   };
 
   return (
