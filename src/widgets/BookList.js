@@ -1,13 +1,25 @@
-import React, { useCallback, useEffect, useReducer } from 'react';
+import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import apiFetch, { useApiFetch } from '../utils/apiFetch';
 import { List, ListItem, ListIcon, OrderedList, UnorderedList, Text } from '@chakra-ui/react';
 import { BiBook, BiUser } from 'react-icons/bi';
 
 import BarcodeModal from './BarcodeModal';
+import BarcodeInput from './BarcodeInput';
 
 const BookList = () => {
   const apiResults = useApiFetch('api/books/book/');
-  const { results: books = [] } = apiResults || {};
+  const [results, setResults] = useState(apiResults);
+  const { results: books = [] } = results || {};
+
+  useEffect(() => {
+    setResults(apiResults);
+  }, [apiResults])
+
+  const onScan = (barcode) => {
+    apiFetch(`api/books/book/lookup/${barcode}/`)
+      .then(() => apiFetch('api/books/book/'))
+      .then((res) => setResults(res));
+  };
 
   return (
     <>
@@ -22,6 +34,7 @@ const BookList = () => {
           </ListItem>
         ))}
       </List>
+      <BarcodeInput onScan={(barcode) => onScan(barcode)} />
     </>
   );
 };

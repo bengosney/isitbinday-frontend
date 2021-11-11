@@ -50,7 +50,7 @@ const LoginForm = () => {
             <Stack>
               <Form.Input name={'username'} />
               <Form.Input name={'password'} type="password" />
-              <Form.Button type="submit" disabled={!dirty}>
+              <Form.Button type="submit">
                 Login
               </Form.Button>
             </Stack>
