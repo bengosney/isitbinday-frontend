@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import apiFetch, { useApiFetch } from '../utils/apiFetch';
-import { List, ListItem, ListIcon, OrderedList, UnorderedList, Text, useToast } from '@chakra-ui/react';
+import { List, ListItem, ListIcon, Input, Text, useToast } from '@chakra-ui/react';
 import { BiBook, BiUser } from 'react-icons/bi';
+
+import useDebounced from '../utils/useDebounced';
 
 import BarcodeModal from './BarcodeModal';
 import BarcodeInput from './BarcodeInput';
@@ -10,7 +12,9 @@ import error from '../sounds/error';
 import success from '../sounds/success';
 
 const BookList = () => {
-  const fetchUrl = 'api/books/book/?limit=100';
+  const [debouncedSearch, setSearch, search] = useDebounced('');
+
+  const fetchUrl = `api/books/book/?limit=1000&search=${debouncedSearch}`;
   const apiResults = useApiFetch(fetchUrl);
   const [results, setResults] = useState(apiResults);
   const { results: books = [] } = results || {};
@@ -47,6 +51,7 @@ const BookList = () => {
 
   return (
     <>
+      <Input placeholder="Search" value={search} onChange={(event) => setSearch(event.target.value)} />
       <List>
         {books.map((book) => (
           <ListItem key={book.isbn}>
