@@ -24,7 +24,7 @@ import success from '../sounds/success';
 
 const BookList = ({ page = 0 }) => {
   const [npp, _setNpp] = useState(50);
-  const npps = [2, 5, 10, 25, 50, 100];
+  const npps = [5, 10, 25, 50, 100];
 
   const [offset, setOffset] = useState(page * npp);
   const [count, setCount] = useState(0);
