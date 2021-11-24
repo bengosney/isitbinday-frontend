@@ -1,26 +1,47 @@
-import React, { useCallback, useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import apiFetch, { useApiFetch } from '../utils/apiFetch';
-import { List, ListItem, ListIcon, Input, Text, useToast, Button, Stack, HStack } from '@chakra-ui/react';
-import { BiBook, BiUser } from 'react-icons/bi';
+import {
+  List,
+  ListItem,
+  ListIcon,
+  Input,
+  Text,
+  useToast,
+  Button,
+  IconButton,
+  Image,
+  HStack,
+  Select,
+} from '@chakra-ui/react';
+import { BiBook, BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
 
 import useDebounced from '../utils/useDebounced';
 
-import BarcodeModal from './BarcodeModal';
 import BarcodeInput from './BarcodeInput';
 
 import error from '../sounds/error';
 import success from '../sounds/success';
 
-const BookList = ({page = 0}) => {
-  const npp = 50;
+const BookList = ({ page = 0 }) => {
+  const [npp, _setNpp] = useState(50);
+  const npps = [2, 5, 10, 25, 50, 100];
 
   const [offset, setOffset] = useState(page * npp);
   const [count, setCount] = useState(0);
+
+  const setNpp = (n) => {
+    _setNpp(parseInt(n));
+    setOffset(0);
+  };
 
   const currentPage = Math.floor(offset / npp);
   const totalPages = Math.ceil(count / npp);
 
   const [debouncedSearch, setSearch, search] = useDebounced('');
+
+  useEffect(() => {
+    setOffset(0);
+  }, [debouncedSearch]);
 
   const fetchUrl = `api/books/book/?limit=${npp}&offset=${offset}&search=${debouncedSearch}`;
   const apiResults = useApiFetch(fetchUrl);
@@ -60,9 +81,34 @@ const BookList = ({page = 0}) => {
       .catch(() => addMessage(`Failed to add ${barcode}`, 'error'));
   };
 
+  const nppSize = 'xs';
+  const pagiSize = 'sm';
+  const pagi = (
+    <HStack justify={'space-between'}>
+      <HStack hidden={totalPages < 1} align={'center'}>
+        <IconButton icon={<BiLeftArrowAlt />} aria-label="Previous page" size={pagiSize} onClick={() => setOffset((o) => o - npp)} disabled={offset - npp < 0} />
+        <Text size={pagiSize}>
+          {currentPage + 1}&nbsp;of&nbsp;{totalPages}
+        </Text>
+        <IconButton icon={<BiRightArrowAlt />} aria-label="Next page" size={pagiSize} onClick={() => setOffset((o) => o + npp)} disabled={offset + npp >= count} />
+      </HStack>
+      <HStack>
+        <Select size={nppSize} value={npp} onChange={(e) => setNpp(e.target.value)}>
+          {npps.map((n) => (
+            <option key={n} value={n}>
+              {n}
+            </option>
+          ))}
+        </Select>
+        <Text size={nppSize}>Per&nbsp;Page</Text>
+      </HStack>
+    </HStack>
+  );
+
   return (
     <>
       <Input placeholder="Search" value={search} onChange={(event) => setSearch(event.target.value)} />
+      {pagi}
       <List>
         {books.map((book) => (
           <ListItem key={book.isbn}>
@@ -74,15 +120,7 @@ const BookList = ({page = 0}) => {
           </ListItem>
         ))}
       </List>
-      <HStack hidden={totalPages < 1}>
-        <Button onClick={() => setOffset((o) => o - npp)} disabled={offset - npp < 0}>
-          Prev
-        </Button>
-        <Text>{currentPage + 1} of {totalPages}</Text>
-        <Button onClick={() => setOffset((o) => o + npp)} disabled={offset + npp >= count}>
-          Next
-        </Button>
-      </HStack>
+      {pagi}
       <BarcodeInput onScan={(barcode) => onScan(barcode)} />
     </>
   );
