@@ -157,6 +157,12 @@ const apiFetch = async (url, args = null) => {
   const method = parseInt(args?.id || 0) > 0 ? 'put' : null;
   const options = getOptions(args, method);
 
+  if ((window.fetching || 0) == 0) {
+    window.fetching = 0;
+    window.dispatchEvent(new CustomEvent('fetching', { detail: true }));
+  }
+  window.fetching += 1;
+
   let res = await fetchFromOrigin(url, options);
   if (res.status === 401) {
     let refreshed = false;
@@ -175,6 +181,11 @@ const apiFetch = async (url, args = null) => {
   }
   if (res.status > 299) {
     throw new Error(`Error: ${res.status}`);
+  }
+
+  window.fetching -= 1;
+  if (window.fetching === 0) {
+    window.dispatchEvent(new CustomEvent('fetching', { detail: false }));
   }
 
   return await res.json();
