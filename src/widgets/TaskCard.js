@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Text, Heading, Stack, IconButton } from '@chakra-ui/react';
+import { Box, Text, Heading, Stack, IconButton, useColorModeValue } from '@chakra-ui/react';
 import { MdModeEdit, MdDone } from 'react-icons/md';
 import apiFetch from '../utils/apiFetch';
 import { Link, useRouteMatch } from 'react-router-dom';
@@ -20,9 +20,11 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }) => {
     apiFetch(`api/tasks/tasks/${id}/done/`).then(() => onSateChange('done'));
   };
 
+  const backgroundColour = useColorModeValue('gray.50', 'gray.700');
+
   return (
     <>
-      <Box key={`${state}-${id}`} border="1px solid lightgray" padding={4} background={'gray.50'}>
+      <Box key={`${state}-${id}`} border="1px solid lightgray" padding={4} background={backgroundColour}>
         <Stack>
           <Stack direction={'row'} justify={'space-between'}>
             <Stack>

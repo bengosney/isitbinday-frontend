@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useReducer } from 'react';
 import apiFetch, { useApiFetch } from '../utils/apiFetch';
 import { UCFirst } from '../utils/string';
-import { Stack, Grid, Text, Box, useBreakpointValue } from '@chakra-ui/react';
+import { Stack, Grid, Text, Box, useBreakpointValue, useColorModeValue } from '@chakra-ui/react';
 
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import TaskCard from './TaskCard';
@@ -57,6 +57,9 @@ const TaskList = () => {
   const limit = 100;
   const offset = 0;
   const location = useLocation();
+
+  const green = useColorModeValue('green.300', 'green.600');
+  const blue = useColorModeValue('blue.300', 'blue.600');
 
   const data = useApiFetch(`api/tasks/tasks/?limit=${limit}&offset=${offset}`, null, `${currentRefreshKey}`);
   useEffect(() => {
@@ -151,14 +154,14 @@ const TaskList = () => {
 
   const getBorderColour = (state) => {
     if (droppableStates.includes(state)) {
-      return 'green.300';
+      return green;
     }
 
     if (state === (dragItem || {}).state) {
-      return 'blue.300';
+      return blue;
     }
 
-    return 'white';
+    //return 'white';
   };
 
   if (tasks.length === 0) {

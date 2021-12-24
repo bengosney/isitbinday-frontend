@@ -37,6 +37,10 @@ const customTheme = extendTheme({
       },
     },
   },
+  config: {
+    initialColorMode: 'dark',
+    useSystemColorMode: true,
+  }
 });
 
 export default customTheme;
