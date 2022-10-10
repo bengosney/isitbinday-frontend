@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect, useReducer } from 'react';
 import apiFetch, { useApiFetch } from '../utils/apiFetch';
+import { round } from '../utils/numbers';
 import { Stack, ListItem, ListIcon, OrderedList, Heading, Text, Box } from '@chakra-ui/react';
 import { Table, Tbody, Tr, Th, Td, Thead } from '@chakra-ui/react';
+import React, { useCallback, useEffect, useReducer } from 'react';
 import { BiFoodMenu, BiUser } from 'react-icons/bi';
 import { useRouteMatch, Route, Switch, useHistory, useParams, Link } from 'react-router-dom';
 
@@ -30,7 +31,7 @@ const RecipeDetails = () => {
       <Heading>{details.name}</Heading>
       <Text>{details.description}</Text>
 
-      <Stack direction={{base: "column", md:"row"}} spacing={4} >
+      <Stack direction={{ base: 'column', md: 'row' }} spacing={4}>
         <Box>
           <SubHeading>Ingredients</SubHeading>
           <Table>
@@ -45,7 +46,7 @@ const RecipeDetails = () => {
               {details.ingredients.map((ingredient) => (
                 <Tr key={ingredient.id}>
                   <Td>{ingredient.name}</Td>
-                  <Td>{Math.floor(ingredient.quantity)}</Td>
+                  <Td>{round(ingredient.quantity)}</Td>
                   <Td>{ingredient.quantity_unit}</Td>
                 </Tr>
               ))}
