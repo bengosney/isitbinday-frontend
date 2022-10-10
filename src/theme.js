@@ -39,7 +39,7 @@ const customTheme = extendTheme({
   },
   config: {
     initialColorMode: 'dark',
-    useSystemColorMode: true,
+    //useSystemColorMode: true,
   },
 });
 

@@ -7,6 +7,7 @@ import TaskSection from './TaskSection';
 import { Spacer } from '@chakra-ui/react';
 import React from 'react';
 import { useRouteMatch, Route, Switch, useLocation, Link } from 'react-router-dom';
+import ColorMode from '../widgets/ColorMode';
 
 const PrivateSection = () => {
   const { path } = useRouteMatch();
@@ -43,6 +44,7 @@ const PrivateSection = () => {
           );
         })}
         <Spacer />
+        <ColorMode />
         <Nav.Item as={Link} to={'/logout'}>
           Logout
         </Nav.Item>

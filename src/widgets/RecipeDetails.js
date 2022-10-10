@@ -27,8 +27,6 @@ const RecipeDetails = () => {
     </Box>
   );
 
-  console.log(tableProps);
-
   return (
     <Stack spacing={5}>
       <Heading>{details.name}</Heading>
