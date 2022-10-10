@@ -8,6 +8,7 @@ import Logout from '../widgets/Logout';
 import RegisterSection from './RegisterSection';
 import React, { useEffect } from 'react';
 import { Switch, Route, useLocation, Redirect } from 'react-router-dom';
+import MaxWidth from '../widgets/MaxWidth';
 
 const MainAppSection = () => {
   const { pathname } = useLocation();
@@ -28,10 +29,14 @@ const MainAppSection = () => {
         <Home />
       </Route>
       <PublicRoute path={['/login/:action', '/login']}>
-        <LoginForm />
+        <MaxWidth>
+          <LoginForm />
+        </MaxWidth>
       </PublicRoute>
       <PublicRoute path="/register">
-        <RegisterSection />
+        <MaxWidth>
+          <RegisterSection />
+        </MaxWidth>
       </PublicRoute>
       <PrivateRoute path="/iibd">
         <PrivateSection />

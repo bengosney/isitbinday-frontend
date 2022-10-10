@@ -8,6 +8,7 @@ import { Spacer } from '@chakra-ui/react';
 import React from 'react';
 import { useRouteMatch, Route, Switch, useLocation, Link } from 'react-router-dom';
 import ColorMode from '../widgets/ColorMode';
+import MaxWidth from '../widgets/MaxWidth';
 
 const PrivateSection = () => {
   const { path } = useRouteMatch();
@@ -43,29 +44,31 @@ const PrivateSection = () => {
             </Nav.Item>
           );
         })}
-        <Spacer />
+        <Spacer minWidth={10} />
         <ColorMode />
         <Nav.Item as={Link} to={'/logout'}>
           Logout
         </Nav.Item>
       </Nav>
-      <Switch>
-        <Route exact path={dashboardUrl}>
-          <DashboardSection />
-        </Route>
-        <Route path={tasksUrl}>
-          <TaskSection />
-        </Route>
-        <Route path={sprintsUrl}>
-          <SprintSection />
-        </Route>
-        <Route path={booksUrl}>
-          <BookSection />
-        </Route>
-        <Route path={recipeUrl}>
-          <RecipeSection />
-        </Route>
-      </Switch>
+      <MaxWidth marginTop={4}>
+        <Switch>
+          <Route exact path={dashboardUrl}>
+            <DashboardSection />
+          </Route>
+          <Route path={tasksUrl}>
+            <TaskSection />
+          </Route>
+          <Route path={sprintsUrl}>
+            <SprintSection />
+          </Route>
+          <Route path={booksUrl}>
+            <BookSection />
+          </Route>
+          <Route path={recipeUrl}>
+            <RecipeSection />
+          </Route>
+        </Switch>
+      </MaxWidth>
     </div>
   );
 };

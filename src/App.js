@@ -23,7 +23,7 @@ function App() {
   return (
     <Provider pouchdb={db}>
       <ChakraProvider resetCSS theme={customTheme}>
-        <Box maxW="90vw" margin="auto" borderColor={'gray.100'}>
+        <Box borderColor={'gray.100'}>
           {loader}
           <Auth>
             <Router>
