@@ -35,7 +35,7 @@ const RecipeDetails = () => {
       <Text>{details.description}</Text>
 
       <Stack direction={{ base: 'column', md: 'row' }} spacing={6}>
-        <Box>
+        <Box minWidth={'35%'}>
           <SubHeading>Ingredients</SubHeading>
           <Table variant="striped" size={'sm'} {...tableProps}>
             <Thead>
@@ -53,9 +53,7 @@ const RecipeDetails = () => {
                   <Td paddingLeft={1} {...tableProps}>
                     {ingredient.quantity_unit}
                   </Td>
-                  <Td whiteSpace={{ base: 'wrap', md: 'nowrap' }} {...tableProps}>
-                    {ingredient.name}
-                  </Td>
+                  <Td {...tableProps}>{ingredient.name}</Td>
                 </Tr>
               ))}
             </Tbody>
