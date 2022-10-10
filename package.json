@@ -12,7 +12,6 @@
     "@testing-library/user-event": "^7.1.2",
     "formik": "^2.1.5",
     "framer-motion": ">=3.0.0",
-    "husky": "^4.2.5",
     "lint-staged": "^10.2.13",
     "onscan.js": "^1.5.2",
     "pouchdb-browser": "^7.2.2",
@@ -36,8 +35,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "format": "prettier --write src/**/*.js ; prettier --write src/**/*.css",
-    "postinstall": "npx husky install"
+    "format": "prettier --write src/**/*.js ; prettier --write src/**/*.css"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -53,11 +51,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
