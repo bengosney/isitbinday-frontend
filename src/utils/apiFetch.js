@@ -1,9 +1,7 @@
-import { useState, useEffect } from 'react';
-import { useDoc } from 'use-pouchdb'
-
 import { getConfig } from '../config';
-
 import { db } from '../db';
+import { useState, useEffect } from 'react';
+import { useDoc } from 'use-pouchdb';
 
 export const origin = process.env.REACT_APP_API_URL || getConfig('api_origin', 'http://localhost:8000');
 
@@ -210,15 +208,15 @@ export const useApiFetch = (url, args = null, refreshKey = 0, key = null) => {
       makeKey(url, key).then((k) => setKey(k));
     }
   }, [key, url, args]);
-  
+
   useEffect(() => {
     if (_key !== null) {
-      db.get(`${_key}`).then(({data}) => setLocalResponse(data));
+      db.get(`${_key}`).then(({ data }) => setLocalResponse(data));
     }
   }, [_key]);
 
   useEffect(() => {
-    apiFetch(url, args,).then((res) => setApiResponse(res));
+    apiFetch(url, args).then((res) => setApiResponse(res));
   }, [url, args, refreshKey]);
 
   useEffect(() => {

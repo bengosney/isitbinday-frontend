@@ -1,15 +1,13 @@
-import React, { useCallback, useEffect, useReducer } from 'react';
+import TaskModalSection from '../sections/TaskModalsSection';
 import apiFetch, { useApiFetch } from '../utils/apiFetch';
 import { UCFirst } from '../utils/string';
-import { Stack, Grid, Text, Box, useBreakpointValue, useColorModeValue } from '@chakra-ui/react';
-
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import TaskCard from './TaskCard';
-import TaskModalSection from '../sections/TaskModalsSection';
 import Loader from './Loader';
-
-import * as Yup from 'yup';
+import TaskCard from './TaskCard';
+import { Stack, Grid, Text, Box, useBreakpointValue, useColorModeValue } from '@chakra-ui/react';
+import React, { useCallback, useEffect, useReducer } from 'react';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Redirect, useLocation } from 'react-router-dom';
+import * as Yup from 'yup';
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);

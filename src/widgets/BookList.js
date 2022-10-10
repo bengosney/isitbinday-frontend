@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import error from '../sounds/error';
+import success from '../sounds/success';
 import apiFetch, { useApiFetch } from '../utils/apiFetch';
+import useDebounced from '../utils/useDebounced';
+import BarcodeInput from './BarcodeInput';
 import {
   List,
   ListItem,
@@ -13,14 +16,8 @@ import {
   HStack,
   Select,
 } from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
 import { BiBook, BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
-
-import useDebounced from '../utils/useDebounced';
-
-import BarcodeInput from './BarcodeInput';
-
-import error from '../sounds/error';
-import success from '../sounds/success';
 
 const BookList = ({ page = 0 }) => {
   const [npp, _setNpp] = useState(50);
@@ -86,11 +83,23 @@ const BookList = ({ page = 0 }) => {
   const pagi = (
     <HStack justify={'space-between'}>
       <HStack hidden={totalPages < 1} align={'center'}>
-        <IconButton icon={<BiLeftArrowAlt />} aria-label="Previous page" size={pagiSize} onClick={() => setOffset((o) => o - npp)} disabled={offset - npp < 0} />
+        <IconButton
+          icon={<BiLeftArrowAlt />}
+          aria-label="Previous page"
+          size={pagiSize}
+          onClick={() => setOffset((o) => o - npp)}
+          disabled={offset - npp < 0}
+        />
         <Text size={pagiSize}>
           {currentPage + 1}&nbsp;of&nbsp;{totalPages}
         </Text>
-        <IconButton icon={<BiRightArrowAlt />} aria-label="Next page" size={pagiSize} onClick={() => setOffset((o) => o + npp)} disabled={offset + npp >= count} />
+        <IconButton
+          icon={<BiRightArrowAlt />}
+          aria-label="Next page"
+          size={pagiSize}
+          onClick={() => setOffset((o) => o + npp)}
+          disabled={offset + npp >= count}
+        />
       </HStack>
       <HStack>
         <Select size={nppSize} value={npp} onChange={(e) => setNpp(e.target.value)}>

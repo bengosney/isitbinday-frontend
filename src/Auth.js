@@ -1,5 +1,5 @@
-import React, { useReducer, useEffect } from 'react';
 import apiFetch, { login as doLogin, logout as doLogout, checkLogin } from './utils/apiFetch';
+import React, { useReducer, useEffect } from 'react';
 
 export const authContext = React.createContext({ loggedIn: false });
 

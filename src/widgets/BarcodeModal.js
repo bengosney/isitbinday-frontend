@@ -1,9 +1,8 @@
+import Modal from './Modal';
+import { Button } from '@chakra-ui/button';
+import { Box } from '@chakra-ui/layout';
 import React, { useState, useEffect } from 'react';
 import BarcodeScannerComponent from 'react-webcam-barcode-scanner';
-import Modal from './Modal';
-
-import { Box } from '@chakra-ui/layout';
-import { Button } from '@chakra-ui/button';
 
 const BarcodeModal = ({ onScan, onClose, ...rest }) => {
   const [scanning, setScanning] = useState(true);

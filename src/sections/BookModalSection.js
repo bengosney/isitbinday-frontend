@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { useRouteMatch, Route, Switch, useHistory } from 'react-router-dom';
-import BookList from '../widgets/BookList';
-import FAB from '../widgets/FAB';
-import { BiBookAdd } from 'react-icons/bi';
-import { Heading, Stack } from '@chakra-ui/react';
+import apiFetch from '../utils/apiFetch';
 import usePageTitle from '../utils/usePageTitle';
 import BarcodeModal from '../widgets/BarcodeModal';
-import apiFetch from '../utils/apiFetch';
+import BookList from '../widgets/BookList';
+import FAB from '../widgets/FAB';
 import Loader from '../widgets/Loader';
+import { Heading, Stack } from '@chakra-ui/react';
+import React, { useState } from 'react';
+import { BiBookAdd } from 'react-icons/bi';
+import { useRouteMatch, Route, Switch, useHistory } from 'react-router-dom';
 
 const BookModalSection = () => {
   usePageTitle('Book List');

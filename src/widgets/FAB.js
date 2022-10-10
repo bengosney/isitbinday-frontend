@@ -1,6 +1,6 @@
+import Portal from './Portal';
 import { Box } from '@chakra-ui/react';
 import React from 'react';
-import Portal from './Portal';
 
 const FAB = ({ children, ...props }) => {
   return (

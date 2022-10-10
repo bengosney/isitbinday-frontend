@@ -1,17 +1,13 @@
-import React, { useEffect } from 'react';
-
-import { Switch, Route, useLocation, Redirect } from 'react-router-dom';
-
-import PublicRoute from '../utils/PublicRoute';
-import PrivateRoute from '../utils/PrivateRoute';
-
 import PrivateSection from '../sections/PrivateSection';
+import PrivateRoute from '../utils/PrivateRoute';
+import PublicRoute from '../utils/PublicRoute';
+import apiFetch from '../utils/apiFetch';
+import Home from '../widgets/Home';
 import LoginForm from '../widgets/LoginForm';
 import Logout from '../widgets/Logout';
-import Home from '../widgets/Home';
 import RegisterSection from './RegisterSection';
-
-import apiFetch from '../utils/apiFetch';
+import React, { useEffect } from 'react';
+import { Switch, Route, useLocation, Redirect } from 'react-router-dom';
 
 const MainAppSection = () => {
   const { pathname } = useLocation();

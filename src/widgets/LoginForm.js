@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
-import { Form } from '../utils/Form';
 import { authContext } from '../Auth';
-import { Heading, Stack, Divider, Alert, AlertIcon } from '@chakra-ui/react';
-import * as Yup from 'yup';
-import { useRouteMatch, useParams } from 'react-router-dom';
+import { Form } from '../utils/Form';
 import usePageTitle from '../utils/usePageTitle';
+import { Heading, Stack, Divider, Alert, AlertIcon } from '@chakra-ui/react';
+import React, { useContext, useState } from 'react';
+import { useRouteMatch, useParams } from 'react-router-dom';
+import * as Yup from 'yup';
 
 const loginSchema = Yup.object().shape({
   username: Yup.string().required('Required').ensure(),
@@ -50,9 +50,7 @@ const LoginForm = () => {
             <Stack>
               <Form.Input name={'username'} />
               <Form.Input name={'password'} type="password" />
-              <Form.Button type="submit">
-                Login
-              </Form.Button>
+              <Form.Button type="submit">Login</Form.Button>
             </Stack>
           );
         }}

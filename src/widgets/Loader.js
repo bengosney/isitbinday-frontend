@@ -1,5 +1,5 @@
-import React from 'react';
 import { Box, Spinner, Text, VStack } from '@chakra-ui/react';
+import React from 'react';
 
 const Loader = ({ loading = true, content = 'Loading', children = false }) => {
   if (children) {

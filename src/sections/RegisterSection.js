@@ -1,14 +1,12 @@
-import React from 'react';
-import RegisterForm from '../widgets/RegisterForm';
-import RegisterActivate from '../widgets/RegisterActivate';
-import { Switch, useRouteMatch, useHistory } from 'react-router-dom';
-import FAB from '../widgets/FAB';
-import { MdKeyboardBackspace } from 'react-icons/md';
-
-import PublicRoute from '../utils/PublicRoute';
 import PrivateRoute from '../utils/PrivateRoute';
-
+import PublicRoute from '../utils/PublicRoute';
+import FAB from '../widgets/FAB';
+import RegisterActivate from '../widgets/RegisterActivate';
 import RegisterDetails from '../widgets/RegisterDetails';
+import RegisterForm from '../widgets/RegisterForm';
+import React from 'react';
+import { MdKeyboardBackspace } from 'react-icons/md';
+import { Switch, useRouteMatch, useHistory } from 'react-router-dom';
 
 const RegisterSection = () => {
   const { path, url } = useRouteMatch();

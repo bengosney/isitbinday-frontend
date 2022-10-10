@@ -1,6 +1,6 @@
+import { Center, Heading, Stack, Text } from '@chakra-ui/react';
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Center, Heading, Stack, Text } from '@chakra-ui/react';
 
 const RegisterDetails = () => {
   const params = useParams();
