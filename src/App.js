@@ -1,17 +1,12 @@
-import React, { useState } from 'react';
-
-import { BrowserRouter as Router } from 'react-router-dom';
-
-import { ChakraProvider, Box, Text, Spinner } from '@chakra-ui/react';
-
-import customTheme from './theme';
-
 import Auth from './Auth';
-import MainAppSection from './sections/MainAppSection';
 import { getConfig } from './config';
-
-import { Provider } from 'use-pouchdb';
 import { db } from './db';
+import MainAppSection from './sections/MainAppSection';
+import customTheme from './theme';
+import { ChakraProvider, Box, Text, Spinner } from '@chakra-ui/react';
+import React, { useState } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'use-pouchdb';
 
 function App() {
   const [fetching, setFetching] = useState(true);

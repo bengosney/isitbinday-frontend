@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Switch, useRouteMatch, useParams, useHistory } from 'react-router-dom';
 import apiFetch from '../utils/apiFetch';
 import { Stack, Heading, Spinner, Box, Center } from '@chakra-ui/react';
+import React, { useState } from 'react';
+import { Switch, useRouteMatch, useParams, useHistory } from 'react-router-dom';
 
 const RegisterActivate = () => {
   const params = useParams();

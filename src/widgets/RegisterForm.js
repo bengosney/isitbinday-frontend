@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { Form } from '../utils/Form';
 import { authContext } from '../Auth';
-import { Heading, Stack, Divider } from '@chakra-ui/react';
-import * as Yup from 'yup';
-import usePageTitle from '../utils/usePageTitle';
+import { Form } from '../utils/Form';
 import apiFetch from '../utils/apiFetch';
+import usePageTitle from '../utils/usePageTitle';
+import { Heading, Stack, Divider } from '@chakra-ui/react';
+import React, { useState } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
+import * as Yup from 'yup';
 
 const registerSchema = Yup.object().shape({
   email: Yup.string().email().required('Email is required'),

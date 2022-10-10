@@ -1,7 +1,7 @@
-import React from 'react';
-import { Box, Text, Heading, Stack, IconButton, useColorModeValue } from '@chakra-ui/react';
-import { MdModeEdit, MdDone } from 'react-icons/md';
 import apiFetch from '../utils/apiFetch';
+import { Box, Text, Heading, Stack, IconButton, useColorModeValue } from '@chakra-ui/react';
+import React from 'react';
+import { MdModeEdit, MdDone } from 'react-icons/md';
 import { Link, useRouteMatch } from 'react-router-dom';
 
 const TaskCard = ({ task, showDueDate = true, onSateChange = null }) => {

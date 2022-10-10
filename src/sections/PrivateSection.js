@@ -1,12 +1,12 @@
-import React from 'react';
-import { useRouteMatch, Route, Switch, useLocation, Link } from 'react-router-dom';
 import Nav from '../widgets/Nav';
+import BookSection from './BookSection';
+import DashboardSection from './DashboardSection';
+import RecipeSection from './RecipeSection';
+import SprintSection from './SprintSection';
 import TaskSection from './TaskSection';
 import { Spacer } from '@chakra-ui/react';
-import DashboardSection from './DashboardSection';
-import SprintSection from './SprintSection';
-import BookSection from './BookSection';
-import RecipeSection from './RecipeSection';
+import React from 'react';
+import { useRouteMatch, Route, Switch, useLocation, Link } from 'react-router-dom';
 
 const PrivateSection = () => {
   const { path } = useRouteMatch();

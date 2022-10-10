@@ -1,7 +1,7 @@
-import React from 'react';
 import TaskForm from '../forms/TaskForm';
 import { useApiFetch } from '../utils/apiFetch';
 import Loader from './Loader';
+import React from 'react';
 
 const EditTask = ({ taskID, postSave }) => {
   const data = useApiFetch(`api/tasks/tasks/${taskID}`);

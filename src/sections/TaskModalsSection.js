@@ -1,9 +1,8 @@
-import React from 'react';
-import { useRouteMatch, Route, Switch, useHistory, useParams } from 'react-router-dom';
-
-import NewTask from '../widgets/NewTask';
 import EditTask from '../widgets/EditTask';
 import Modal from '../widgets/Modal';
+import NewTask from '../widgets/NewTask';
+import React from 'react';
+import { useRouteMatch, Route, Switch, useHistory, useParams } from 'react-router-dom';
 
 const EditTaskRoute = ({ ...props }) => {
   let { id } = useParams();

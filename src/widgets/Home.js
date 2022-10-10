@@ -1,8 +1,8 @@
-import React from 'react';
-import { Stack, Heading, Button } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
-import { BiLogInCircle as IconLogin, BiUserPlus as IconRegister } from 'react-icons/bi';
 import usePageTitle from '../utils/usePageTitle';
+import { Stack, Heading, Button } from '@chakra-ui/react';
+import React from 'react';
+import { BiLogInCircle as IconLogin, BiUserPlus as IconRegister } from 'react-icons/bi';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   usePageTitle();

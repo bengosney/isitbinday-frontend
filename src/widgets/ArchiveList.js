@@ -1,7 +1,7 @@
-import { Button, ButtonGroup, Heading, Stack, Text, Box } from '@chakra-ui/react';
-import React, { useReducer } from 'react';
 import { useApiFetch } from '../utils/apiFetch';
 import Loader from './Loader';
+import { Button, ButtonGroup, Heading, Stack, Text, Box } from '@chakra-ui/react';
+import React, { useReducer } from 'react';
 
 const ArchiveList = ({ limit = 25, offset = 0 }) => {
   const [state, dispatch] = useReducer(

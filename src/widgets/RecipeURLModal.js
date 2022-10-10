@@ -1,9 +1,9 @@
 import { Form } from '../utils/Form';
-import React from 'react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import apiFetch from '../utils/apiFetch';
 import Modal from './Modal';
 import { Stack } from '@chakra-ui/react';
-import apiFetch from '../utils/apiFetch';
+import React from 'react';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 
 const RecipeURLModal = () => {
   const { path } = useRouteMatch();

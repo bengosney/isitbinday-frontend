@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Modal as CModal,
   ModalOverlay,
@@ -9,6 +8,7 @@ import {
   ModalCloseButton,
   Button,
 } from '@chakra-ui/react';
+import React from 'react';
 
 const Modal = ({ title, showFooter, children, ...props }) => {
   const { onClose } = props;
