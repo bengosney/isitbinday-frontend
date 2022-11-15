@@ -73,7 +73,7 @@ const RegisterForm = () => {
               <Form.Input name={'passwordConfirmation'} type="password" />
               <Form.Input name={'firstName'} />
               <Form.Input name={'lastName'} />
-              <Form.Button type="submit" disabled={!dirty}>
+              <Form.Button type="submit">
                 Register
               </Form.Button>
             </Stack>
