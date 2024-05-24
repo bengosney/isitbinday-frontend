@@ -8,8 +8,6 @@ ECHO=$(shell which figlet || which echo)
 .gitignore:
 	curl https://www.toptal.com/developers/gitignore/api/terraform,visualstudiocode,direnv > $@
 
-.git: .gitignore
-	git init
 
 init: check .terraform ## Fetch files from S3 and init
 
@@ -59,5 +57,5 @@ destroy: check .terraform ## Destroy the terraform
 	$(CMD) destroy
 
 git-remote: ## Add the git remote
-	@git remote remove dokku
+	@git remote remove dokku || true
 	git remote add dokku $(shell tofu output -raw git-remote)
