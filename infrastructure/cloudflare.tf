@@ -19,7 +19,21 @@ resource "cloudflare_record" "subdomain" {
   name    = (each.value[0] != "" ? each.value[0] : "@")
   value   = each.value[2]
   type    = each.value[1]
-  proxied = false
+  proxied = true
   allow_overwrite = true
   comment = "DNS record for Amplify"
+}
+
+resource "cloudflare_page_rule" "redirect" {
+  zone_id = var.zoneid
+  target = "${var.domain}/*"
+  priority = 1
+  status = "active"
+
+  actions {
+    forwarding_url {
+      status_code = 301
+      url = "https://www.${var.domain}/$1"
+    }
+  }
 }

@@ -1,11 +1,19 @@
 resource "aws_amplify_app" "isitbinday" {
   name       = "isitbinday"
   repository = var.repo
+
+  custom_rule {
+    source = "</^[^.]+$|\\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|ttf|map|json)$)([^.]+$)/>"
+    status = "200"
+    target = "/index.html"
+  }
 }
 
 resource "aws_amplify_branch" "master" {
   app_id      = aws_amplify_app.isitbinday.id
   branch_name = "master"
+  framework                   = "React"
+      stage                       = "PRODUCTION"
   environment_variables = {
     REACT_APP_API_URL = "https://api.${var.domain}"
     PUBLIC_URL = "https://www.${var.domain}"
