@@ -3,16 +3,23 @@ resource "dokku_app" "www" {
 
   domains = ["www.${var.domain}"]
 
-  config = {
-
+  deploy = {
+    type = "docker_image"
+    docker_image = var.image
   }
 
-  #ports = {
-  #  80 = {
-  #    scheme         = "http"
-  #    container_port = 8000
-  #  }
-  #}
+  config = {
+    REACT_APP_API_URL = "https://api.${var.domain}"
+    PUBLIC_URL = "https://www.${var.domain}"
+    NODE_ENV = "production"
+  }
+
+  ports = {
+    80 = {
+      scheme         = "http"
+      container_port = 80
+    }
+  }
 }
 
 output "git-remote" {

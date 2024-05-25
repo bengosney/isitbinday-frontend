@@ -35,6 +35,10 @@ variable "zoneid" {
   description = "Cloudflare zone ID"
 }
 
+variable "image" {
+  description = "Docker image"
+}
+
 provider "dokku" {
   ssh_host = var.hosting_domain
 }
