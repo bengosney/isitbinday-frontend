@@ -37,3 +37,11 @@ repos:
         additional_dependencies:
           - prettier
           - '@trivago/prettier-plugin-sort-imports@^3.2.0'
+  - repo: local
+    hooks:
+    - id: tofu-fmt
+      name: tofu format
+      description: Format .tf files
+      entry: tofu fmt
+      language: system
+      files: .tf$

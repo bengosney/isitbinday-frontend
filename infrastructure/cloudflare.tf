@@ -19,7 +19,7 @@ resource "cloudflare_record" "subdomain" {
   name    = (each.value[0] != "" ? each.value[0] : "@")
   value   = each.value[2]
   type    = each.value[1]
-  proxied = true
+  proxied = false
   allow_overwrite = true
   comment = "DNS record for Amplify"
 }

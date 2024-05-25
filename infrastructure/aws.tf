@@ -28,11 +28,6 @@ resource "aws_amplify_domain_association" "isitbinday" {
 
   sub_domain {
     branch_name = aws_amplify_branch.master.branch_name
-    prefix      = ""
-  }
-
-  sub_domain {
-    branch_name = aws_amplify_branch.master.branch_name
     prefix      = "www"
   }
 }
