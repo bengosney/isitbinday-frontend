@@ -15,11 +15,11 @@ resource "cloudflare_record" "amplify_verification" {
 resource "cloudflare_record" "subdomain" {
   for_each = { for s in aws_amplify_domain_association.isitbinday.sub_domain : s.prefix => split(" ", s.dns_record) }
 
-  zone_id = var.zoneid
-  name    = (each.value[0] != "" ? each.value[0] : "@")
-  value   = each.value[2]
-  type    = each.value[1]
-  proxied = false
+  zone_id         = var.zoneid
+  name            = (each.value[0] != "" ? each.value[0] : "@")
+  value           = each.value[2]
+  type            = each.value[1]
+  proxied         = false
   allow_overwrite = true
-  comment = "DNS record for Amplify"
+  comment         = "DNS record for Amplify"
 }

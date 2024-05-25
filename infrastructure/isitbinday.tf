@@ -4,14 +4,14 @@ resource "dokku_app" "www" {
   domains = ["www.${var.domain}"]
 
   deploy = {
-    type = "docker_image"
+    type         = "docker_image"
     docker_image = var.image
   }
 
   config = {
     REACT_APP_API_URL = "https://api.${var.domain}"
-    PUBLIC_URL = "https://www.${var.domain}"
-    NODE_ENV = "production"
+    PUBLIC_URL        = "https://www.${var.domain}"
+    NODE_ENV          = "production"
   }
 
   ports = {

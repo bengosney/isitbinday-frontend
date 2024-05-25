@@ -12,18 +12,18 @@ resource "aws_amplify_app" "isitbinday" {
 resource "aws_amplify_branch" "master" {
   app_id      = aws_amplify_app.isitbinday.id
   branch_name = "master"
-  framework                   = "React"
-      stage                       = "PRODUCTION"
+  framework   = "React"
+  stage       = "PRODUCTION"
   environment_variables = {
     REACT_APP_API_URL = "https://api.${var.domain}"
-    PUBLIC_URL = "https://www.${var.domain}"
-    NODE_ENV = "production"
+    PUBLIC_URL        = "https://www.${var.domain}"
+    NODE_ENV          = "production"
   }
 }
 
 resource "aws_amplify_domain_association" "isitbinday" {
-  app_id      = aws_amplify_app.isitbinday.id
-  domain_name = var.domain
+  app_id                = aws_amplify_app.isitbinday.id
+  domain_name           = var.domain
   wait_for_verification = false
 
   sub_domain {

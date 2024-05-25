@@ -55,5 +55,3 @@ apply: check .terraform ## Apply the terraform
 
 destroy: check .terraform ## Destroy the terraform
 	$(CMD) destroy
-
-
