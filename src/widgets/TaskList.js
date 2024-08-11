@@ -26,6 +26,7 @@ const stateShape = Yup.object().shape({
   droppableStates: Yup.array().default([]),
   dragItem: Yup.mixed().nullable().default(0),
   currentRefreshKey: Yup.number().default(0),
+  actions: Yup.array().default([]),
 });
 
 const TaskList = () => {
@@ -47,7 +48,7 @@ const TaskList = () => {
     }
   }, stateShape.cast({}));
 
-  const { states, hiddenStates, tasks, transitionMap, droppableStates, dragItem, currentRefreshKey, dueDateStates } =
+  const { states, actions, tasks, transitionMap, droppableStates, dragItem, currentRefreshKey, dueDateStates } =
     widgetState;
 
   const refresh = () => dispatch({ type: 'currentRefreshKey', data: currentRefreshKey + 1 });
@@ -58,6 +59,11 @@ const TaskList = () => {
 
   const green = useColorModeValue('green.300', 'green.600');
   const blue = useColorModeValue('blue.300', 'blue.600');
+
+  const actionsResponse = useApiFetch('api/tasks/tasks/actions/');
+  useEffect(() => {
+    dispatch({ type: 'actions', data: actionsResponse || [] });
+  }, [actionsResponse]);
 
   const data = useApiFetch(`api/tasks/tasks/?limit=${limit}&offset=${offset}`, null, `${currentRefreshKey}`);
   useEffect(() => {
@@ -119,7 +125,7 @@ const TaskList = () => {
     const items = reorder(tasks, result.source.index, result.destination.index);
 
     const _dragItem = tasks.find((t) => t.id === parseInt(result.draggableId));
-    const action = Object.keys(transitionMap).find((key) => transitionMap[key] === result.destination.droppableId);
+    const action = Object.keys(transitionMap).find((key) => transitionMap[key] === result.destination.droppableId) || result.destination.droppableId;
 
     if (_dragItem.state !== result.destination.droppableId) {
       callAction(_dragItem.id, action);
@@ -150,7 +156,7 @@ const TaskList = () => {
     dispatch({ type: 'droppableStates', data: availableStates });
   };
 
-  const getBorderColour = (state) => {
+  const getBackgroundColour = (state) => {
     if (droppableStates.includes(state)) {
       return green;
     }
@@ -158,8 +164,6 @@ const TaskList = () => {
     if (state === (dragItem || {}).state) {
       return blue;
     }
-
-    //return 'white';
   };
 
   if (tasks.length === 0) {
@@ -178,18 +182,19 @@ const TaskList = () => {
     <React.Fragment>
       <DragDropContext onDragEnd={(e) => dragEnd(e)} onDragStart={(e) => dragStart(e)}>
         <Grid>
-          {hiddenStates.map((state) => (
-            <React.Fragment key={state.name}>
-              <Droppable droppableId={state.name} /*isDropDisabled={!droppableStates.includes(state)}*/>
+          {actions.map((action) => (
+            <React.Fragment key={action}>
+              <Droppable droppableId={action}>
                 {(provided, snapshot) => (
                   <Box
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                     border="1px solid lightgray"
                     padding={5}
-                    background={getBorderColour(state)}
+                    background={getBackgroundColour(action)}
                   >
-                    <Text>{UCFirst(state.name)}</Text>
+                    <Text>{UCFirst(action)}</Text>
+                    {provided.placeholder}
                   </Box>
                 )}
               </Droppable>
@@ -209,7 +214,7 @@ const TaskList = () => {
                     <Stack
                       {...provided.droppableProps}
                       ref={provided.innerRef}
-                      background={getBorderColour(state)}
+                      background={getBackgroundColour(state)}
                       padding={4}
                       border={'1px solid'}
                       borderColor={'gray.300'}
