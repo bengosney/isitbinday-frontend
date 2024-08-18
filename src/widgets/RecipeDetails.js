@@ -1,10 +1,9 @@
-import apiFetch, { useApiFetch } from '../utils/apiFetch';
+import { useApiFetch } from '../utils/apiFetch';
 import { round } from '../utils/numbers';
-import { Stack, ListItem, ListIcon, OrderedList, Heading, Text, Box, useBreakpointValue } from '@chakra-ui/react';
+import { Stack, ListItem, OrderedList, Heading, Text, Box, useBreakpointValue } from '@chakra-ui/react';
 import { Table, Tbody, Tr, Th, Td, Thead } from '@chakra-ui/react';
-import React, { useCallback, useEffect, useReducer } from 'react';
-import { BiFoodMenu, BiUser } from 'react-icons/bi';
-import { useRouteMatch, Route, Switch, useHistory, useParams, Link } from 'react-router-dom';
+import React from 'react';
+import { useParams } from 'react-router-dom';
 
 const RecipeDetails = () => {
   const { slug } = useParams();
@@ -19,12 +18,6 @@ const RecipeDetails = () => {
     <Heading as="h3" size="md" paddingBottom="3" {...props}>
       {children}
     </Heading>
-  );
-
-  const Section = ({ children, ...props }) => (
-    <Box paddingTop="5" {...props}>
-      {children}
-    </Box>
   );
 
   return (

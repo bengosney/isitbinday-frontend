@@ -25,7 +25,7 @@ const RecipeURLModal = () => {
           }
         }}
       >
-        {({ dirty }) => (
+        {() => (
           <Stack>
             <Form.Input name={'url'} />
             <Form.Button type="submit">Add</Form.Button>

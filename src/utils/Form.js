@@ -21,7 +21,6 @@ import {
 } from '@chakra-ui/react';
 import { useFormikContext, Field as FormikField, useField, Formik } from 'formik';
 import * as React from 'react';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 
 const Field = ({ as, children, processor, name, label = null, showLabel = true, ...props }) => {
@@ -57,7 +56,7 @@ const Field = ({ as, children, processor, name, label = null, showLabel = true, 
   );
 };
 
-const MyCheckbox = ({ label, error, ...props }) => <Checkbox {...props}>{label}</Checkbox>;
+const MyCheckbox = ({ label, ...props }) => <Checkbox {...props}>{label}</Checkbox>;
 
 const checkBoxProcessor = ({ value, name, ...props }) => {
   return { ...props, isChecked: value, name: name };
@@ -131,14 +130,15 @@ const FancyInput = React.forwardRef(
     <InputGroup>
       {left}
       {leftAddon && <InputLeftAddon>{leftAddon}</InputLeftAddon>}
-      {leftElement && <InputLeftElement children={leftElement} />}
+      {leftElement && <InputLeftElement>{leftElement}</InputLeftElement>}
       <Input {...rest} ref={ref} />
-      {rightElement && <InputRightElement children={rightElement} />}
-      {rightAddon && <InputRightAddon children={rightAddon} />}
+      {rightElement && <InputRightElement>{rightElement}</InputRightElement>}
+      {rightAddon && <InputRightAddon>{rightAddon}</InputRightAddon>}
       {right}
     </InputGroup>
   )
 );
+FancyInput.displayName = 'FancyInput';
 
 const FormField = (props) => <Field as={Input} {...props} />;
 const FormButton = (props) => <FormikField as={Button} {...props} />;
@@ -161,10 +161,10 @@ export const InnerForm = React.forwardRef((props, ref) => {
     </form>
   );
 });
+InnerForm.displayName = 'InnerForm';
 
 export const Form = ({
   children,
-  error = '',
   loading = false,
   initialValues = {},
   validationSchema = null,

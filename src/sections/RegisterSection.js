@@ -1,4 +1,3 @@
-import PrivateRoute from '../utils/PrivateRoute';
 import PublicRoute from '../utils/PublicRoute';
 import FAB from '../widgets/FAB';
 import RegisterActivate from '../widgets/RegisterActivate';
@@ -9,7 +8,7 @@ import { MdKeyboardBackspace } from 'react-icons/md';
 import { Switch, useRouteMatch, useHistory } from 'react-router-dom';
 
 const RegisterSection = () => {
-  const { path, url } = useRouteMatch();
+  const { path } = useRouteMatch();
   const history = useHistory();
   return (
     <>

@@ -5,10 +5,10 @@ import apiFetch from '../utils/apiFetch';
 import Home from '../widgets/Home';
 import LoginForm from '../widgets/LoginForm';
 import Logout from '../widgets/Logout';
+import MaxWidth from '../widgets/MaxWidth';
 import RegisterSection from './RegisterSection';
 import React, { useEffect } from 'react';
 import { Switch, Route, useLocation, Redirect } from 'react-router-dom';
-import MaxWidth from '../widgets/MaxWidth';
 
 const MainAppSection = () => {
   const { pathname } = useLocation();
@@ -16,7 +16,7 @@ const MainAppSection = () => {
     (async () => {
       try {
         await apiFetch('api/tasks/tasks/auto_archive/');
-      } catch (error) {
+      } catch {
         // do nothing
       }
     })();

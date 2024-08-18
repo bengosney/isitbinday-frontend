@@ -40,7 +40,7 @@ const Auth = ({ children }) => {
     try {
       await doLogin(username, password);
       loginDispatch({ type: ACTION_LOGGED_IN });
-    } catch (err) {
+    } catch {
       loginDispatch({ type: ACTION_LOGGED_OUT });
     }
   };

@@ -1,10 +1,10 @@
-import React from 'react';
 import usePageTitle from '../utils/usePageTitle';
 import BookList from '../widgets/BookList';
 import BookModalSection from './BookModalSection';
-import { Heading, Stack } from '@chakra-ui/react';
-import { useRouteMatch, Route, Switch, Link } from 'react-router-dom';
 import BookSyncSection from './BookSyncSection';
+import { Heading, Stack } from '@chakra-ui/react';
+import React from 'react';
+import { useRouteMatch, Route, Switch, Link } from 'react-router-dom';
 
 const BookSection = () => {
   usePageTitle('Library');
@@ -20,7 +20,7 @@ const BookSection = () => {
   return (
     <React.Fragment>
       <Heading>Books</Heading>
-      <Stack direction={"row"}>
+      <Stack direction={'row'}>
         <Link to={listUrl}>List</Link>
         <Link to={syncUrl}>Sync Settings</Link>
       </Stack>

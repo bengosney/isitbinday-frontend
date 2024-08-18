@@ -1,3 +1,5 @@
+import ColorMode from '../widgets/ColorMode';
+import MaxWidth from '../widgets/MaxWidth';
 import Nav from '../widgets/Nav';
 import BookSection from './BookSection';
 import DashboardSection from './DashboardSection';
@@ -7,8 +9,6 @@ import TaskSection from './TaskSection';
 import { Spacer } from '@chakra-ui/react';
 import React from 'react';
 import { useRouteMatch, Route, Switch, useLocation, Link } from 'react-router-dom';
-import ColorMode from '../widgets/ColorMode';
-import MaxWidth from '../widgets/MaxWidth';
 
 const PrivateSection = () => {
   const { path } = useRouteMatch();
@@ -19,7 +19,6 @@ const PrivateSection = () => {
 
   const dashboardUrl = getUrl('');
   const tasksUrl = getUrl('tasks');
-  const archivedTasksUrl = getUrl('tasks/archived');
   const sprintsUrl = getUrl('sprints');
   const booksUrl = getUrl('books');
   const recipeUrl = getUrl('recipes');

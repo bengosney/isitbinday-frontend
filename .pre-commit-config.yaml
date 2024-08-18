@@ -22,10 +22,11 @@ repos:
         files: \.[jt]sx?$
         types: [file]
         additional_dependencies:
+          - '@eslint/js'
           - 'eslint'
-          - '@typescript-eslint/parser'
-          - '@typescript-eslint/eslint-plugin'
+          - 'eslint-plugin-react'
           - 'eslint-plugin-unused-imports'
+          - 'globals'
         args:
           - '--fix'
           - '--quiet'

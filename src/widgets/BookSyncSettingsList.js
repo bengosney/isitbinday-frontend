@@ -1,7 +1,7 @@
-import React from 'react';
-import apiFetch, { useApiFetch } from '../utils/apiFetch';
-import { Stack, ListItem, ListIcon, OrderedList, UnorderedList, Heading, Text, Box } from '@chakra-ui/react';
+import { useApiFetch } from '../utils/apiFetch';
 import Loader from './Loader';
+import { Stack, ListItem, UnorderedList } from '@chakra-ui/react';
+import React from 'react';
 
 const BookSyncSettingsList = () => {
   const url = 'api/books/sync/';

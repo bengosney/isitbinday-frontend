@@ -1,9 +1,9 @@
-import React from 'react';
-import { Stack, Heading, Text } from '@chakra-ui/react';
-import BookSyncSettingsList from '../widgets/BookSyncSettingsList';
 import BookSyncForm from '../forms/BookSyncForm';
-import Modal from '../widgets/Modal';
+import BookSyncSettingsList from '../widgets/BookSyncSettingsList';
 import FAB from '../widgets/FAB';
+import Modal from '../widgets/Modal';
+import { Stack, Heading, Text } from '@chakra-ui/react';
+import React from 'react';
 import { MdAdd } from 'react-icons/md';
 import { useRouteMatch, Route, Switch, useHistory } from 'react-router-dom';
 

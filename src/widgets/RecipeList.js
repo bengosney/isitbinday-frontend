@@ -1,8 +1,8 @@
-import apiFetch, { useApiFetch } from '../utils/apiFetch';
-import { List, ListItem, ListIcon, OrderedList, UnorderedList, Text } from '@chakra-ui/react';
-import React, { useCallback, useEffect, useReducer } from 'react';
-import { BiFoodMenu, BiUser } from 'react-icons/bi';
-import { useRouteMatch, Route, Switch, useHistory } from 'react-router-dom';
+import { useApiFetch } from '../utils/apiFetch';
+import { List, ListItem, ListIcon, Text } from '@chakra-ui/react';
+import React from 'react';
+import { BiFoodMenu } from 'react-icons/bi';
+import { useRouteMatch } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 const RecipeList = () => {

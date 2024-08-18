@@ -125,7 +125,9 @@ const TaskList = () => {
     const items = reorder(tasks, result.source.index, result.destination.index);
 
     const _dragItem = tasks.find((t) => t.id === parseInt(result.draggableId));
-    const action = Object.keys(transitionMap).find((key) => transitionMap[key] === result.destination.droppableId) || result.destination.droppableId;
+    const action =
+      Object.keys(transitionMap).find((key) => transitionMap[key] === result.destination.droppableId) ||
+      result.destination.droppableId;
 
     if (_dragItem.state !== result.destination.droppableId) {
       callAction(_dragItem.id, action);
@@ -185,7 +187,7 @@ const TaskList = () => {
           {actions.map((action) => (
             <React.Fragment key={action}>
               <Droppable droppableId={action}>
-                {(provided, snapshot) => (
+                {(provided) => (
                   <Box
                     {...provided.droppableProps}
                     ref={provided.innerRef}
@@ -210,7 +212,7 @@ const TaskList = () => {
                   droppableId={state}
                   isDropDisabled={!droppableStates.includes(state) && state !== (dragItem || {}).state}
                 >
-                  {(provided, snapshot) => (
+                  {(provided) => (
                     <Stack
                       {...provided.droppableProps}
                       ref={provided.innerRef}
@@ -229,7 +231,7 @@ const TaskList = () => {
 
                         return (
                           <Draggable key={id} draggableId={`${id}`} index={index}>
-                            {(provided, snapshot) => (
+                            {(provided) => (
                               <Box ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                                 <TaskCard
                                   task={task}
