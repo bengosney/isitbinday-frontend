@@ -1,11 +1,10 @@
+import React from 'react';
 import usePageTitle from '../utils/usePageTitle';
 import BookList from '../widgets/BookList';
-import FAB from '../widgets/FAB';
 import BookModalSection from './BookModalSection';
 import { Heading, Stack } from '@chakra-ui/react';
-import React from 'react';
-import { MdAdd } from 'react-icons/md';
-import { useRouteMatch, Route, Switch, useHistory } from 'react-router-dom';
+import { useRouteMatch, Route, Switch, Link } from 'react-router-dom';
+import BookSyncSection from './BookSyncSection';
 
 const BookSection = () => {
   usePageTitle('Library');
@@ -16,15 +15,19 @@ const BookSection = () => {
   };
 
   const listUrl = getUrl('');
-  const addUrl = getUrl('add');
-  const newUrl = getUrl('new');
-
-  const history = useHistory();
+  const syncUrl = getUrl('sync');
 
   return (
     <React.Fragment>
       <Heading>Books</Heading>
+      <Stack direction={"row"}>
+        <Link to={listUrl}>List</Link>
+        <Link to={syncUrl}>Sync Settings</Link>
+      </Stack>
       <Switch>
+        <Route path={syncUrl}>
+          <BookSyncSection />
+        </Route>
         <Route path={listUrl}>
           <Stack my={6}>
             <BookList />
