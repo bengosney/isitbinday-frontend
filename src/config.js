@@ -13,6 +13,7 @@ const defaults = { ...prod };
 
 const config = { dev: { ...dev }, prod: { ...prod }, defaults: { ...defaults } };
 
+// eslint-disable-next-line no-undef
 export const env = process.env.REACT_APP_STAGE || 'prod';
 
 export const getConfig = (key, defaultValue) => {

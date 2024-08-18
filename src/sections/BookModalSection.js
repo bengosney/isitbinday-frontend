@@ -1,10 +1,8 @@
 import apiFetch from '../utils/apiFetch';
 import usePageTitle from '../utils/usePageTitle';
 import BarcodeModal from '../widgets/BarcodeModal';
-import BookList from '../widgets/BookList';
 import FAB from '../widgets/FAB';
 import Loader from '../widgets/Loader';
-import { Heading, Stack } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { BiBookAdd } from 'react-icons/bi';
 import { useRouteMatch, Route, Switch, useHistory } from 'react-router-dom';
@@ -27,8 +25,7 @@ const BookModalSection = () => {
     setScanning(false);
     apiFetch(`api/books/book/lookup/${data}/`)
       .then(() => close())
-      .catch((err) => {
-        //console.log('scanning error', err);
+      .catch(() => {
         close();
       });
   };

@@ -1,4 +1,4 @@
-import { Center, Heading, Stack, Text } from '@chakra-ui/react';
+import { Heading, Stack, Text } from '@chakra-ui/react';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 

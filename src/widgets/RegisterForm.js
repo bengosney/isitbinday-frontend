@@ -1,4 +1,3 @@
-import { authContext } from '../Auth';
 import { Form } from '../utils/Form';
 import apiFetch from '../utils/apiFetch';
 import usePageTitle from '../utils/usePageTitle';
@@ -65,7 +64,7 @@ const RegisterForm = () => {
         }}
         loading={loading}
       >
-        {({ dirty }) => {
+        {() => {
           return (
             <Stack>
               <Form.Input name={'email'} />
@@ -73,9 +72,7 @@ const RegisterForm = () => {
               <Form.Input name={'passwordConfirmation'} type="password" />
               <Form.Input name={'firstName'} />
               <Form.Input name={'lastName'} />
-              <Form.Button type="submit">
-                Register
-              </Form.Button>
+              <Form.Button type="submit">Register</Form.Button>
             </Stack>
           );
         }}

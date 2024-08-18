@@ -1,9 +1,8 @@
 import { getConfig } from '../config';
 import { db } from '../db';
 import { useState, useEffect } from 'react';
-import { useDoc } from 'use-pouchdb';
 
-export const origin = process.env.REACT_APP_API_URL || getConfig('api_origin', 'http://localhost:8000');
+export const origin = process.env.REACT_APP_API_URL || getConfig('api_origin', 'http://localhost:8000'); // eslint-disable-line no-undef
 
 const setLocalStorage = (key, value) => {
   localStorage.setItem(key, value);
@@ -166,7 +165,7 @@ const apiFetch = async (url, args = null) => {
     let refreshed = false;
     try {
       refreshed = await refreshToken();
-    } catch (err) {
+    } catch {
       refreshed = false;
     }
 

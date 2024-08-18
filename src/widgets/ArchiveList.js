@@ -35,15 +35,15 @@ const ArchiveList = ({ limit = 25, offset = 0 }) => {
     return <Loader />;
   }
 
-  const { results: archivedTasks = [], next, previous } = data;
+  const { results: archivedTasks = [] } = data;
 
   return (
     <Stack>
       <Heading>ArchiveList</Heading>
       {archivedTasks.map((task) => {
         return (
-          <Box>
-            <Text key={task.id}>
+          <Box key={task.id}>
+            <Text>
               {task.title} - {task.previous_state}
             </Text>
           </Box>

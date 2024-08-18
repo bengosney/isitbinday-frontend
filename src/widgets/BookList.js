@@ -3,19 +3,7 @@ import success from '../sounds/success';
 import apiFetch, { useApiFetch } from '../utils/apiFetch';
 import useDebounced from '../utils/useDebounced';
 import BarcodeInput from './BarcodeInput';
-import {
-  List,
-  ListItem,
-  ListIcon,
-  Input,
-  Text,
-  useToast,
-  Button,
-  IconButton,
-  Image,
-  HStack,
-  Select,
-} from '@chakra-ui/react';
+import { List, ListItem, ListIcon, Input, Text, useToast, IconButton, HStack, Select } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { BiBook, BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
 

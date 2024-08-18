@@ -3,7 +3,7 @@ import { Form } from '../utils/Form';
 import usePageTitle from '../utils/usePageTitle';
 import { Heading, Stack, Divider, Alert, AlertIcon } from '@chakra-ui/react';
 import React, { useContext, useState } from 'react';
-import { useRouteMatch, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import * as Yup from 'yup';
 
 const loginSchema = Yup.object().shape({
@@ -45,7 +45,7 @@ const LoginForm = () => {
         }}
         loading={loading}
       >
-        {({ dirty }) => {
+        {() => {
           return (
             <Stack>
               <Form.Input name={'username'} />
