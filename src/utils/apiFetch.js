@@ -154,11 +154,10 @@ const apiFetch = async (url, args = null) => {
   const method = parseInt(args?.id || 0) > 0 ? 'put' : null;
   const options = getOptions(args, method);
 
-  if ((window.fetching || 0) == 0) {
-    window.fetching = 0;
+  window.fetching = (window.fetching || 0) + 1;
+  if (window.fetching == 1) {
     window.dispatchEvent(new CustomEvent('fetching', { detail: true }));
   }
-  window.fetching += 1;
 
   let res = await fetchFromOrigin(url, options);
   if (res.status === 401) {
@@ -176,13 +175,14 @@ const apiFetch = async (url, args = null) => {
       clearAuth();
     }
   }
-  if (res.status > 299) {
-    throw new Error(`Error: ${res.status}`);
-  }
 
   window.fetching -= 1;
   if (window.fetching === 0) {
     window.dispatchEvent(new CustomEvent('fetching', { detail: false }));
+  }
+
+  if (res.status > 299) {
+    throw new Error(`Error: ${res.status}`);
   }
 
   return await res.json();
