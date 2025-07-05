@@ -3,7 +3,8 @@ import { getConfig } from './config';
 import { db } from './db';
 import MainAppSection from './sections/MainAppSection';
 import customTheme from './theme';
-import { ChakraProvider, Box, Text, Spinner } from '@chakra-ui/react';
+import Footer from './widgets/Footer';
+import { ChakraProvider, Box, Text, Spinner, Flex, Spacer, Link } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'use-pouchdb';
@@ -23,19 +24,17 @@ function App() {
   return (
     <Provider pouchdb={db}>
       <ChakraProvider resetCSS theme={customTheme}>
-        <Box borderColor={'gray.100'}>
-          {loader}
-          <Auth>
-            <Router>
+        <Auth>
+          <Router>
+            <Box borderColor={'gray.100'} minHeight={'90vh'}>
+              {loader}
               <MainAppSection />
-            </Router>
-          </Auth>
-        </Box>
-        <Box maxW="90vw" margin="auto" w="100%" paddingTop={4} paddingBottom={4}>
-          <Text fontSize="xs" fontFamily="Monaco, Lucida Console, Courier New, Courier">
-            Build: {getConfig('build')}
-          </Text>
-        </Box>
+            </Box>
+            <Box maxW="90vw" margin="auto" w="100%" paddingTop={4} paddingBottom={4}>
+              <Footer />
+            </Box>
+          </Router>
+        </Auth>
       </ChakraProvider>
     </Provider>
   );
