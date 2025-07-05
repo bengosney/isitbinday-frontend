@@ -6,7 +6,10 @@ import Home from '../widgets/Home';
 import LoginForm from '../widgets/LoginForm';
 import Logout from '../widgets/Logout';
 import MaxWidth from '../widgets/MaxWidth';
+import ContactSection from './ContactSection';
+import PrivacyPolicySection from './PrivacyPolicySection';
 import RegisterSection from './RegisterSection';
+import TermsSection from './TermsSection';
 import React, { useEffect } from 'react';
 import { Switch, Route, useLocation, Redirect } from 'react-router-dom';
 
@@ -38,6 +41,21 @@ const MainAppSection = () => {
           <RegisterSection />
         </MaxWidth>
       </PublicRoute>
+      <Route path="/privacy-policy">
+        <MaxWidth>
+          <PrivacyPolicySection />
+        </MaxWidth>
+      </Route>
+      <Route path="/terms-and-conditions">
+        <MaxWidth>
+          <TermsSection />
+        </MaxWidth>
+      </Route>
+      <Route path="/contact">
+        <MaxWidth>
+          <ContactSection />
+        </MaxWidth>
+      </Route>
       <PrivateRoute path="/iibd">
         <PrivateSection />
       </PrivateRoute>
