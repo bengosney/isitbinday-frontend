@@ -203,7 +203,7 @@ const TaskList = () => {
             </React.Fragment>
           ))}
         </Grid>
-        <Grid templateColumns={direction == 'row' ? '1' : `repeat(${states.length}, 1fr)`} gap={6}>
+        <Grid minHeight={'50vh'} templateColumns={direction == 'row' ? '1' : `repeat(${states.length}, 1fr)`} gap={6}>
           {states.map((state) => (
             <Stack key={state}>
               <Text>{UCFirst(state)}</Text>
