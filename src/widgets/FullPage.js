@@ -4,7 +4,6 @@ import React from 'react';
 
 export const FullPage = ({ children, ...props }) => (
   <Stack
-    className="full-page"
     maxWidth={{ base: '100%', md: '90vw' }}
     width={'100%'}
     margin="auto"
