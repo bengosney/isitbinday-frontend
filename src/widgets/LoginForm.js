@@ -1,6 +1,7 @@
 import { authContext } from '../Auth';
 import { Form } from '../utils/Form';
 import usePageTitle from '../utils/usePageTitle';
+import { NarrowStack } from '../widgets/NarrowStack';
 import { Heading, Stack, Divider, Alert, AlertIcon } from '@chakra-ui/react';
 import React, { useContext, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -29,7 +30,7 @@ const LoginForm = () => {
   }
 
   return (
-    <Stack maxW={'25rem'} margin={'auto'} height={'100vh'} justify={'center'} spacing={4}>
+    <NarrowStack>
       <Heading as="h2" color="teal" textAlign="center">
         Log-in to your account
       </Heading>
@@ -55,7 +56,7 @@ const LoginForm = () => {
           );
         }}
       </Form>
-    </Stack>
+    </NarrowStack>
   );
 };
 export default LoginForm;

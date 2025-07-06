@@ -2,10 +2,10 @@ import PrivateSection from '../sections/PrivateSection';
 import PrivateRoute from '../utils/PrivateRoute';
 import PublicRoute from '../utils/PublicRoute';
 import apiFetch from '../utils/apiFetch';
+import FullPage from '../widgets/FullPage';
 import Home from '../widgets/Home';
 import LoginForm from '../widgets/LoginForm';
 import Logout from '../widgets/Logout';
-import MaxWidth from '../widgets/MaxWidth';
 import ContactSection from './ContactSection';
 import PrivacyPolicySection from './PrivacyPolicySection';
 import RegisterSection from './RegisterSection';
@@ -29,32 +29,34 @@ const MainAppSection = () => {
     <Switch>
       <Redirect from="/:url*(/+)" to={pathname.slice(0, -1)} />
       <Route exact path="/">
-        <Home />
+        <FullPage>
+          <Home />
+        </FullPage>
       </Route>
       <PublicRoute path={['/login/:action', '/login']}>
-        <MaxWidth>
+        <FullPage>
           <LoginForm />
-        </MaxWidth>
+        </FullPage>
       </PublicRoute>
       <PublicRoute path="/register">
-        <MaxWidth>
+        <FullPage>
           <RegisterSection />
-        </MaxWidth>
+        </FullPage>
       </PublicRoute>
       <Route path="/privacy-policy">
-        <MaxWidth>
+        <FullPage>
           <PrivacyPolicySection />
-        </MaxWidth>
+        </FullPage>
       </Route>
       <Route path="/terms-and-conditions">
-        <MaxWidth>
+        <FullPage>
           <TermsSection />
-        </MaxWidth>
+        </FullPage>
       </Route>
       <Route path="/contact">
-        <MaxWidth>
+        <FullPage>
           <ContactSection />
-        </MaxWidth>
+        </FullPage>
       </Route>
       <PrivateRoute path="/iibd">
         <PrivateSection />
