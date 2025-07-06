@@ -1,6 +1,7 @@
 import { Form } from '../utils/Form';
 import apiFetch from '../utils/apiFetch';
 import usePageTitle from '../utils/usePageTitle';
+import { NarrowStack } from '../widgets/NarrowStack';
 import { Heading, Stack, Divider } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
@@ -26,7 +27,7 @@ const RegisterForm = () => {
   const [error, setError] = useState('');
 
   return (
-    <Stack maxW={'25rem'} margin={'auto'} height={'100vh'} justify={'center'} spacing={4}>
+    <NarrowStack>
       <Heading as="h2" color="teal" textAlign="center">
         Register for an account
       </Heading>
@@ -77,7 +78,7 @@ const RegisterForm = () => {
           );
         }}
       </Form>
-    </Stack>
+    </NarrowStack>
   );
 };
 

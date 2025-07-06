@@ -1,4 +1,5 @@
 import apiFetch from '../utils/apiFetch';
+import { NarrowStack } from '../widgets/NarrowStack';
 import { Stack, Spinner, Box, Center } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
@@ -19,19 +20,19 @@ const RegisterActivate = () => {
 
   if (error) {
     return (
-      <Stack maxW={'25rem'} margin={'auto'} height={'100vh'} justify={'center'} spacing={4}>
+      <NarrowStack>
         <Box>Invalid Code</Box>
-      </Stack>
+      </NarrowStack>
     );
   }
 
   return (
-    <Stack maxW={'25rem'} margin={'auto'} height={'100vh'} justify={'center'} spacing={4}>
+    <NarrowStack>
       <Box textAlign="center">Checking account</Box>
       <Center>
         <Spinner />
       </Center>
-    </Stack>
+    </NarrowStack>
   );
 };
 
