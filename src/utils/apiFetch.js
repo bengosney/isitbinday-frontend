@@ -150,9 +150,9 @@ export const makeKey = async (url, args) => {
   return `${hash}`.substr(0, 10);
 };
 
-const apiFetch = async (url, args = null) => {
-  const method = parseInt(args?.id || 0) > 0 ? 'put' : null;
-  const options = getOptions(args, method);
+export const apiFetch = async (url, args = null, method = null) => {
+  const _method = parseInt(args?.id || 0) > 0 ? 'put' : null;
+  const options = getOptions(args, method || _method);
 
   window.fetching = (window.fetching || 0) + 1;
   if (window.fetching == 1) {
@@ -183,6 +183,10 @@ const apiFetch = async (url, args = null) => {
 
   if (res.status > 299) {
     throw new Error(`Error: ${res.status}`);
+  }
+
+  if (res.status === 204) {
+    return null; // No content
   }
 
   return await res.json();
