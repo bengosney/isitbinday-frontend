@@ -1,12 +1,28 @@
-import { useApiFetch } from '../utils/apiFetch';
+import { useApiFetch, apiFetch } from '../utils/apiFetch';
 import { round } from '../utils/numbers';
-import { Stack, ListItem, OrderedList, Heading, Text, Box, useBreakpointValue } from '@chakra-ui/react';
+import ConfirmDialog from './ConfirmDialog';
+import {
+  Stack,
+  ListItem,
+  OrderedList,
+  Heading,
+  Text,
+  Box,
+  useBreakpointValue,
+  Button,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { Table, Tbody, Tr, Th, Td, Thead } from '@chakra-ui/react';
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 const RecipeDetails = () => {
   const { slug } = useParams();
+  const history = useHistory();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = React.useRef();
+  const [isDeleting, setIsDeleting] = React.useState(false);
+  const [error, setError] = React.useState(null);
   const tableProps = useBreakpointValue({ base: {}, md: { lineHeight: 5, fontSize: 'md' } });
   const details = useApiFetch(`api/recipes/recipe/${slug}`);
 
@@ -20,10 +36,41 @@ const RecipeDetails = () => {
     </Heading>
   );
 
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    setError(null);
+    try {
+      console.log(`Recipe ${slug} deleted successfully.`);
+      await apiFetch(`api/recipes/recipe/${slug}/`, null, 'DELETE');
+      history.replace('/iibd/recipes');
+    } catch (e) {
+      setIsDeleting(false);
+      setError(e.message);
+      onClose();
+    }
+  };
+
   return (
     <Stack spacing={5}>
+      {error && (
+        <Box color="red.500" fontWeight="bold" mb={2}>
+          {error}
+        </Box>
+      )}
       <Heading>{details.name}</Heading>
       <Text>{details.description}</Text>
+      <Button colorScheme="red" onClick={onOpen} alignSelf="flex-start">
+        Delete
+      </Button>
+      <ConfirmDialog
+        title={`Delete Recipe`}
+        body={`${details.name} will be deleted, you can't undo this action.`}
+        isOpen={isOpen}
+        onClose={onClose}
+        cancelRef={cancelRef}
+        isLoading={isDeleting}
+        onConfirm={handleDelete}
+      />
 
       <Stack direction={{ base: 'column', md: 'row' }} spacing={6}>
         <Box>
