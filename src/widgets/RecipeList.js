@@ -5,8 +5,8 @@ import { BiFoodMenu } from 'react-icons/bi';
 import { useRouteMatch } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
-const RecipeList = () => {
-  const apiResults = useApiFetch('api/recipes/recipe/');
+const RecipeList = ({ refreshKey = 0 }) => {
+  const apiResults = useApiFetch('api/recipes/recipe/', null, refreshKey);
   const { results: recipes = [] } = apiResults || {};
 
   const { path } = useRouteMatch();

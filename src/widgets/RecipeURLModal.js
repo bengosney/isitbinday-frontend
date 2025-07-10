@@ -5,17 +5,19 @@ import { Stack } from '@chakra-ui/react';
 import React from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 
-const RecipeURLModal = () => {
+const RecipeURLModal = ({ onClose = () => undefined }) => {
   const { path } = useRouteMatch();
   const history = useHistory();
 
   const close = () => {
+    onClose();
     history.push(path.substring(0, path.lastIndexOf('/')));
   };
 
   return (
     <Modal title={'Add recipe from URL'} isOpen={true} onClose={() => close()}>
       <Form
+        initialValues={{ url: '' }}
         onSubmit={async ({ url }, { resetForm }) => {
           if (`${url}` != '') {
             await apiFetch('api/recipes/recipe/from_url/', { url: url });
