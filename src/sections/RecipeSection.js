@@ -5,12 +5,14 @@ import RecipeForm from '../widgets/RecipeForm';
 import RecipeList from '../widgets/RecipeList';
 import RecipeURLModal from '../widgets/RecipeURLModal';
 import { Heading, Stack } from '@chakra-ui/react';
-import React from 'react';
+import React, { useState } from 'react';
 import { MdAdd } from 'react-icons/md';
 import { useRouteMatch, Route, Switch, useHistory } from 'react-router-dom';
 
 const RecipeSection = () => {
   usePageTitle('Recipes');
+  const [refreshKey, setRefreshKey] = useState(0);
+  const incrementRefreshKey = () => setRefreshKey((prevKey) => prevKey + 1);
   const { path } = useRouteMatch();
 
   const getUrl = (slug) => {
@@ -33,8 +35,8 @@ const RecipeSection = () => {
         </Route>
         <Route path={urlUrl}>
           <Stack my={6}>
-            <RecipeList />
-            <RecipeURLModal />
+            <RecipeList refreshKey={refreshKey} />
+            <RecipeURLModal onClose={() => incrementRefreshKey()} />
           </Stack>
         </Route>
         <Route path={viewUrl}>
