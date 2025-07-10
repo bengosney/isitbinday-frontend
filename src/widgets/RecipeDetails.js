@@ -59,19 +59,6 @@ const RecipeDetails = () => {
       )}
       <Heading>{details.name}</Heading>
       <Text>{details.description}</Text>
-      <Button colorScheme="red" onClick={onOpen} alignSelf="flex-start">
-        Delete
-      </Button>
-      <ConfirmDialog
-        title={`Delete Recipe`}
-        body={`${details.name} will be deleted, you can't undo this action.`}
-        isOpen={isOpen}
-        onClose={onClose}
-        cancelRef={cancelRef}
-        isLoading={isDeleting}
-        onConfirm={handleDelete}
-      />
-
       <Stack direction={{ base: 'column', md: 'row' }} spacing={6}>
         <Box>
           <SubHeading>Ingredients</SubHeading>
@@ -111,6 +98,19 @@ const RecipeDetails = () => {
           </OrderedList>
         </Box>
       </Stack>
+
+      <Button colorScheme="red" onClick={onOpen} alignSelf="flex-end">
+        Delete
+      </Button>
+      <ConfirmDialog
+        title={`Delete Recipe`}
+        body={`${details.name} will be deleted, you can't undo this action.`}
+        isOpen={isOpen}
+        onClose={onClose}
+        cancelRef={cancelRef}
+        isLoading={isDeleting}
+        onConfirm={handleDelete}
+      />
     </Stack>
   );
 };
