@@ -101,6 +101,16 @@ export const login = async (username, password) => {
   return true;
 };
 
+export const loginViaGoogleJWT = async (google_jwt) => {
+  const options = getOptions({ token: google_jwt });
+  const res = await fetchJsonFromOrigin('api/accounts/google-login/', options);
+
+  setToken(res.access);
+  setRefresh(res.refresh);
+
+  return true;
+};
+
 export const logout = async () => {
   clearAuth();
 };
