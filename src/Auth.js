@@ -1,4 +1,9 @@
-import apiFetch, { login as doLogin, logout as doLogout, checkLogin } from './utils/apiFetch';
+import apiFetch, {
+  login as doLogin,
+  logout as doLogout,
+  checkLogin,
+  loginViaGoogleJWT as doLoginViaGoogleJWT,
+} from './utils/apiFetch';
 import React, { useReducer, useEffect } from 'react';
 
 export const authContext = React.createContext({ loggedIn: false });
@@ -50,7 +55,16 @@ const Auth = ({ children }) => {
     loginDispatch({ type: ACTION_LOGGED_OUT });
   };
 
-  return <Provider value={{ loggedIn: loginState.loggedIn, login, logout }}>{children}</Provider>;
+  const loginViaGoogleJWT = async (jwt) => {
+    try {
+      await doLoginViaGoogleJWT(jwt);
+      loginDispatch({ type: ACTION_LOGGED_IN });
+    } catch {
+      loginDispatch({ type: ACTION_LOGGED_OUT });
+    }
+  };
+
+  return <Provider value={{ loggedIn: loginState.loggedIn, login, logout, loginViaGoogleJWT }}>{children}</Provider>;
 };
 
 export default Auth;

@@ -1,5 +1,6 @@
 import { authContext } from '../Auth';
 import { Form } from '../utils/Form';
+import { useLoginWithGoogle } from '../utils/useLoginWithGoogle';
 import usePageTitle from '../utils/usePageTitle';
 import { NarrowStack } from '../widgets/NarrowStack';
 import { Heading, Stack, Divider, Alert, AlertIcon } from '@chakra-ui/react';
@@ -15,8 +16,12 @@ const loginSchema = Yup.object().shape({
 const LoginForm = () => {
   usePageTitle('Login');
   const { login } = useContext(authContext);
-  const [loading, setLoading] = useState(false);
+  const [authLoading, setLoading] = useState(false);
   const { action = null } = useParams();
+
+  const { loading: googleLoading } = useLoginWithGoogle();
+
+  const loading = authLoading || googleLoading;
 
   let msg = null;
   switch (action) {

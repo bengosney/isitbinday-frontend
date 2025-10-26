@@ -6,6 +6,7 @@ import customTheme from './theme';
 import Footer from './widgets/Footer';
 import { ChakraProvider, Box, Text, Spinner, Flex, Spacer, Link, Stack } from '@chakra-ui/react';
 import { Portal } from '@chakra-ui/react';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import React, { useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'use-pouchdb';
@@ -27,19 +28,21 @@ function App() {
   return (
     <Provider pouchdb={db}>
       <ChakraProvider resetCSS theme={customTheme}>
-        <Auth>
-          <Router>
-            {loader}
-            <Stack minHeight={'100vh'} gap={0}>
-              <Box flexGrow={1}>
-                <MainAppSection />
-              </Box>
-              <Box paddingX={16}>
-                <Footer />
-              </Box>
-            </Stack>
-          </Router>
-        </Auth>
+        <GoogleOAuthProvider clientId="582381464087-14q0s67afpctetcj59cfns61g8qak33s.apps.googleusercontent.com">
+          <Auth>
+            <Router>
+              {loader}
+              <Stack minHeight={'100vh'} gap={0}>
+                <Box flexGrow={1}>
+                  <MainAppSection />
+                </Box>
+                <Box paddingX={16}>
+                  <Footer />
+                </Box>
+              </Stack>
+            </Router>
+          </Auth>
+        </GoogleOAuthProvider>
       </ChakraProvider>
     </Provider>
   );
