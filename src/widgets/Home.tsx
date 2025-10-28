@@ -1,5 +1,5 @@
 import usePageTitle from '../utils/usePageTitle';
-import { NarrowStack } from '../widgets/NarrowStack';
+import { NarrowStack } from './NarrowStack';
 import { Stack, Heading, Button } from '@chakra-ui/react';
 import React from 'react';
 import { BiLogInCircle as IconLogin, BiUserPlus as IconRegister } from 'react-icons/bi';
