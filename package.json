@@ -40,7 +40,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "format": "prettier --write src/**/*.js ; prettier --write src/**/*.css"
+    "format": "prettier --write src/**/*.{js,jsx,ts,tsx} ; prettier --write src/**/*.css"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -61,5 +61,8 @@
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
       "prettier --write"
     ]
+  },
+  "devDependencies": {
+    "@types/react-router-dom": "^5.3.3"
   }
 }
