@@ -22,7 +22,7 @@ export const useLoginWithGoogle = () => {
     },
     use_fedcm_for_prompt: true,
     use_fedcm_for_button: true,
-    //auto_select: true,
+    auto_select: true,
   });
 
   return { loading, error };
