@@ -11,6 +11,7 @@ repos:
       - id: check-json
       - id: check-toml
       - id: check-added-large-files
+        exclude: 'yarn.lock'
       - id: check-merge-conflict
       - id: detect-private-key
       - id: mixed-line-ending
