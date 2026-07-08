@@ -1,4 +1,5 @@
 import apiFetch from '../utils/apiFetch';
+import LinkifyText from './LinkifyText';
 import { Box, Text, Heading, Stack, IconButton, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
 import { MdModeEdit, MdDone } from 'react-icons/md';
@@ -30,7 +31,7 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }) => {
           <Stack direction={'row'} justify={'space-between'}>
             <Stack minW={0}>
               <Heading fontSize={'1em'} wordBreak="break-word">
-                {title}
+                <LinkifyText>{title}</LinkifyText>
               </Heading>
               {showDueDate && due && <Text>Due: {due}</Text>}
             </Stack>
