@@ -28,8 +28,10 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }) => {
       <Box key={`${state}-${id}`} border="1px solid lightgray" padding={4} background={backgroundColour}>
         <Stack>
           <Stack direction={'row'} justify={'space-between'}>
-            <Stack>
-              <Heading fontSize={'1em'}>{title}</Heading>
+            <Stack minW={0}>
+              <Heading fontSize={'1em'} wordBreak="break-word">
+                {title}
+              </Heading>
               {showDueDate && due && <Text>Due: {due}</Text>}
             </Stack>
             <Stack>
