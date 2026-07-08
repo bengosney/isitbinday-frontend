@@ -5,7 +5,7 @@ import React from 'react';
 const renderLink = ({ attributes, content }) => {
   const { href, ...props } = attributes;
   return (
-    <Link href={href} textDecoration="underline dotted" _hover={{ textDecoration: 'underline' }} {...props}>
+    <Link href={href} {...props}>
       {content}
     </Link>
   );
