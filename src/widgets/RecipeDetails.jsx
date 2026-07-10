@@ -52,9 +52,11 @@ const RecipeDetails = () => {
         </Box>
       )}
       <Text fontFamily="mono" fontSize="11px" color={tokens.textDim}>
-        <ChakraLink as={Link} to="/iibd/recipes" color={tokens.accentText}>
-          Recipes
-        </ChakraLink>
+        <Link to="/iibd/recipes">
+          <ChakraLink as="span" color={tokens.accentText}>
+            Recipes
+          </ChakraLink>
+        </Link>
         {' / '}
         {slug}
       </Text>

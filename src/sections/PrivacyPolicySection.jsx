@@ -16,7 +16,7 @@ const PrivacyPolicySection = () => {
       <Text mb={4}>
         This Privacy Policy describes how IsItBinDay ("we," "us," or "our") collects, uses, and discloses your personal
         information when you use our website{' '}
-        <Link href="https://www.isitbinday.com" color="blue.500" isExternal>
+        <Link href="https://www.isitbinday.com" color="blue.500" target="_blank" rel="noopener noreferrer">
           www.isitbinday.com
         </Link>{' '}
         (the "Service") and when you sign up for an account.
@@ -297,7 +297,7 @@ const PrivacyPolicySection = () => {
         </ListItem>
         <ListItem>
           By visiting this page on our website:{' '}
-          <Link href="https://www.isitbinday.com/contact" color="blue.500" isExternal>
+          <Link href="https://www.isitbinday.com/contact" color="blue.500" target="_blank" rel="noopener noreferrer">
             www.isitbinday.com/contact
           </Link>
         </ListItem>

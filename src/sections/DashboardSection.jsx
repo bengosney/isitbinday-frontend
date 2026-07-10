@@ -66,9 +66,11 @@ const DashboardSection = () => {
           <Module
             title="Tasks"
             action={
-              <ChakraLink as={Link} to="/iibd/tasks" fontSize="12px" fontWeight={500} color={tokens.accentText}>
-                Open board
-              </ChakraLink>
+              <Link to="/iibd/tasks">
+                <ChakraLink as="span" fontSize="12px" fontWeight={500} color={tokens.accentText}>
+                  Open board
+                </ChakraLink>
+              </Link>
             }
           >
             <Stack gap={2.5}>

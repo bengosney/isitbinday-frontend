@@ -91,7 +91,8 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }) => {
       <ChakraLink
         key={`link-${link.href}`}
         href={link.href}
-        isExternal
+        target="_blank"
+        rel="noopener noreferrer"
         fontFamily="mono"
         fontSize="10.5px"
         color={resolved ? tokens.textDim : tokens.accentText}
@@ -152,16 +153,17 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }) => {
           </Flex>
         )}
       </Stack>
-      <IconButton
-        as={Link}
-        to={`${path}/edit/${id}`.replace('//', '/')}
-        variant="ghost"
-        size="xs"
-        aria-label="Edit"
-        icon={<MdModeEdit />}
-        color={resolved ? tokens.textDim : tokens.textMuted}
-        flex="none"
-      />
+      <Link to={`${path}/edit/${id}`.replace('//', '/')}>
+        <IconButton
+          variant="ghost"
+          size="xs"
+          aria-label="Edit"
+          color={resolved ? tokens.textDim : tokens.textMuted}
+          flex="none"
+        >
+          <MdModeEdit />
+        </IconButton>
+      </Link>
     </Flex>
   );
 };

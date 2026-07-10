@@ -13,7 +13,7 @@ const Loader = ({ loading = true, content = 'Loading', children = false }) => {
             left={0}
             right={0}
             bottom={0}
-            background={'whiteAlpha.800'}
+            background={'rgba(255,255,255,0.8)'}
             display={'flex'}
             justifyContent={'center'}
             alignItems={'center'}

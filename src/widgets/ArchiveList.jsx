@@ -1,7 +1,7 @@
 import { useApiFetch } from '../utils/apiFetch';
 import useTokens, { statusColor } from '../utils/useTokens';
 import Loader from './Loader';
-import { Button, ButtonGroup, Flex, Stack, Text, Box } from '@chakra-ui/react';
+import { Button, Group, Flex, Stack, Text, Box } from '@chakra-ui/react';
 import React, { useReducer } from 'react';
 
 const ArchiveList = ({ limit = 25, offset = 0 }) => {
@@ -79,14 +79,14 @@ const ArchiveList = ({ limit = 25, offset = 0 }) => {
           </Flex>
         );
       })}
-      <ButtonGroup isAttached>
+      <Group attached>
         <Button size="sm" variant="outline" onClick={() => dispatch({ url: data.previous })}>
           Previous
         </Button>
         <Button size="sm" variant="outline" onClick={() => dispatch({ url: data.next })}>
           Next
         </Button>
-      </ButtonGroup>
+      </Group>
     </Stack>
   );
 };

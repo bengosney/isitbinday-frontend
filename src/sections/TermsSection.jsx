@@ -196,7 +196,7 @@ const TermsSection = () => {
         </ListItem>
         <ListItem>
           By visiting this page on our website:{' '}
-          <Link href="https://www.isitbinday.com/contact" color="blue.500" isExternal>
+          <Link href="https://www.isitbinday.com/contact" color="blue.500" target="_blank" rel="noopener noreferrer">
             www.isitbinday.com/contact
           </Link>
         </ListItem>

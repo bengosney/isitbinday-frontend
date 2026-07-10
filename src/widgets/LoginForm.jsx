@@ -4,7 +4,7 @@ import { useLoginWithGoogle } from '../utils/useLoginWithGoogle';
 import usePageTitle from '../utils/usePageTitle';
 import useTokens from '../utils/useTokens';
 import AuthShell, { AuthCard } from '../widgets/AuthShell';
-import { Stack, Alert, AlertIcon, Link as ChakraLink, Text } from '@chakra-ui/react';
+import { Stack, Alert, Link as ChakraLink, Text } from '@chakra-ui/react';
 import React, { useContext, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -29,10 +29,10 @@ const LoginForm = () => {
   switch (action) {
     case 'activated':
       msg = (
-        <Alert status="success" borderRadius="10px">
-          <AlertIcon />
+        <Alert.Root status="success" borderRadius="10px">
+          <Alert.Indicator />
           Account activated
-        </Alert>
+        </Alert.Root>
       );
       break;
     default:
@@ -68,9 +68,11 @@ const LoginForm = () => {
       </AuthCard>
       <Text textAlign="center" fontSize="13px" color={tokens.textMuted}>
         No account?{' '}
-        <ChakraLink as={Link} to="/register" color={tokens.accentText} fontWeight={500}>
-          Create one
-        </ChakraLink>
+        <Link to="/register">
+          <ChakraLink as="span" color={tokens.accentText} fontWeight={500}>
+            Create one
+          </ChakraLink>
+        </Link>
       </Text>
     </AuthShell>
   );

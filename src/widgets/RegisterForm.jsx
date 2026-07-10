@@ -120,22 +120,22 @@ const RegisterForm = () => {
       {step === 1 ? (
         <Text textAlign="center" fontSize="13px" color={tokens.textMuted}>
           Already have an account?{' '}
-          <ChakraLink as={Link} to="/login" color={tokens.accentText} fontWeight={500}>
-            Sign in
-          </ChakraLink>
+          <Link to="/login">
+            <ChakraLink as="span" color={tokens.accentText} fontWeight={500}>
+              Sign in
+            </ChakraLink>
+          </Link>
         </Text>
       ) : (
-        <ChakraLink
-          as="button"
+        <button
           type="button"
           onClick={() => setStep(1)}
-          textAlign="center"
-          fontSize="13px"
-          fontWeight={500}
-          color={tokens.accentText}
+          style={{ background: 'none', border: 'none', cursor: 'pointer', width: '100%' }}
         >
-          ← Back to account details
-        </ChakraLink>
+          <ChakraLink as="span" textAlign="center" fontSize="13px" fontWeight={500} color={tokens.accentText}>
+            ← Back to account details
+          </ChakraLink>
+        </button>
       )}
     </AuthShell>
   );

@@ -4,7 +4,7 @@ import apiFetch, { useApiFetch } from '../utils/apiFetch';
 import useDebounced from '../utils/useDebounced';
 import useTokens from '../utils/useTokens';
 import BarcodeInput from './BarcodeInput';
-import { Grid, Input, Stack, Text, useToast, IconButton, HStack, Select, Flex } from '@chakra-ui/react';
+import { Grid, Input, Stack, Text, toaster, IconButton, HStack, Select, Flex } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { BiBook, BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
 
@@ -34,8 +34,6 @@ const BookList = ({ page = 0 }) => {
   const apiResults = useApiFetch(fetchUrl);
   const [results, setResults] = useState(apiResults);
   const { results: books = [] } = results || {};
-  const toast = useToast();
-
   const addMessage = (message, status = 'success') => {
     if (status !== 'success') {
       const audio = new Audio(error);
@@ -44,11 +42,10 @@ const BookList = ({ page = 0 }) => {
       const audio = new Audio(success);
       audio.play();
     }
-    toast({
+    toaster.create({
       title: message,
-      status: status,
+      type: status,
       duration: 2000,
-      isClosable: true,
     });
   };
 

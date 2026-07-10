@@ -1,4 +1,4 @@
-import { Alert, AlertIcon, AlertTitle, AlertDescription } from '@chakra-ui/react';
+import { Alert } from '@chakra-ui/react';
 import React from 'react';
 
 const ErrorMessage = ({ title, message, show = true, ...props }) => {
@@ -19,11 +19,11 @@ const ErrorMessage = ({ title, message, show = true, ...props }) => {
   );
 
   return (
-    <Alert status="error" {...props}>
-      <AlertIcon />
-      {!empty(title) ? <AlertTitle>{title}</AlertTitle> : null}
-      <AlertDescription>{messageElement}</AlertDescription>
-    </Alert>
+    <Alert.Root status="error" {...props}>
+      <Alert.Indicator />
+      {!empty(title) ? <Alert.Title>{title}</Alert.Title> : null}
+      <Alert.Description>{messageElement}</Alert.Description>
+    </Alert.Root>
   );
 };
 
