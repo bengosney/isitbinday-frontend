@@ -1,6 +1,6 @@
 import usePageTitle from '../utils/usePageTitle';
 import MaxWidth from '../widgets/MaxWidth';
-import { Heading, Text, Link, UnorderedList, ListItem } from '@chakra-ui/react';
+import { Heading, Text, Link } from '@chakra-ui/react';
 import React from 'react';
 
 const TermsSection = () => {
@@ -187,20 +187,20 @@ const TermsSection = () => {
         12. Contact Us
       </Heading>
       <Text mb={2}>If you have any questions about these Terms, please contact us:</Text>
-      <UnorderedList mb={2} pl={6}>
-        <ListItem>
+      <ul mb={2} pl={6}>
+        <li>
           By email:{' '}
           <Link href="mailto:support@isitbinday.com" color="blue.500">
             support@isitbinday.com
           </Link>
-        </ListItem>
-        <ListItem>
+        </li>
+        <li>
           By visiting this page on our website:{' '}
           <Link href="https://www.isitbinday.com/contact" color="blue.500" target="_blank" rel="noopener noreferrer">
             www.isitbinday.com/contact
           </Link>
-        </ListItem>
-      </UnorderedList>
+        </li>
+      </ul>
     </MaxWidth>
   );
 };

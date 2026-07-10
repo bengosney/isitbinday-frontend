@@ -4,7 +4,8 @@ import apiFetch, { useApiFetch } from '../utils/apiFetch';
 import useDebounced from '../utils/useDebounced';
 import useTokens from '../utils/useTokens';
 import BarcodeInput from './BarcodeInput';
-import { Grid, Input, Stack, Text, toaster, IconButton, HStack, Select, Flex } from '@chakra-ui/react';
+import { toaster } from '../utils/toaster';
+import { Grid, Input, Stack, Text, IconButton, HStack, NativeSelect, Flex } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { BiBook, BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
 
@@ -89,13 +90,16 @@ const BookList = ({ page = 0 }) => {
         />
       </HStack>
       <HStack gap={2}>
-        <Select size={'xs'} width="auto" value={npp} onChange={(e) => setNpp(e.target.value)}>
-          {npps.map((n) => (
-            <option key={n} value={n}>
-              {n}
-            </option>
-          ))}
-        </Select>
+        <NativeSelect.Root size={'xs'} width="auto">
+          <NativeSelect.Field value={npp} onChange={(e) => setNpp(e.target.value)}>
+            {npps.map((n) => (
+              <option key={n} value={n}>
+                {n}
+              </option>
+            ))}
+          </NativeSelect.Field>
+          <NativeSelect.Indicator />
+        </NativeSelect.Root>
         <Text fontFamily="mono" fontSize="11px" color={tokens.textDim}>
           per&nbsp;page
         </Text>

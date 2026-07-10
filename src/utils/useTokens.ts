@@ -1,4 +1,5 @@
-import { useColorModeValue } from '@chakra-ui/react';
+import { useMediaQuery } from '@chakra-ui/react';
+
 
 export const STATUS_COLORS: Record<string, string> = {
   todo: '#6C7686',
@@ -83,6 +84,9 @@ const dark: Tokens = {
   hoverBg: 'rgba(255,255,255,.04)',
 };
 
-export const useTokens = (): Tokens => useColorModeValue(light, dark);
+export const useTokens = (): Tokens => {
+  const [isDark] = useMediaQuery(['(prefers-color-scheme: dark)']);
+  return isDark ? dark : light;
+};
 
 export default useTokens;

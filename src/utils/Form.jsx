@@ -4,20 +4,17 @@ import Loader from '../widgets/Loader';
 import './Form.css';
 import {
   Input,
-  Select,
+  NativeSelect,
   Button,
   Checkbox,
   Textarea,
-  Radio,
   RadioGroup,
   Stack,
   Text,
   Box,
   InputGroup,
-  InputRightAddon,
-  InputRightElement,
-  InputLeftAddon,
-  InputLeftElement,
+  InputAddon,
+  InputElement,
 } from '@chakra-ui/react';
 import { useFormikContext, Field as FormikField, useField, Formik } from 'formik';
 import * as React from 'react';
@@ -56,7 +53,13 @@ const Field = ({ as, children, processor, name, label = null, showLabel = true, 
   );
 };
 
-const MyCheckbox = ({ label, ...props }) => <Checkbox {...props}>{label}</Checkbox>;
+const MyCheckbox = ({ label, isChecked, name, id, onChange, ...props }) => (
+  <Checkbox.Root checked={isChecked} name={name} id={id} onCheckedChange={(e) => onChange?.({ target: { name, value: e.checked } })} {...props}>
+    <Checkbox.HiddenInput />
+    <Checkbox.Control />
+    <Checkbox.Label>{label}</Checkbox.Label>
+  </Checkbox.Root>
+);
 
 const checkBoxProcessor = ({ value, name, ...props }) => {
   return { ...props, isChecked: value, name: name };
@@ -84,25 +87,30 @@ const dropdownProcessor = ({ name, placeholder = null, ...props }) => {
 };
 
 const AutoSelect = ({ options = [], ...props }) => (
-  <Select {...props}>
-    {options.map((o) => (
-      <option value={o.value} key={o.key}>
-        {o.text}
-      </option>
-    ))}
-  </Select>
+  <NativeSelect.Root {...props}>
+    <NativeSelect.Field>
+      {options.map((o) => (
+        <option value={o.value} key={o.key}>
+          {o.text}
+        </option>
+      ))}
+    </NativeSelect.Field>
+    <NativeSelect.Indicator />
+  </NativeSelect.Root>
 );
 
 const AutoRadio = ({ options = [], isChecked, ...props }) => (
-  <RadioGroup value={isChecked} {...props}>
+  <RadioGroup.Root value={`${isChecked}`} {...props}>
     <Stack direction="row">
       {options.map((o) => (
-        <Radio value={o.value} key={o.key}>
-          {o.text}
-        </Radio>
+        <RadioGroup.Item value={`${o.value}`} key={o.key}>
+          <RadioGroup.ItemHiddenInput />
+          <RadioGroup.ItemControl />
+          <RadioGroup.ItemText>{o.text}</RadioGroup.ItemText>
+        </RadioGroup.Item>
       ))}
     </Stack>
-  </RadioGroup>
+  </RadioGroup.Root>
 );
 
 const DateField = ({ value, ...props }) => {
@@ -132,11 +140,11 @@ const FancyInput = React.forwardRef(
   ({ leftAddon, rightAddon, leftElement, rightElement, left, right, ...rest }, ref) => (
     <InputGroup>
       {left}
-      {leftAddon && <InputLeftAddon>{leftAddon}</InputLeftAddon>}
-      {leftElement && <InputLeftElement>{leftElement}</InputLeftElement>}
+      {leftAddon && <InputAddon placement="left">{leftAddon}</InputAddon>}
+      {leftElement && <InputElement placement="left">{leftElement}</InputElement>}
       <Input {...rest} ref={ref} />
-      {rightElement && <InputRightElement>{rightElement}</InputRightElement>}
-      {rightAddon && <InputRightAddon>{rightAddon}</InputRightAddon>}
+      {rightElement && <InputElement placement="right">{rightElement}</InputElement>}
+      {rightAddon && <InputAddon placement="right">{rightAddon}</InputAddon>}
       {right}
     </InputGroup>
   )

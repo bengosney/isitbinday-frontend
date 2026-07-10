@@ -2,8 +2,9 @@ import Auth from './Auth';
 import { db } from './db';
 import MainAppSection from './sections/MainAppSection';
 import { system } from './theme';
+import { toaster } from './utils/toaster';
 import Footer from './widgets/Footer';
-import { ChakraProvider, Box, Spinner, Stack, Toaster } from '@chakra-ui/react';
+import { ChakraProvider, Box, Spinner, Stack, Toaster, ToastRoot, ToastTitle, ToastCloseTrigger } from '@chakra-ui/react';
 import { Portal } from '@chakra-ui/react';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import React, { useState } from 'react';
@@ -27,7 +28,14 @@ function App() {
   return (
     <Provider pouchdb={db}>
       <ChakraProvider value={system}>
-        <Toaster />
+        <Toaster toaster={toaster}>
+          {(toast) => (
+            <ToastRoot key={toast.id}>
+              <ToastTitle>{toast.title as string}</ToastTitle>
+              <ToastCloseTrigger />
+            </ToastRoot>
+          )}
+        </Toaster>
         <GoogleOAuthProvider clientId="582381464087-14q0s67afpctetcj59cfns61g8qak33s.apps.googleusercontent.com">
           <Auth>
             <Router>
