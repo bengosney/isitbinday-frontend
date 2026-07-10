@@ -6,7 +6,7 @@ import Loader from './Loader';
 import TaskCard from './TaskCard';
 import { Stack, Grid, Flex, Text, Box, useBreakpointValue } from '@chakra-ui/react';
 import React, { useCallback, useEffect, useReducer } from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { Redirect, useLocation } from 'react-router-dom';
 import * as Yup from 'yup';
 
