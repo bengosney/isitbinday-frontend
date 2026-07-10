@@ -18,7 +18,7 @@
     "@testing-library/user-event": "^7.1.2",
     "events": "^3.3.0",
     "formik": "^2.1.5",
-    "framer-motion": ">=3.0.0",
+    "framer-motion": "^6.5.1",
     "linkify-react": "^4.3.3",
     "linkifyjs": "^4.3.3",
     "lint-staged": "^10.2.13",
