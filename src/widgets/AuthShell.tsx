@@ -1,9 +1,9 @@
 import useTokens from '../utils/useTokens';
 import LogoMark from './LogoMark';
-import { Heading, Stack, Text } from '@chakra-ui/react';
+import { Heading, Stack, Text, type StackProps } from '@chakra-ui/react';
 import React from 'react';
 
-export const AuthCard = ({ children, ...props }) => {
+export const AuthCard = ({ children, ...props }: StackProps) => {
   const tokens = useTokens();
   return (
     <Stack
@@ -20,7 +20,13 @@ export const AuthCard = ({ children, ...props }) => {
   );
 };
 
-export const AuthShell = ({ title, subtitle = null, children }) => {
+interface AuthShellProps {
+  title: React.ReactNode;
+  subtitle?: React.ReactNode;
+  children?: React.ReactNode;
+}
+
+export const AuthShell = ({ title, subtitle = null, children }: AuthShellProps) => {
   const tokens = useTokens();
   return (
     <Stack maxW={{ base: '100%', md: '25rem' }} width="100%" margin="auto" gap={6} paddingY={10}>

@@ -17,8 +17,8 @@ const loginSchema = Yup.object().shape({
 const LoginForm = () => {
   usePageTitle('Login');
   const { login } = useContext(authContext);
-  const [authLoading, setLoading] = useState(false);
-  const { action = null } = useParams();
+  const [authLoading, setLoading] = useState<boolean | string>(false);
+  const { action = null } = useParams<{ action?: string }>();
   const tokens = useTokens();
 
   const { loading: googleLoading } = useLoginWithGoogle();
@@ -47,7 +47,7 @@ const LoginForm = () => {
           initialValues={loginSchema.cast({})}
           validationSchema={loginSchema}
           onSubmit={async (values) => {
-            const { username, password } = values;
+            const { username, password } = values as { username: string; password: string };
             setLoading('Logging in...');
             login(username, password);
           }}

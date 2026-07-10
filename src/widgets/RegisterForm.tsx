@@ -28,16 +28,20 @@ const RegisterForm = () => {
   const tokens = useTokens();
 
   const [step, setStep] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean | string>(false);
   const [error, setError] = useState('');
 
-  const continueToProfile = (formik) => {
-    formik.validateForm().then((errors) => {
+  const continueToProfile = (formik: Record<string, unknown>) => {
+    const { validateForm, setTouched } = formik as {
+      validateForm: () => Promise<Record<string, unknown>>;
+      setTouched: (t: Record<string, boolean>) => void;
+    };
+    validateForm().then((errors) => {
       const stepErrors = STEP_ONE_FIELDS.filter((field) => errors[field]);
       if (stepErrors.length === 0) {
         setStep(2);
       } else {
-        formik.setTouched(stepErrors.reduce((touched, field) => ({ ...touched, [field]: true }), {}));
+        setTouched(stepErrors.reduce((touched: Record<string, boolean>, field) => ({ ...touched, [field]: true }), {}));
       }
     });
   };

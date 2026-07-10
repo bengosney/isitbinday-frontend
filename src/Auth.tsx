@@ -6,16 +6,34 @@ import apiFetch, {
 } from './utils/apiFetch';
 import React, { useReducer, useEffect } from 'react';
 
-export const authContext = React.createContext({ loggedIn: false });
+interface AuthContextType {
+  loggedIn: boolean;
+  login: (username: string, password: string) => Promise<void>;
+  logout: () => void;
+  loginViaGoogleJWT: (jwt: string) => Promise<void>;
+}
 
-const Auth = ({ children }) => {
-  const ACTION_LOGGED_IN = 'loggedIn';
-  const ACTION_LOGGED_OUT = 'loggedOut';
+export const authContext = React.createContext<AuthContextType>({
+  loggedIn: false,
+  login: async () => {},
+  logout: () => {},
+  loginViaGoogleJWT: async () => {},
+});
+
+interface LoginState {
+  loggedIn: boolean;
+}
+
+type LoginAction = { type: 'loggedIn' } | { type: 'loggedOut' };
+
+const Auth = ({ children }: { children: React.ReactNode }) => {
+  const ACTION_LOGGED_IN = 'loggedIn' as const;
+  const ACTION_LOGGED_OUT = 'loggedOut' as const;
 
   const { Provider } = authContext;
 
   const [loginState, loginDispatch] = useReducer(
-    (state, action) => {
+    (state: LoginState, action: LoginAction): LoginState => {
       switch (action.type) {
         case ACTION_LOGGED_IN:
           apiFetch('api/tasks/tasks/auto_archive/');
@@ -23,7 +41,7 @@ const Auth = ({ children }) => {
         case ACTION_LOGGED_OUT:
           return { loggedIn: false };
         default:
-          throw new Error(`${action.type} not supported`);
+          throw new Error(`${(action as { type: string }).type} not supported`);
       }
     },
     { loggedIn: checkLogin() }
@@ -41,7 +59,7 @@ const Auth = ({ children }) => {
     return () => window.removeEventListener('storage', localStorageUpdated);
   }, []);
 
-  const login = async (username, password) => {
+  const login = async (username: string, password: string) => {
     try {
       await doLogin(username, password);
       loginDispatch({ type: ACTION_LOGGED_IN });
@@ -55,7 +73,7 @@ const Auth = ({ children }) => {
     loginDispatch({ type: ACTION_LOGGED_OUT });
   };
 
-  const loginViaGoogleJWT = async (jwt) => {
+  const loginViaGoogleJWT = async (jwt: string) => {
     try {
       await doLoginViaGoogleJWT(jwt);
       loginDispatch({ type: ACTION_LOGGED_IN });
