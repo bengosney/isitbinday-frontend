@@ -50,9 +50,6 @@ const TaskSection = () => {
             )}
           </Flex>
           <Spacer />
-          <Button size="sm" variant="outline" onClick={() => history.push(archiveUrl)}>
-            Archive
-          </Button>
           <Button size="sm" colorScheme="brand" leftIcon={<MdAdd />} onClick={() => history.push(newUrl)}>
             New task
           </Button>
