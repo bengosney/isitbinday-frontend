@@ -2,13 +2,15 @@ import usePageTitle from '../utils/usePageTitle';
 import BookList from '../widgets/BookList';
 import BookModalSection from './BookModalSection';
 import BookSyncSection from './BookSyncSection';
-import { Heading, Stack } from '@chakra-ui/react';
+import { Button, Flex, Heading, Spacer, Stack } from '@chakra-ui/react';
 import React from 'react';
-import { useRouteMatch, Route, Switch, Link } from 'react-router-dom';
+import { BiBookAdd } from 'react-icons/bi';
+import { useRouteMatch, Route, Switch, useHistory } from 'react-router-dom';
 
 const BookSection = () => {
   usePageTitle('Library');
   const { path } = useRouteMatch();
+  const history = useHistory();
 
   const getUrl = (slug) => {
     return `${path}/${slug}`.replace('//', '/');
@@ -16,26 +18,32 @@ const BookSection = () => {
 
   const listUrl = getUrl('');
   const syncUrl = getUrl('sync');
+  const addUrl = getUrl('add');
 
   return (
-    <React.Fragment>
-      <Heading>Books</Heading>
-      <Stack direction={'row'}>
-        <Link to={listUrl}>List</Link>
-        <Link to={syncUrl}>Sync Settings</Link>
-      </Stack>
-      <Switch>
-        <Route path={syncUrl}>
-          <BookSyncSection />
-        </Route>
-        <Route path={listUrl}>
-          <Stack my={6}>
-            <BookList />
-          </Stack>
-          <BookModalSection />
-        </Route>
-      </Switch>
-    </React.Fragment>
+    <Switch>
+      <Route path={syncUrl}>
+        <BookSyncSection booksUrl={listUrl} />
+      </Route>
+      <Route path={listUrl}>
+        <Flex align="center" mt={2} wrap="wrap" gridGap={2}>
+          <Heading fontSize="22px" fontWeight={600} letterSpacing="-.01em">
+            Books
+          </Heading>
+          <Spacer />
+          <Button size="sm" variant="outline" onClick={() => history.push(syncUrl)}>
+            Sync settings
+          </Button>
+          <Button size="sm" colorScheme="brand" leftIcon={<BiBookAdd />} onClick={() => history.push(addUrl)}>
+            Add book
+          </Button>
+        </Flex>
+        <Stack my={6}>
+          <BookList />
+        </Stack>
+        <BookModalSection />
+      </Route>
+    </Switch>
   );
 };
 
