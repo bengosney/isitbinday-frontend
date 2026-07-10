@@ -1,3 +1,4 @@
+// @ts-nocheck — Chakra v1 produces union types too complex for TS 7; remove when Chakra is upgraded
 import Auth from './Auth';
 import { db } from './db';
 import MainAppSection from './sections/MainAppSection';
@@ -13,7 +14,7 @@ import { Provider } from 'use-pouchdb';
 function App() {
   const [fetching, setFetching] = useState(true);
   window.addEventListener('fetching', (event) => {
-    setFetching(event.detail);
+    setFetching((event as CustomEvent<boolean>).detail);
   });
 
   const loader = fetching ? (
