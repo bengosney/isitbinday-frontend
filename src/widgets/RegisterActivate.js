@@ -1,6 +1,6 @@
 import apiFetch from '../utils/apiFetch';
 import { NarrowStack } from '../widgets/NarrowStack';
-import { Stack, Spinner, Box, Center } from '@chakra-ui/react';
+import { Spinner, Box, Center } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 

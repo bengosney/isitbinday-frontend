@@ -1,10 +1,13 @@
 import scannerInput from 'onscan.js';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 const BarcodeInput = ({ onScan = (barcode) => console.log(`Scanned ${barcode}`) }) => {
+  const onScanRef = useRef(onScan);
+  onScanRef.current = onScan;
+
   useEffect(() => {
     scannerInput.attachTo(document, {
-      onScan: onScan,
+      onScan: (barcode) => onScanRef.current(barcode),
     });
 
     return () => {

@@ -34,6 +34,9 @@ const LoginForm = () => {
           Account activated
         </Alert>
       );
+      break;
+    default:
+      break;
   }
 
   return (

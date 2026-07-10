@@ -69,7 +69,7 @@ export const refreshToken = async () => {
         const options = getOptions({ refresh });
 
         const res = await fetchFromOrigin('api/token/refresh/', options);
-        if (res.status != 200) {
+        if (res.status !== 200) {
           clearAuth();
           return reject(`${res.status}`);
         }
@@ -165,7 +165,7 @@ export const apiFetch = async (url, args = null, method = null) => {
   const options = getOptions(args, method || _method);
 
   window.fetching = (window.fetching || 0) + 1;
-  if (window.fetching == 1) {
+  if (window.fetching === 1) {
     window.dispatchEvent(new CustomEvent('fetching', { detail: true }));
   }
 

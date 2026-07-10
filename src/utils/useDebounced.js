@@ -7,7 +7,7 @@ const useDebounced = (inital, delay = 50) => {
   useEffect(() => {
     const handle = setTimeout(() => setDebounced(current), delay);
     return () => clearTimeout(handle);
-  }, [current]);
+  }, [current, delay]);
 
   return [debounced, setCurrent, current];
 };

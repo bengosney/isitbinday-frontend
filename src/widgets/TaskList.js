@@ -241,7 +241,7 @@ const TaskList = ({ onCountChange = null }) => {
         )}
         <Grid
           minHeight={'50vh'}
-          templateColumns={direction == 'row' ? '1' : `repeat(${states.length}, 1fr)`}
+          templateColumns={direction === 'row' ? '1' : `repeat(${states.length}, 1fr)`}
           gap={5}
           alignItems={'start'}
         >

@@ -1,10 +1,9 @@
 import Auth from './Auth';
-import { getConfig } from './config';
 import { db } from './db';
 import MainAppSection from './sections/MainAppSection';
 import customTheme from './theme';
 import Footer from './widgets/Footer';
-import { ChakraProvider, Box, Text, Spinner, Flex, Spacer, Link, Stack } from '@chakra-ui/react';
+import { ChakraProvider, Box, Spinner, Stack } from '@chakra-ui/react';
 import { Portal } from '@chakra-ui/react';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import React, { useState } from 'react';

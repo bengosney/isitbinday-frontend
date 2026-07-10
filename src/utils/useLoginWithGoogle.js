@@ -1,6 +1,6 @@
 import { authContext } from '../Auth';
 import { useGoogleOneTapLogin, googleLogout } from '@react-oauth/google';
-import React, { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect } from 'react';
 
 export const useLoginWithGoogle = () => {
   const { loginViaGoogleJWT } = useContext(authContext);

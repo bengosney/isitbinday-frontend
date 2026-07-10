@@ -1,5 +1,4 @@
-import MaxWidth from './MaxWidth';
-import { Stack, Box } from '@chakra-ui/react';
+import { Stack } from '@chakra-ui/react';
 import React from 'react';
 
 export const FullPage = ({ children, ...props }) => (

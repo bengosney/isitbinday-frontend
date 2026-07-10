@@ -19,7 +19,7 @@ const RecipeURLModal = ({ onClose = () => undefined }) => {
       <Form
         initialValues={{ url: '' }}
         onSubmit={async ({ url }, { resetForm }) => {
-          if (`${url}` != '') {
+          if (`${url}` !== '') {
             await apiFetch('api/recipes/recipe/from_url/', { url: url });
             close();
           } else {

@@ -21,7 +21,7 @@ const TaskForm = ({ details, postSave = null, onCancel = null }) => {
           const date = `${due_date.getDate()}`.padStart(2, '0');
           values.due_date = [year, month, date].join('-');
         }
-        if (values.due_date == '') {
+        if (values.due_date === '') {
           values.due_date = null;
         }
 

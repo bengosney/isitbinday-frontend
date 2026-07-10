@@ -1,10 +1,9 @@
 import usePageTitle from '../utils/usePageTitle';
-import FAB from '../widgets/FAB';
 import RecipeDetails from '../widgets/RecipeDetails';
 import RecipeForm from '../widgets/RecipeForm';
 import RecipeList from '../widgets/RecipeList';
 import RecipeURLModal from '../widgets/RecipeURLModal';
-import { Heading, Stack } from '@chakra-ui/react';
+import { Button, Flex, Heading, Spacer, Stack } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { MdAdd } from 'react-icons/md';
 import { useRouteMatch, Route, Switch, useHistory } from 'react-router-dom';
@@ -26,21 +25,27 @@ const RecipeSection = () => {
 
   const history = useHistory();
 
-  const heading = (
-    <Heading fontSize="22px" fontWeight={600} letterSpacing="-.01em" marginTop={2}>
-      Recipes
-    </Heading>
+  const header = (
+    <Flex align="center" mt={2}>
+      <Heading fontSize="22px" fontWeight={600} letterSpacing="-.01em">
+        Recipes
+      </Heading>
+      <Spacer />
+      <Button size="sm" colorScheme="brand" leftIcon={<MdAdd />} onClick={() => history.push(urlUrl)}>
+        Add recipe
+      </Button>
+    </Flex>
   );
 
   return (
     <React.Fragment>
       <Switch>
         <Route path={addUrl}>
-          {heading}
+          {header}
           <RecipeForm />
         </Route>
         <Route path={urlUrl}>
-          {heading}
+          {header}
           <Stack my={6}>
             <RecipeList refreshKey={refreshKey} />
             <RecipeURLModal onClose={() => incrementRefreshKey()} />
@@ -50,12 +55,9 @@ const RecipeSection = () => {
           <RecipeDetails />
         </Route>
         <Route path={listUrl}>
-          {heading}
+          {header}
           <Stack my={6}>
             <RecipeList />
-            <FAB onClick={() => history.push(urlUrl)}>
-              <MdAdd />
-            </FAB>
           </Stack>
         </Route>
       </Switch>

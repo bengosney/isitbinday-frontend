@@ -38,8 +38,8 @@
     "yup": "^0.29.3"
   },
   "scripts": {
-    "start": "REACT_APP_STAGE=dev react-scripts start",
-    "build": "react-scripts build",
+    "start": "REACT_APP_STAGE=dev GENERATE_SOURCEMAP=false react-scripts start",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write src/**/*.js ; prettier --write src/**/*.css"

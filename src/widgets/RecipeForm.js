@@ -46,9 +46,9 @@ const RecipeForm = ({ details = {} }) => {
                       </Button>
                     </Stack>
                   ))}
-                  <a href="#" onClick={() => push({ name: '', quantity: 0, unit: '' })}>
+                  <Button variant="link" onClick={() => push({ name: '', quantity: 0, unit: '' })}>
                     Add Ingredient
-                  </a>
+                  </Button>
                 </>
               )}
             </FieldArray>

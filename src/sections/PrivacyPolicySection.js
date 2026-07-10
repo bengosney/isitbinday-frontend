@@ -1,6 +1,6 @@
 import usePageTitle from '../utils/usePageTitle';
 import MaxWidth from '../widgets/MaxWidth';
-import { Box, Heading, Text, Link, List, ListItem, UnorderedList } from '@chakra-ui/react';
+import { Heading, Text, Link, ListItem, UnorderedList } from '@chakra-ui/react';
 import React from 'react';
 
 const PrivacyPolicySection = () => {

@@ -35,7 +35,7 @@ const BookList = ({ page = 0 }) => {
   const toast = useToast();
 
   const addMessage = (message, status = 'success') => {
-    if (status != 'success') {
+    if (status !== 'success') {
       const audio = new Audio(error);
       audio.play();
     } else {
