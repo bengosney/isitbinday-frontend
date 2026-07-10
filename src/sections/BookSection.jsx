@@ -13,7 +13,7 @@ const BookSection = () => {
   const history = useHistory();
 
   const getUrl = (slug) => {
-    return `${path}/${slug}`.replace('//', '/');
+    return slug ? `${path}/${slug}`.replace('//', '/') : path;
   };
 
   const listUrl = getUrl('');
