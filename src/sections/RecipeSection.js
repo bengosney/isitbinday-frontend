@@ -26,25 +26,31 @@ const RecipeSection = () => {
 
   const history = useHistory();
 
+  const heading = (
+    <Heading fontSize="22px" fontWeight={600} letterSpacing="-.01em" marginTop={2}>
+      Recipes
+    </Heading>
+  );
+
   return (
     <React.Fragment>
-      <Heading>Recipes</Heading>
       <Switch>
         <Route path={addUrl}>
+          {heading}
           <RecipeForm />
         </Route>
         <Route path={urlUrl}>
+          {heading}
           <Stack my={6}>
             <RecipeList refreshKey={refreshKey} />
             <RecipeURLModal onClose={() => incrementRefreshKey()} />
           </Stack>
         </Route>
         <Route path={viewUrl}>
-          <Stack my={6}>
-            <RecipeDetails />
-          </Stack>
+          <RecipeDetails />
         </Route>
         <Route path={listUrl}>
+          {heading}
           <Stack my={6}>
             <RecipeList />
             <FAB onClick={() => history.push(urlUrl)}>

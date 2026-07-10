@@ -45,7 +45,7 @@ const Field = ({ as, children, processor, name, label = null, showLabel = true, 
     <Stack>
       <Box color={_error ? 'form.error' : ''}>
         {showLabel ? (
-          <Text as="label" htmlFor={name}>
+          <Text as="label" htmlFor={name} display="block" fontSize="12px" fontWeight={600} opacity={0.75} mb={1.5}>
             {_label}
             {_error && errors}
           </Text>
@@ -108,8 +108,8 @@ const AutoRadio = ({ options = [], isChecked, ...props }) => (
 const DateField = ({ value = '', ...props }) => {
   if (typeof value == 'object' && value !== null) {
     const year = `${value.getFullYear()}`;
-    const month = `${value.getMonth() + 1}`.padStart('0');
-    const date = `${value.getDate()}`.padStart('0');
+    const month = `${value.getMonth() + 1}`.padStart(2, '0');
+    const date = `${value.getDate()}`.padStart(2, '0');
     value = [year, month, date].join('-');
   }
   return <Input type={'date'} format={'DD-MM-YYYY'} value={value} {...props} />;

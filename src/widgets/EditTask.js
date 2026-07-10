@@ -3,7 +3,7 @@ import { useApiFetch } from '../utils/apiFetch';
 import Loader from './Loader';
 import React from 'react';
 
-const EditTask = ({ taskID, postSave }) => {
+const EditTask = ({ taskID, postSave, onCancel = null }) => {
   const data = useApiFetch(`api/tasks/tasks/${taskID}`);
 
   if (data === null) {
@@ -12,7 +12,7 @@ const EditTask = ({ taskID, postSave }) => {
 
   return (
     <>
-      <TaskForm details={data} postSave={postSave} />
+      <TaskForm details={data} postSave={postSave} onCancel={onCancel} />
     </>
   );
 };

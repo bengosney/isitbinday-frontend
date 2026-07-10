@@ -1,9 +1,10 @@
 import TaskModalSection from '../sections/TaskModalsSection';
 import apiFetch, { useApiFetch } from '../utils/apiFetch';
 import { UCFirst } from '../utils/string';
+import useTokens, { statusColor } from '../utils/useTokens';
 import Loader from './Loader';
 import TaskCard from './TaskCard';
-import { Stack, Grid, Text, Box, useBreakpointValue, useColorModeValue } from '@chakra-ui/react';
+import { Stack, Grid, Flex, Text, Box, useBreakpointValue } from '@chakra-ui/react';
 import React, { useCallback, useEffect, useReducer } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Redirect, useLocation } from 'react-router-dom';
@@ -29,8 +30,21 @@ const stateShape = Yup.object().shape({
   actions: Yup.array().default([]),
 });
 
-const TaskList = () => {
+const emptyColumnCopy = (state) => {
+  switch (`${state}`.toLowerCase()) {
+    case 'doing':
+    case 'in progress':
+      return { title: 'Nothing in progress', hint: 'Drag a task here to start it' };
+    case 'done':
+      return { title: 'Nothing done yet' };
+    default:
+      return { title: `No ${`${state}`.toLowerCase()} tasks` };
+  }
+};
+
+const TaskList = ({ onCountChange = null }) => {
   const direction = useBreakpointValue({ base: 'row', md: 'column' });
+  const tokens = useTokens();
   const [widgetState, dispatch] = useReducer((state, action) => {
     const makeState = (newState) => {
       const _newState = { ...state, ...newState };
@@ -57,9 +71,6 @@ const TaskList = () => {
   const offset = 0;
   const location = useLocation();
 
-  const green = useColorModeValue('green.300', 'green.600');
-  const blue = useColorModeValue('blue.300', 'blue.600');
-
   const actionsResponse = useApiFetch('api/tasks/tasks/actions/');
   useEffect(() => {
     dispatch({ type: 'actions', data: actionsResponse || [] });
@@ -73,6 +84,12 @@ const TaskList = () => {
     }
     dispatch({ type: 'tasks', data: data?.results || undefined });
   }, [data]);
+
+  useEffect(() => {
+    if (onCountChange !== null) {
+      onCountChange(tasks === null || typeof tasks == 'undefined' ? null : tasks.length);
+    }
+  }, [tasks, onCountChange]);
 
   const dueDateData = useApiFetch(`api/tasks/tasks/due_date_states/`);
   useEffect(() => {
@@ -158,14 +175,16 @@ const TaskList = () => {
     dispatch({ type: 'droppableStates', data: availableStates });
   };
 
-  const getBackgroundColour = (state) => {
+  const getDropProps = (state) => {
     if (droppableStates.includes(state)) {
-      return green;
+      return { background: tokens.accentSoft, borderColor: tokens.accent, borderStyle: 'dashed' };
     }
 
     if (state === (dragItem || {}).state) {
-      return blue;
+      return { background: tokens.hoverBg, borderColor: tokens.borderStrong, borderStyle: 'dashed' };
     }
+
+    return { borderColor: 'transparent' };
   };
 
   if (tasks.length === 0) {
@@ -174,7 +193,7 @@ const TaskList = () => {
     return (
       <>
         {redirect}
-        <Text>No tasks</Text>
+        <Text color={tokens.textDim}>No tasks</Text>
         <TaskModalSection refresh={refresh} />
       </>
     );
@@ -183,73 +202,133 @@ const TaskList = () => {
   return (
     <React.Fragment>
       <DragDropContext onDragEnd={(e) => dragEnd(e)} onDragStart={(e) => dragStart(e)}>
-        <Grid>
-          {actions.map((action) => (
-            <React.Fragment key={action}>
-              <Droppable droppableId={action}>
-                {(provided) => (
-                  <Box
+        {actions.length > 0 && (
+          <Flex gridGap={5} marginBottom={5}>
+            {actions.map((action) => (
+              <Droppable key={action} droppableId={action}>
+                {(provided, snapshot) => (
+                  <Flex
                     {...provided.droppableProps}
                     ref={provided.innerRef}
-                    border="1px solid lightgray"
-                    padding={5}
-                    background={getBackgroundColour(action)}
+                    flex="1"
+                    align="center"
+                    justify="center"
+                    gridGap={2}
+                    minHeight="42px"
+                    border="1px dashed"
+                    borderColor={
+                      snapshot.isDraggingOver ? tokens.accent : dragItem ? tokens.borderStrong : tokens.border
+                    }
+                    background={snapshot.isDraggingOver ? tokens.accentSoft : dragItem ? tokens.hoverBg : 'transparent'}
+                    borderRadius="10px"
+                    transition=".15s ease-in-out background, .15s ease-in-out border-color"
                   >
-                    <Text>{UCFirst(action)}</Text>
+                    <Text
+                      fontSize="11.5px"
+                      fontWeight={600}
+                      letterSpacing=".07em"
+                      textTransform="uppercase"
+                      color={snapshot.isDraggingOver ? tokens.accentText : tokens.textDim}
+                    >
+                      {dragItem ? `Drop to ${action}` : UCFirst(action)}
+                    </Text>
                     {provided.placeholder}
-                  </Box>
+                  </Flex>
                 )}
               </Droppable>
-            </React.Fragment>
-          ))}
-        </Grid>
-        <Grid minHeight={'50vh'} templateColumns={direction == 'row' ? '1' : `repeat(${states.length}, 1fr)`} gap={6}>
-          {states.map((state) => (
-            <Stack key={state}>
-              <Text>{UCFirst(state)}</Text>
-              <Box height={'100%'}>
-                <Droppable
-                  droppableId={state}
-                  isDropDisabled={!droppableStates.includes(state) && state !== (dragItem || {}).state}
-                >
-                  {(provided) => (
-                    <Stack
-                      {...provided.droppableProps}
-                      ref={provided.innerRef}
-                      background={getBackgroundColour(state)}
-                      padding={4}
-                      border={'1px solid'}
-                      borderColor={'gray.300'}
-                      height={'100%'}
-                      minHeight={'10vh'}
-                    >
-                      {tasks.map((task, index) => {
-                        const { id, state: taskState } = task;
-                        if (state !== taskState) {
-                          return null;
-                        }
+            ))}
+          </Flex>
+        )}
+        <Grid
+          minHeight={'50vh'}
+          templateColumns={direction == 'row' ? '1' : `repeat(${states.length}, 1fr)`}
+          gap={5}
+          alignItems={'start'}
+        >
+          {states.map((state) => {
+            const count = tasks.filter((t) => t.state === state).length;
+            const empty = emptyColumnCopy(state);
 
-                        return (
-                          <Draggable key={id} draggableId={`${id}`} index={index}>
-                            {(provided) => (
-                              <Box ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                <TaskCard
-                                  task={task}
-                                  showDueDate={dueDateStates.includes(state)}
-                                  onSateChange={() => refresh()}
-                                />
-                              </Box>
+            return (
+              <Stack key={state} spacing={2.5}>
+                <Flex align="center" gridGap={2} paddingX={1}>
+                  <Box width="8px" height="8px" borderRadius="full" background={statusColor(state)} flex="none" />
+                  <Text
+                    fontSize="11.5px"
+                    fontWeight={600}
+                    letterSpacing=".07em"
+                    textTransform="uppercase"
+                    color={tokens.textMuted}
+                  >
+                    {state}
+                  </Text>
+                  <Text fontFamily="mono" fontSize="11px" color={tokens.textDim}>
+                    {count}
+                  </Text>
+                </Flex>
+                <Box height={'100%'}>
+                  <Droppable
+                    droppableId={state}
+                    isDropDisabled={!droppableStates.includes(state) && state !== (dragItem || {}).state}
+                  >
+                    {(provided) => (
+                      <Stack
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        spacing={2.5}
+                        border="1px solid"
+                        borderRadius="10px"
+                        height={'100%'}
+                        minHeight={'10vh'}
+                        {...getDropProps(state)}
+                      >
+                        {count === 0 && !dragItem && (
+                          <Box
+                            border="1px dashed"
+                            borderColor={tokens.borderStrong}
+                            borderRadius="10px"
+                            paddingX={4}
+                            paddingY={6}
+                            textAlign="center"
+                          >
+                            <Text fontSize="12px" color={tokens.textDim}>
+                              {empty.title}
+                            </Text>
+                            {empty.hint && (
+                              <Text fontSize="11px" color={tokens.textDim} opacity={0.75}>
+                                {empty.hint}
+                              </Text>
                             )}
-                          </Draggable>
-                        );
-                      })}
-                      {provided.placeholder}
-                    </Stack>
-                  )}
-                </Droppable>
-              </Box>
-            </Stack>
-          ))}
+                          </Box>
+                        )}
+                        {tasks.map((task, index) => {
+                          const { id, state: taskState } = task;
+                          if (state !== taskState) {
+                            return null;
+                          }
+
+                          return (
+                            <Draggable key={id} draggableId={`${id}`} index={index}>
+                              {(provided) => (
+                                <Box ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                  <TaskCard
+                                    task={task}
+                                    showDueDate={dueDateStates.includes(state)}
+                                    onSateChange={() => refresh()}
+                                  />
+                                </Box>
+                              )}
+                            </Draggable>
+                          );
+                        })}
+                        {provided.placeholder}
+                      </Stack>
+                    )}
+                  </Droppable>
+                </Box>
+              </Stack>
+            );
+          })}
         </Grid>
       </DragDropContext>
       <TaskModalSection refresh={refresh} />

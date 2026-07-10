@@ -1,9 +1,10 @@
 import { TaskSchema } from '../schemas/TaskSchema';
 import { Form } from '../utils/Form';
 import apiFetch from '../utils/apiFetch';
+import { Button, Flex, Grid, Spacer } from '@chakra-ui/react';
 import React, { useState } from 'react';
 
-const TaskForm = ({ details, postSave = null }) => {
+const TaskForm = ({ details, postSave = null, onCancel = null }) => {
   const [apiLoading, setApiLoading] = useState(false);
 
   return (
@@ -16,8 +17,8 @@ const TaskForm = ({ details, postSave = null }) => {
         const { due_date } = values;
         if (typeof due_date == 'object' && due_date !== null) {
           const year = `${due_date.getFullYear()}`;
-          const month = `${due_date.getMonth() + 1}`.padStart('0');
-          const date = `${due_date.getDate()}`.padStart('0');
+          const month = `${due_date.getMonth() + 1}`.padStart(2, '0');
+          const date = `${due_date.getDate()}`.padStart(2, '0');
           values.due_date = [year, month, date].join('-');
         }
         if (values.due_date == '') {
@@ -43,13 +44,25 @@ const TaskForm = ({ details, postSave = null }) => {
       }}
     >
       <Form.Input name="title" />
-      <Form.DateField name="due_date" />
-      <Form.Input name="repeats" />
+      <Grid templateColumns={{ base: '1fr', sm: '1fr 1fr' }} gap={3}>
+        <Form.DateField name="due_date" label="Due date" />
+        <Form.Input name="repeats" label="Repeat" />
+      </Grid>
       <div style={{ display: 'none' }}>
         <Form.Input name="effort" />
         <Form.Input name="blocked_by" />
       </div>
-      <Form.Button type={'submit'}>Save</Form.Button>
+      <Flex gridGap={2} paddingTop={2}>
+        <Spacer />
+        {onCancel !== null && (
+          <Button variant="outline" onClick={onCancel}>
+            Cancel
+          </Button>
+        )}
+        <Form.Button colorScheme="brand" type={'submit'}>
+          Save task
+        </Form.Button>
+      </Flex>
     </Form>
   );
 };

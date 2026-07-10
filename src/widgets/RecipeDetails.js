@@ -1,20 +1,22 @@
 import { useApiFetch, apiFetch } from '../utils/apiFetch';
 import { round } from '../utils/numbers';
+import useTokens from '../utils/useTokens';
 import ConfirmDialog from './ConfirmDialog';
+import Loader from './Loader';
 import {
   Stack,
-  ListItem,
-  OrderedList,
+  Flex,
+  Grid,
   Heading,
   Text,
   Box,
-  useBreakpointValue,
   Button,
+  Link as ChakraLink,
+  Spacer,
   useDisclosure,
 } from '@chakra-ui/react';
-import { Table, Tbody, Tr, Th, Td, Thead } from '@chakra-ui/react';
 import React from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory, Link } from 'react-router-dom';
 
 const RecipeDetails = () => {
   const { slug } = useParams();
@@ -23,24 +25,17 @@ const RecipeDetails = () => {
   const cancelRef = React.useRef();
   const [isDeleting, setIsDeleting] = React.useState(false);
   const [error, setError] = React.useState(null);
-  const tableProps = useBreakpointValue({ base: {}, md: { lineHeight: 5, fontSize: 'md' } });
+  const tokens = useTokens();
   const details = useApiFetch(`api/recipes/recipe/${slug}`);
 
   if (details === null) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
-
-  const SubHeading = ({ children, ...props }) => (
-    <Heading as="h3" size="md" paddingBottom="3" {...props}>
-      {children}
-    </Heading>
-  );
 
   const handleDelete = async () => {
     setIsDeleting(true);
     setError(null);
     try {
-      console.log(`Recipe ${slug} deleted successfully.`);
       await apiFetch(`api/recipes/recipe/${slug}/`, null, 'DELETE');
       history.replace('/iibd/recipes');
     } catch (e) {
@@ -51,57 +46,106 @@ const RecipeDetails = () => {
   };
 
   return (
-    <Stack spacing={5}>
+    <Stack spacing={4} marginTop={2}>
       {error && (
-        <Box color="red.500" fontWeight="bold" mb={2}>
+        <Box color={tokens.dangerText} fontWeight="bold">
           {error}
         </Box>
       )}
-      <Heading>{details.name}</Heading>
-      <Text>{details.description}</Text>
-      <Stack direction={{ base: 'column', md: 'row' }} spacing={6}>
-        <Box>
-          <SubHeading>Ingredients</SubHeading>
-          <Table variant="striped" size={'sm'} {...tableProps}>
-            <Thead>
-              <Tr>
-                <Th colSpan={2}>Quantity</Th>
-                <Th>Ingredient</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {details.ingredients.map((ingredient) => (
-                <Tr key={ingredient.id}>
-                  <Td paddingRight={1} {...tableProps} isNumeric>
-                    {round(ingredient.quantity)}
-                  </Td>
-                  <Td paddingLeft={1} {...tableProps}>
-                    {ingredient.quantity_unit}
-                  </Td>
-                  <Td whiteSpace={{ base: 'wrap', md: 'nowrap' }} {...tableProps}>
-                    {ingredient.name}
-                  </Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </Box>
-
-        <Box>
-          <SubHeading>Instructions</SubHeading>
-          <OrderedList spacing={5}>
-            {details.steps.map((step) => (
-              <ListItem paddingBottom="2" key={step.id}>
-                {step.description}
-              </ListItem>
+      <Text fontFamily="mono" fontSize="11px" color={tokens.textDim}>
+        <ChakraLink as={Link} to="/iibd/recipes" color={tokens.accentText}>
+          Recipes
+        </ChakraLink>
+        {' / '}
+        {slug}
+      </Text>
+      <Flex align="flex-start" gridGap={5}>
+        <Heading fontSize={{ base: '26px', md: '32px' }} fontWeight={600} letterSpacing="-.02em" lineHeight={1.15}>
+          {details.name}
+        </Heading>
+        <Spacer />
+        <Button
+          size="sm"
+          variant="outline"
+          color={tokens.dangerText}
+          borderColor={tokens.dangerText}
+          _hover={{ background: tokens.dangerSoft }}
+          onClick={onOpen}
+          flex="none"
+        >
+          Delete recipe
+        </Button>
+      </Flex>
+      {details.description && (
+        <Text maxWidth="640px" fontSize="14.5px" lineHeight={1.6} color={tokens.textMuted}>
+          {details.description}
+        </Text>
+      )}
+      <Text fontFamily="mono" fontSize="11px" color={tokens.textDim}>
+        {details.ingredients.length} ingredients · {details.steps.length} steps
+      </Text>
+      <Grid
+        templateColumns={{ base: '1fr', lg: '400px 1fr' }}
+        gap={{ base: 8, lg: 14 }}
+        alignItems="start"
+        paddingTop={3}
+      >
+        <Box
+          background={tokens.surface}
+          border="1px solid"
+          borderColor={tokens.border}
+          borderRadius="14px"
+          paddingX={6}
+          paddingY={5}
+        >
+          <Text fontSize="14px" fontWeight={600} marginBottom={3}>
+            Ingredients
+          </Text>
+          <Stack spacing={0}>
+            {details.ingredients.map((ingredient, index) => (
+              <Grid
+                key={ingredient.id}
+                templateColumns="110px 1fr"
+                gap={3.5}
+                paddingY={2}
+                borderBottom={index < details.ingredients.length - 1 ? '1px solid' : 'none'}
+                borderBottomColor={tokens.border}
+              >
+                <Text fontFamily="mono" fontSize="12px" color={tokens.textMuted} textAlign="right">
+                  {ingredient.quantity ? `${round(ingredient.quantity)} ${ingredient.quantity_unit || ''}`.trim() : '—'}
+                </Text>
+                <Text fontSize="13.5px">{ingredient.name}</Text>
+              </Grid>
             ))}
-          </OrderedList>
+          </Stack>
         </Box>
-      </Stack>
-
-      <Button colorScheme="red" onClick={onOpen} alignSelf="flex-end">
-        Delete
-      </Button>
+        <Stack spacing={5}>
+          <Text fontSize="14px" fontWeight={600}>
+            Instructions
+          </Text>
+          {details.steps.map((step, index) => (
+            <Flex key={step.id} gridGap={4}>
+              <Flex
+                flex="none"
+                width="26px"
+                height="26px"
+                borderRadius="full"
+                background={tokens.accentSoft}
+                color={tokens.accentText}
+                fontFamily="mono"
+                fontSize="12px"
+                align="center"
+                justify="center"
+              >
+                {index + 1}
+              </Flex>
+              <Text fontSize="14px" lineHeight={1.65} color={tokens.textBody} paddingTop="2px">
+                {step.description}
+              </Text>
+            </Flex>
+          ))}
+        </Stack>
+      </Grid>
       <ConfirmDialog
         title={`Delete Recipe`}
         body={`${details.name} will be deleted, you can't undo this action.`}

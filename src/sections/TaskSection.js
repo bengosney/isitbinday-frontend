@@ -1,15 +1,17 @@
 import usePageTitle from '../utils/usePageTitle';
+import useTokens from '../utils/useTokens';
 import ArchiveList from '../widgets/ArchiveList';
-import FAB from '../widgets/FAB';
 import TaskList from '../widgets/TaskList';
-import { Heading, Stack } from '@chakra-ui/react';
-import React from 'react';
+import { Button, Flex, Heading, Spacer, Stack, Text } from '@chakra-ui/react';
+import React, { useState } from 'react';
 import { MdAdd } from 'react-icons/md';
 import { useRouteMatch, Route, Switch, useHistory } from 'react-router-dom';
 
 const TaskSection = () => {
   usePageTitle('Task List');
   const { path } = useRouteMatch();
+  const tokens = useTokens();
+  const [openCount, setOpenCount] = useState(null);
 
   const getUrl = (slug) => {
     return `${path}/${slug}`.replace('//', '/');
@@ -22,22 +24,44 @@ const TaskSection = () => {
   const history = useHistory();
 
   return (
-    <React.Fragment>
-      <Heading>Tasks</Heading>
-      <Switch>
-        <Route path={archiveUrl}>
-          <ArchiveList />
-        </Route>
-        <Route path={listUrl}>
-          <Stack my={6}>
-            <TaskList />
-            <FAB onClick={() => history.push(newUrl)}>
-              <MdAdd />
-            </FAB>
-          </Stack>
-        </Route>
-      </Switch>
-    </React.Fragment>
+    <Switch>
+      <Route path={archiveUrl}>
+        <Flex align="center" mt={2} mb={6}>
+          <Heading fontSize="22px" fontWeight={600} letterSpacing="-.01em">
+            Archive
+          </Heading>
+          <Spacer />
+          <Button size="sm" variant="outline" onClick={() => history.push(listUrl)}>
+            Back to board
+          </Button>
+        </Flex>
+        <ArchiveList />
+      </Route>
+      <Route path={listUrl}>
+        <Flex align="center" mt={2} wrap="wrap" gridGap={2}>
+          <Flex align="baseline" gridGap={3}>
+            <Heading fontSize="22px" fontWeight={600} letterSpacing="-.01em">
+              Tasks
+            </Heading>
+            {openCount !== null && (
+              <Text fontFamily="mono" fontSize="11px" color={tokens.textDim}>
+                {openCount} open
+              </Text>
+            )}
+          </Flex>
+          <Spacer />
+          <Button size="sm" variant="outline" onClick={() => history.push(archiveUrl)}>
+            Archive
+          </Button>
+          <Button size="sm" colorScheme="brand" leftIcon={<MdAdd />} onClick={() => history.push(newUrl)}>
+            New task
+          </Button>
+        </Flex>
+        <Stack my={6}>
+          <TaskList onCountChange={setOpenCount} />
+        </Stack>
+      </Route>
+    </Switch>
   );
 };
 

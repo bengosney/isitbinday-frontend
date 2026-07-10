@@ -1,10 +1,11 @@
 import { Form } from '../utils/Form';
 import apiFetch from '../utils/apiFetch';
 import usePageTitle from '../utils/usePageTitle';
-import { NarrowStack } from '../widgets/NarrowStack';
-import { Heading, Stack, Divider } from '@chakra-ui/react';
+import useTokens from '../utils/useTokens';
+import AuthShell, { AuthCard } from '../widgets/AuthShell';
+import { Box, Button, Flex, Grid, Link as ChakraLink, Stack, Text } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useHistory, useRouteMatch, Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
 const registerSchema = Yup.object().shape({
@@ -18,67 +19,125 @@ const registerSchema = Yup.object().shape({
   lastName: Yup.string().required('Last name is required').ensure(),
 });
 
+const STEP_ONE_FIELDS = ['email', 'password', 'passwordConfirmation'];
+
 const RegisterForm = () => {
   usePageTitle('Register');
   const history = useHistory();
   const { url } = useRouteMatch();
+  const tokens = useTokens();
 
+  const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  const continueToProfile = (formik) => {
+    formik.validateForm().then((errors) => {
+      const stepErrors = STEP_ONE_FIELDS.filter((field) => errors[field]);
+      if (stepErrors.length === 0) {
+        setStep(2);
+      } else {
+        formik.setTouched(stepErrors.reduce((touched, field) => ({ ...touched, [field]: true }), {}));
+      }
+    });
+  };
+
   return (
-    <NarrowStack>
-      <Heading as="h2" color="teal" textAlign="center">
-        Register for an account
-      </Heading>
-      <Divider />
+    <AuthShell
+      title={step === 1 ? 'Create your account' : 'Nearly there'}
+      subtitle={
+        <Text fontFamily="mono" fontSize="11px">
+          Step {step} of 2 · {step === 1 ? 'Account' : 'Profile'}
+        </Text>
+      }
+    >
+      <Flex gridGap={1.5}>
+        <Box flex={1} height="3px" borderRadius="full" background={tokens.accent} />
+        <Box flex={1} height="3px" borderRadius="full" background={step === 2 ? tokens.accent : tokens.borderStrong} />
+      </Flex>
+      <AuthCard>
+        <Form
+          error={error}
+          initialValues={registerSchema.cast({})}
+          validationSchema={registerSchema}
+          onSubmit={async (values, { resetForm }) => {
+            const { email, password, firstName, lastName } = values;
+            setLoading('Creating account...');
+            setError('');
 
-      <Form
-        error={error}
-        initialValues={registerSchema.cast({})}
-        validationSchema={registerSchema}
-        onSubmit={async (values, { resetForm }) => {
-          const { email, password, firstName, lastName } = values;
-          setLoading('Creating account...');
-          setError('');
+            const params = {
+              email: email,
+              password: password,
+              first_name: firstName,
+              last_name: lastName,
+              url_template: `${window.location.origin}${url}/activate/{{ uid }}/{{ token }}`,
+            };
 
-          const params = {
-            email: email,
-            password: password,
-            first_name: firstName,
-            last_name: lastName,
-            url_template: `${window.location.origin}${url}/activate/{{ uid }}/{{ token }}`,
-          };
+            try {
+              const result = await apiFetch('api/accounts/create/', params);
 
-          try {
-            const result = await apiFetch('api/accounts/create/', params);
-
-            if (result.email) {
-              history.push(`${url}/${result.email}`);
+              if (result.email) {
+                history.push(`${url}/${result.email}`);
+              }
+            } catch (e) {
+              setError(`${e}`);
+              setStep(1);
             }
-          } catch (e) {
-            setError(`${e}`);
-          }
 
-          setLoading(false);
-          resetForm();
-        }}
-        loading={loading}
-      >
-        {() => {
-          return (
-            <Stack>
-              <Form.Input name={'email'} />
-              <Form.Input name={'password'} type="password" />
-              <Form.Input name={'passwordConfirmation'} type="password" />
-              <Form.Input name={'firstName'} />
-              <Form.Input name={'lastName'} />
-              <Form.Button type="submit">Register</Form.Button>
-            </Stack>
-          );
-        }}
-      </Form>
-    </NarrowStack>
+            setLoading(false);
+            resetForm();
+          }}
+          loading={loading}
+        >
+          {(props, formik) => {
+            return (
+              <Stack spacing={4}>
+                {step === 1 ? (
+                  <>
+                    <Form.Input name={'email'} />
+                    <Form.Input name={'password'} type="password" />
+                    <Form.Input name={'passwordConfirmation'} type="password" label="Confirm password" />
+                    <Button colorScheme="brand" type="button" onClick={() => continueToProfile(formik)}>
+                      Continue
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Grid templateColumns={{ base: '1fr', sm: '1fr 1fr' }} gap={3}>
+                      <Form.Input name={'firstName'} label="First name" />
+                      <Form.Input name={'lastName'} label="Last name" />
+                    </Grid>
+                    <Form.Button colorScheme="brand" type="submit">
+                      Create account
+                    </Form.Button>
+                  </>
+                )}
+              </Stack>
+            );
+          }}
+        </Form>
+      </AuthCard>
+      {step === 1 ? (
+        <Text textAlign="center" fontSize="13px" color={tokens.textMuted}>
+          Already have an account?{' '}
+          <ChakraLink as={Link} to="/login" color={tokens.accentText} fontWeight={500}>
+            Sign in
+          </ChakraLink>
+        </Text>
+      ) : (
+        <ChakraLink
+          as="button"
+          type="button"
+          onClick={() => setStep(1)}
+          textAlign="center"
+          fontSize="13px"
+          fontWeight={500}
+          color={tokens.accentText}
+        >
+          ← Back to account details
+        </ChakraLink>
+      )}
+    </AuthShell>
   );
 };
 

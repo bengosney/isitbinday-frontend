@@ -1,0 +1,45 @@
+import useTokens from '../utils/useTokens';
+import LogoMark from './LogoMark';
+import { Heading, Stack, Text } from '@chakra-ui/react';
+import React from 'react';
+
+export const AuthCard = ({ children, ...props }) => {
+  const tokens = useTokens();
+  return (
+    <Stack
+      background={tokens.surface}
+      border="1px solid"
+      borderColor={tokens.border}
+      borderRadius="14px"
+      padding={6}
+      spacing={4}
+      {...props}
+    >
+      {children}
+    </Stack>
+  );
+};
+
+export const AuthShell = ({ title, subtitle = null, children }) => {
+  const tokens = useTokens();
+  return (
+    <Stack maxW={{ base: '100%', md: '25rem' }} width="100%" margin="auto" spacing={6} paddingY={10}>
+      <Stack align="center" spacing={3.5}>
+        <LogoMark size="40px" radius="12px" />
+        <Stack align="center" spacing={1}>
+          <Heading fontSize="20px" fontWeight={600} letterSpacing="-.01em" textAlign="center">
+            {title}
+          </Heading>
+          {subtitle && (
+            <Text as="div" fontSize="13.5px" color={tokens.textMuted} textAlign="center">
+              {subtitle}
+            </Text>
+          )}
+        </Stack>
+      </Stack>
+      {children}
+    </Stack>
+  );
+};
+
+export default AuthShell;

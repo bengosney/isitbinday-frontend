@@ -27,8 +27,9 @@ const TaskModalSection = ({ refresh }) => {
     <React.Fragment>
       <Switch>
         <Route path={newUrl}>
-          <Modal isOpen={true} onClose={onClose} showFooter={false} title="New Task">
+          <Modal isOpen={true} onClose={onClose} showFooter={false} title="New task">
             <NewTask
+              onCancel={onClose}
               postSave={() => {
                 refresh();
                 onClose();
@@ -37,8 +38,9 @@ const TaskModalSection = ({ refresh }) => {
           </Modal>
         </Route>
         <Route path={editUrl}>
-          <Modal isOpen={true} onClose={onClose} showFooter={false} title="Edit Task">
+          <Modal isOpen={true} onClose={onClose} showFooter={false} title="Edit task">
             <EditTaskRoute
+              onCancel={onClose}
               postSave={() => {
                 refresh();
                 onClose();

@@ -1,20 +1,23 @@
-import { NarrowStack } from '../widgets/NarrowStack';
-import { Heading, Stack, Text } from '@chakra-ui/react';
+import useTokens from '../utils/useTokens';
+import AuthShell, { AuthCard } from '../widgets/AuthShell';
+import { Text } from '@chakra-ui/react';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 
 const RegisterDetails = () => {
   const params = useParams();
   const { email } = params;
+  const tokens = useTokens();
 
   return (
-    <NarrowStack>
-      <Heading as="h2" color="teal" textAlign="center">
-        Account created
-      </Heading>
-      <Text align="center">{email}</Text>
-      <Text align="center">An email has been send with a confirmation link.</Text>
-    </NarrowStack>
+    <AuthShell title="Account created" subtitle="One more step">
+      <AuthCard align="center">
+        <Text fontWeight={600}>{email}</Text>
+        <Text textAlign="center" fontSize="13.5px" color={tokens.textMuted}>
+          An email has been sent with a confirmation link.
+        </Text>
+      </AuthCard>
+    </AuthShell>
   );
 };
 

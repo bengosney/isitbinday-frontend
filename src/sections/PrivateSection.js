@@ -33,20 +33,23 @@ const PrivateSection = () => {
 
   const { pathname } = useLocation();
 
+  const isActive = (url) => (url === dashboardUrl ? pathname === url : pathname.startsWith(url));
+
   return (
     <div>
       <Nav>
+        <Nav.Brand />
         {menuItems.map((i) => {
           return (
-            <Nav.Item as={Link} key={i.url} active={pathname.startsWith(i.url)} to={i.url}>
+            <Nav.Item as={Link} key={i.url} active={isActive(i.url)} to={i.url}>
               {i.name}
             </Nav.Item>
           );
         })}
-        <Spacer minWidth={10} />
+        <Spacer minWidth={6} />
         <ColorMode />
         <Nav.Item as={Link} to={'/logout'}>
-          Logout
+          Log out
         </Nav.Item>
       </Nav>
       <MaxWidth marginTop={4}>
