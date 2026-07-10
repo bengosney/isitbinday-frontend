@@ -242,7 +242,15 @@ export const useApiFetch = (url: string, args: FetchArgs = null, refreshKey = 0,
   }, [_key]);
 
   useEffect(() => {
-    apiFetch(url, args).then((res) => setApiResponse(res));
+    let active = true;
+    apiFetch(url, args).then((res) => {
+      if (active) {
+        setApiResponse(res);
+      }
+    });
+    return () => {
+      active = false;
+    };
   }, [url, args, refreshKey]);
 
   useEffect(() => {

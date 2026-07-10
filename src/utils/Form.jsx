@@ -105,14 +105,17 @@ const AutoRadio = ({ options = [], isChecked, ...props }) => (
   </RadioGroup>
 );
 
-const DateField = ({ value = '', ...props }) => {
-  if (typeof value == 'object' && value !== null) {
+const DateField = ({ value, ...props }) => {
+  let dateValue = '';
+  if (value instanceof Date) {
     const year = `${value.getFullYear()}`;
     const month = `${value.getMonth() + 1}`.padStart(2, '0');
     const date = `${value.getDate()}`.padStart(2, '0');
-    value = [year, month, date].join('-');
+    dateValue = [year, month, date].join('-');
+  } else if (value) {
+    dateValue = value;
   }
-  return <Input type={'date'} format={'DD-MM-YYYY'} value={value} {...props} />;
+  return <Input type={'date'} format={'DD-MM-YYYY'} value={dateValue} {...props} />;
 };
 
 const BoolField = (props) => (
