@@ -38,7 +38,7 @@ const BookSyncSection = ({ booksUrl = '/iibd/books' }) => {
       <BookSyncSettingsList />
       <Switch>
         <Route path={addUrl}>
-          <Modal isOpen={true} showFooter={false} onClose={() => history.goBack()} title="Add sync setting">
+          <Modal open={true} showFooter={false} onClose={() => history.goBack()} title="Add sync setting">
             <BookSyncForm postSave={() => history.goBack()} />
           </Modal>
         </Route>

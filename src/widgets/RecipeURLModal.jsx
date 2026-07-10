@@ -15,7 +15,7 @@ const RecipeURLModal = ({ onClose = () => undefined }) => {
   };
 
   return (
-    <Modal title={'Add recipe from URL'} isOpen={true} onClose={() => close()}>
+    <Modal title={'Add recipe from URL'} open={true} onClose={() => close()}>
       <Form
         initialValues={{ url: '' }}
         onSubmit={async ({ url }, { resetForm }) => {

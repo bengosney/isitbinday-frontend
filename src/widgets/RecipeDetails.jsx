@@ -21,8 +21,7 @@ import { useParams, useHistory, Link } from 'react-router-dom';
 const RecipeDetails = () => {
   const { slug } = useParams();
   const history = useHistory();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = React.useRef();
+  const { open, onOpen, onClose } = useDisclosure();
   const [isDeleting, setIsDeleting] = React.useState(false);
   const [error, setError] = React.useState(null);
   const tokens = useTokens();
@@ -149,10 +148,9 @@ const RecipeDetails = () => {
       <ConfirmDialog
         title={`Delete Recipe`}
         body={`${details.name} will be deleted, you can't undo this action.`}
-        isOpen={isOpen}
+        open={open}
         onClose={onClose}
-        cancelRef={cancelRef}
-        isLoading={isDeleting}
+        loading={isDeleting}
         onConfirm={handleDelete}
       />
     </Stack>

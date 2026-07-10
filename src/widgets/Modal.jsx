@@ -1,38 +1,26 @@
-import {
-  Modal as CModal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Button,
-} from '@chakra-ui/react';
+import { Dialog, Button } from '@chakra-ui/react';
 import React from 'react';
 
-const Modal = ({ title, showFooter, children, ...props }) => {
-  const { onClose } = props;
-  return (
-    <>
-      <CModal {...props}>
-        <ModalOverlay>
-          <ModalContent>
-            <ModalHeader>{title}</ModalHeader>
-            <ModalBody>{children}</ModalBody>
-            {onClose && <ModalCloseButton />}
-
-            <ModalFooter>
-              {onClose && showFooter && (
-                <Button colorScheme="blue" mr={3} onClick={onClose}>
-                  Close
-                </Button>
-              )}
-            </ModalFooter>
-          </ModalContent>
-        </ModalOverlay>
-      </CModal>
-    </>
-  );
-};
+const Modal = ({ open, onClose, title, showFooter, children }) => (
+  <Dialog.Root open={open} onOpenChange={({ open }) => !open && onClose?.()}>
+    <Dialog.Backdrop />
+    <Dialog.Positioner>
+      <Dialog.Content>
+        {title && (
+          <Dialog.Header>
+            <Dialog.Title>{title}</Dialog.Title>
+          </Dialog.Header>
+        )}
+        {onClose && <Dialog.CloseTrigger />}
+        <Dialog.Body>{children}</Dialog.Body>
+        {showFooter && onClose && (
+          <Dialog.Footer>
+            <Button onClick={onClose}>Close</Button>
+          </Dialog.Footer>
+        )}
+      </Dialog.Content>
+    </Dialog.Positioner>
+  </Dialog.Root>
+);
 
 export default Modal;

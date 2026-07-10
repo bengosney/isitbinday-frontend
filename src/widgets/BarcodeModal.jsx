@@ -4,7 +4,7 @@ import BarcodeScannerComponent from 'react-webcam-barcode-scanner';
 
 const BarcodeModal = ({ onScan }) => {
   return (
-    <Modal isOpen={true}>
+    <Modal open={true}>
       <BarcodeScannerComponent
         onUpdate={(err, result) => {
           if (result) {

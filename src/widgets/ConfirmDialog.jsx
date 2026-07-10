@@ -1,43 +1,37 @@
-import {
-  Button,
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogOverlay,
-} from '@chakra-ui/react';
+import { Button, Dialog } from '@chakra-ui/react';
 import React from 'react';
 
 const ConfirmDialog = ({
-  isOpen,
+  open,
   onClose,
-  cancelRef,
-  isLoading,
+  loading,
   onConfirm,
   title,
   body,
   confirmLabel = 'Confirm',
   cancelLabel = 'Cancel',
 }) => (
-  <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
-    <AlertDialogOverlay>
-      <AlertDialogContent>
-        <AlertDialogHeader fontSize="lg" fontWeight="bold">
-          {title}
-        </AlertDialogHeader>
-        <AlertDialogBody>{body}</AlertDialogBody>
-        <AlertDialogFooter>
-          <Button ref={cancelRef} onClick={onClose} disabled={isLoading}>
+  <Dialog.Root open={open} onOpenChange={({ open }) => !open && onClose?.()} role="alertdialog">
+    <Dialog.Backdrop />
+    <Dialog.Positioner>
+      <Dialog.Content>
+        <Dialog.Header>
+          <Dialog.Title fontSize="lg" fontWeight="bold">
+            {title}
+          </Dialog.Title>
+        </Dialog.Header>
+        <Dialog.Body>{body}</Dialog.Body>
+        <Dialog.Footer>
+          <Button onClick={onClose} disabled={loading}>
             {cancelLabel}
           </Button>
-          <Button colorScheme="red" onClick={onConfirm} ml={3} isLoading={isLoading}>
+          <Button colorPalette="red" onClick={onConfirm} ml={3} loading={loading}>
             {confirmLabel}
           </Button>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialogOverlay>
-  </AlertDialog>
+        </Dialog.Footer>
+      </Dialog.Content>
+    </Dialog.Positioner>
+  </Dialog.Root>
 );
 
 export default ConfirmDialog;
