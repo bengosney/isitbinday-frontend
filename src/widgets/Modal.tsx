@@ -1,7 +1,15 @@
 import { Dialog, Button } from '@chakra-ui/react';
 import React from 'react';
 
-const Modal = ({ open, onClose, title, showFooter, children }) => (
+interface ModalProps {
+  open?: boolean;
+  onClose?: () => void;
+  title?: React.ReactNode;
+  showFooter?: boolean;
+  children?: React.ReactNode;
+}
+
+const Modal = ({ open, onClose, title, showFooter, children }: ModalProps) => (
   <Dialog.Root open={open} onOpenChange={({ open }) => !open && onClose?.()}>
     <Dialog.Backdrop />
     <Dialog.Positioner>

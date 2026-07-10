@@ -1,9 +1,13 @@
 import useTokens from '../utils/useTokens';
 import LogoMark from './LogoMark';
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Text, type BoxProps, type FlexProps } from '@chakra-ui/react';
 import React from 'react';
 
-export const NavItem = ({ children, active = false, ...props }) => {
+interface NavItemProps extends BoxProps {
+  active?: boolean;
+}
+
+export const NavItem = ({ children, active = false, ...props }: NavItemProps) => {
   const tokens = useTokens();
   return (
     <Box
@@ -35,7 +39,12 @@ export const NavBrand = () => {
   );
 };
 
-const Nav = ({ children, ...props }) => {
+type NavComponent = React.FC<FlexProps> & {
+  Item: typeof NavItem;
+  Brand: typeof NavBrand;
+};
+
+const Nav: NavComponent = ({ children, ...props }: FlexProps) => {
   const tokens = useTokens();
   return (
     <Box overflowX="auto" background={tokens.topbarBg} borderBottom="1px solid" borderBottomColor={tokens.border}>

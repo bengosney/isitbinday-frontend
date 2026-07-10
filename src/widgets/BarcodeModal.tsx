@@ -2,7 +2,11 @@ import Modal from './Modal';
 import React from 'react';
 import BarcodeScannerComponent from 'react-webcam-barcode-scanner';
 
-const BarcodeModal = ({ onScan }) => {
+interface BarcodeModalProps {
+  onScan: (barcode: string) => void;
+}
+
+const BarcodeModal = ({ onScan }: BarcodeModalProps) => {
   return (
     <Modal open={true}>
       <BarcodeScannerComponent

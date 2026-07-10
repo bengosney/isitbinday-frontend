@@ -1,6 +1,17 @@
 import { Button, Dialog } from '@chakra-ui/react';
 import React from 'react';
 
+interface ConfirmDialogProps {
+  open?: boolean;
+  onClose?: () => void;
+  loading?: boolean;
+  onConfirm?: () => void;
+  title?: React.ReactNode;
+  body?: React.ReactNode;
+  confirmLabel?: string;
+  cancelLabel?: string;
+}
+
 const ConfirmDialog = ({
   open,
   onClose,
@@ -10,7 +21,7 @@ const ConfirmDialog = ({
   body,
   confirmLabel = 'Confirm',
   cancelLabel = 'Cancel',
-}) => (
+}: ConfirmDialogProps) => (
   <Dialog.Root open={open} onOpenChange={({ open }) => !open && onClose?.()} role="alertdialog">
     <Dialog.Backdrop />
     <Dialog.Positioner>
