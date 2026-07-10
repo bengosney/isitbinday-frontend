@@ -1,7 +1,7 @@
-import { Stack } from '@chakra-ui/react';
+import { Stack, type StackProps } from '@chakra-ui/react';
 import React from 'react';
 
-export const NarrowStack = ({ children, ...props }) => (
+export const NarrowStack = ({ children, ...props }: StackProps) => (
   <Stack maxW={{ base: '100%', md: '25rem' }} margin="auto" width="100%" gap={4} {...props}>
     {children}
   </Stack>

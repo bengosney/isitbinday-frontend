@@ -1,8 +1,14 @@
-import { Alert } from '@chakra-ui/react';
+import { Alert, type AlertRootProps } from '@chakra-ui/react';
 import React from 'react';
 
-const ErrorMessage = ({ title, message, show = true, ...props }) => {
-  const empty = (value) => typeof value == 'undefined' || ['', 'undefined'].indexOf(`${value}`) !== -1;
+interface ErrorMessageProps extends Omit<AlertRootProps, 'status' | 'title'> {
+  title?: React.ReactNode;
+  message?: string | string[];
+  show?: boolean;
+}
+
+const ErrorMessage = ({ title, message, show = true, ...props }: ErrorMessageProps) => {
+  const empty = (value: unknown) => typeof value == 'undefined' || ['', 'undefined'].indexOf(`${value}`) !== -1;
 
   if (!show || empty(message)) {
     return null;

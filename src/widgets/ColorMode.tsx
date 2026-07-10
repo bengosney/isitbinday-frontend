@@ -1,10 +1,10 @@
 import useTokens from '../utils/useTokens';
-import { IconButton, useMediaQuery } from '@chakra-ui/react';
+import { IconButton, useMediaQuery, type IconButtonProps } from '@chakra-ui/react';
 import React from 'react';
 import { BiMoon, BiSun } from 'react-icons/bi';
 
-const ColorMode = ({ ...props }) => {
-  const [isDark] = useMediaQuery('(prefers-color-scheme: dark)');
+const ColorMode = ({ ...props }: Omit<IconButtonProps, 'aria-label'>) => {
+  const [isDark] = useMediaQuery(['(prefers-color-scheme: dark)']);
   const tokens = useTokens();
 
   const icon = isDark ? <BiSun /> : <BiMoon />;
@@ -12,7 +12,7 @@ const ColorMode = ({ ...props }) => {
   return (
     <IconButton
       aria-label={`System colour mode: ${isDark ? 'dark' : 'light'}`}
-      variant="unstyled"
+      variant="plain"
       size="sm"
       display="inline-flex"
       alignItems="center"

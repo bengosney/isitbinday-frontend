@@ -1,7 +1,7 @@
-import { Stack } from '@chakra-ui/react';
+import { Stack, type StackProps } from '@chakra-ui/react';
 import React from 'react';
 
-export const FullPage = ({ children, ...props }) => (
+export const FullPage = ({ children, ...props }: StackProps) => (
   <Stack
     maxWidth={{ base: '100%', md: '90vw' }}
     width={'100%'}

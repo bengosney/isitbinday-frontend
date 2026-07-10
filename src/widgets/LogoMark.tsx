@@ -1,8 +1,13 @@
 import useTokens from '../utils/useTokens';
-import { Flex, Box } from '@chakra-ui/react';
+import { Flex, Box, type FlexProps } from '@chakra-ui/react';
 import React from 'react';
 
-const LogoMark = ({ size = '22px', radius = '7px', ...props }) => {
+interface LogoMarkProps extends FlexProps {
+  size?: string;
+  radius?: string;
+}
+
+const LogoMark = ({ size = '22px', radius = '7px', ...props }: LogoMarkProps) => {
   const tokens = useTokens();
   return (
     <Flex
