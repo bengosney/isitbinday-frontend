@@ -28,7 +28,7 @@ const customTheme = extendTheme({
     mono: "'JetBrains Mono', Menlo, Consolas, 'Courier New', monospace",
   },
   styles: {
-    global: (props) => ({
+    global: (props: Record<string, any>) => ({
       html: {
         overflowY: 'scroll',
         minHeight: '100%',
@@ -48,7 +48,7 @@ const customTheme = extendTheme({
         borderRadius: '8px',
       },
       variants: {
-        solid: (props) =>
+        solid: (props: Record<string, any>) =>
           props.colorScheme === 'brand'
             ? {
                 bg: 'brand.500',
@@ -60,7 +60,7 @@ const customTheme = extendTheme({
       },
     },
     Modal: {
-      baseStyle: (props) => ({
+      baseStyle: (props: Record<string, any>) => ({
         dialog: {
           bg: mode('white', '#161B22')(props),
           border: '1px solid',
@@ -72,7 +72,7 @@ const customTheme = extendTheme({
     },
     Input: {
       variants: {
-        outline: (props) => ({
+        outline: (props: Record<string, any>) => ({
           field: {
             bg: mode('white', '#0F1319')(props),
             borderColor: mode('rgba(0,0,0,.12)', 'rgba(255,255,255,.09)')(props),
@@ -85,7 +85,7 @@ const customTheme = extendTheme({
     },
     Select: {
       variants: {
-        outline: (props) => ({
+        outline: (props: Record<string, any>) => ({
           field: {
             bg: mode('white', '#0F1319')(props),
             borderColor: mode('rgba(0,0,0,.12)', 'rgba(255,255,255,.09)')(props),

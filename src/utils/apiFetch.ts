@@ -2,28 +2,36 @@ import { getConfig } from '../config';
 import { db } from '../db';
 import { useState, useEffect } from 'react';
 
-export const origin = process.env.REACT_APP_API_URL || getConfig('api_origin', 'http://localhost:8000'); // eslint-disable-line no-undef
+declare global {
+  interface Window {
+    fetching?: number;
+  }
+}
 
-const setLocalStorage = (key, value) => {
+type FetchArgs = Record<string, unknown> | null;
+
+export const origin = import.meta.env.VITE_API_URL || getConfig('api_origin', 'http://localhost:8000');
+
+const setLocalStorage = (key: string, value: string) => {
   localStorage.setItem(key, value);
   window.dispatchEvent(new Event('storage'));
 };
 
-const removeLocalStorage = (key) => {
+const removeLocalStorage = (key: string) => {
   localStorage.removeItem(key);
   window.dispatchEvent(new Event('storage'));
 };
 
-const fetchFromOrigin = async (resource, init = {}) => {
+const fetchFromOrigin = async (resource: string, init: RequestInit = {}) => {
   const cleanResource = `${resource}`.replace(`${origin}/`, '');
   return fetch(`${origin}/${cleanResource}`, init);
 };
 
-const fetchJsonFromOrigin = async (resource, init = {}) => {
+const fetchJsonFromOrigin = async (resource: string, init: RequestInit = {}) => {
   const response = await fetchFromOrigin(resource, init);
 
   if (response.status !== 200) {
-    throw new Error(response);
+    throw new Error(`${response.status}`);
   }
 
   return response.json();
@@ -38,7 +46,7 @@ const getRefresh = () => {
   return localStorage.getItem('refresh');
 };
 
-const setRefresh = (token) => {
+const setRefresh = (token: string) => {
   setLocalStorage('refresh', token);
 };
 
@@ -46,7 +54,7 @@ const getToken = () => {
   return localStorage.getItem('token');
 };
 
-const setToken = (token) => {
+const setToken = (token: string) => {
   setLocalStorage('token', token);
 };
 
@@ -55,10 +63,13 @@ const checkRefresh = () => {
   return refresh !== null && typeof refresh !== 'undefined';
 };
 
-export const refreshToken = async () => {
-  if (refreshToken.isRefreshing === false) {
-    refreshToken.isRefreshing = true;
-    refreshToken.refreshPromise = new Promise((resolve, reject) => {
+let isRefreshing = false;
+let refreshPromise: Promise<boolean> | null = null;
+
+export const refreshToken = (): Promise<boolean> | null => {
+  if (isRefreshing === false) {
+    isRefreshing = true;
+    refreshPromise = new Promise<boolean>((resolve, reject) => {
       (async () => {
         const refresh = getRefresh() || null;
 
@@ -81,17 +92,14 @@ export const refreshToken = async () => {
         return resolve(true);
       })();
     })
-      .then(() => (refreshToken.isRefreshing = false))
+      .then(() => (isRefreshing = false))
       .then(() => true);
   }
 
-  return refreshToken.refreshPromise;
+  return refreshPromise;
 };
 
-refreshToken.refreshPromise = null;
-refreshToken.isRefreshing = false;
-
-export const login = async (username, password) => {
+export const login = async (username: string, password: string) => {
   const options = getOptions({ username: username, password: password });
   const res = await fetchJsonFromOrigin('api/token/', options);
 
@@ -101,7 +109,7 @@ export const login = async (username, password) => {
   return true;
 };
 
-export const loginViaGoogleJWT = async (google_jwt) => {
+export const loginViaGoogleJWT = async (google_jwt: string) => {
   const options = getOptions({ token: google_jwt });
   const res = await fetchJsonFromOrigin('api/accounts/google-login/', options);
 
@@ -119,22 +127,27 @@ export const checkLogin = () => {
   return checkRefresh();
 };
 
-const getOptions = (args = null, method = null) => {
+const getOptions = (args: FetchArgs = null, method: string | null = null) => {
   const token = getToken();
 
-  const options =
+  const headers: Record<string, string> =
+    args != null
+      ? {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        }
+      : {};
+
+  const options: RequestInit & { headers: Record<string, string> } =
     args != null
       ? {
           method: method || 'post',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
+          headers,
           body: JSON.stringify(args),
         }
       : {
           method: method || 'get',
-          headers: {},
+          headers,
         };
 
   if (token != null) {
@@ -144,7 +157,7 @@ const getOptions = (args = null, method = null) => {
   return options;
 };
 
-async function sha256(message) {
+async function sha256(message: string) {
   const msgBuffer = new TextEncoder().encode(message);
   const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
@@ -153,15 +166,15 @@ async function sha256(message) {
   return hashHex;
 }
 
-export const makeKey = async (url, args) => {
+export const makeKey = async (url: string, args: unknown) => {
   const data = `${url}:${JSON.stringify(args)}`;
   const hash = await sha256(data);
 
   return `${hash}`.substr(0, 10);
 };
 
-export const apiFetch = async (url, args = null, method = null) => {
-  const _method = parseInt(args?.id || 0) > 0 ? 'put' : null;
+export const apiFetch = async (url: string, args: FetchArgs = null, method: string | null = null) => {
+  const _method = parseInt(`${args?.id || 0}`) > 0 ? 'put' : null;
   const options = getOptions(args, method || _method);
 
   window.fetching = (window.fetching || 0) + 1;
@@ -171,7 +184,7 @@ export const apiFetch = async (url, args = null, method = null) => {
 
   let res = await fetchFromOrigin(url, options);
   if (res.status === 401) {
-    let refreshed = false;
+    let refreshed: boolean | null = false;
     try {
       refreshed = await refreshToken();
     } catch {
@@ -202,11 +215,11 @@ export const apiFetch = async (url, args = null, method = null) => {
   return await res.json();
 };
 
-export const useApiFetch = (url, args = null, refreshKey = 0, key = null) => {
-  const [localResponse, setLocalResponse] = useState(null);
-  const [apiResponse, setApiResponse] = useState(null);
-  const [response, setResponse] = useState(null);
-  const [_key, setKey] = useState(null);
+export const useApiFetch = (url: string, args: FetchArgs = null, refreshKey = 0, key: string | null = null) => {
+  const [localResponse, setLocalResponse] = useState<unknown>(null);
+  const [apiResponse, setApiResponse] = useState<unknown>(null);
+  const [response, setResponse] = useState<unknown>(null);
+  const [_key, setKey] = useState<string | null>(null);
 
   useEffect(() => {
     if (_key !== null && response != null) {
@@ -224,7 +237,7 @@ export const useApiFetch = (url, args = null, refreshKey = 0, key = null) => {
 
   useEffect(() => {
     if (_key !== null) {
-      db.get(`${_key}`).then(({ data }) => setLocalResponse(data));
+      db.get<{ data: unknown }>(`${_key}`).then(({ data }) => setLocalResponse(data));
     }
   }, [_key]);
 

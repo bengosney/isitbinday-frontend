@@ -1,6 +1,6 @@
 import { useColorModeValue } from '@chakra-ui/react';
 
-export const STATUS_COLORS = {
+export const STATUS_COLORS: Record<string, string> = {
   todo: '#6C7686',
   doing: '#D9B054',
   'in progress': '#D9B054',
@@ -9,9 +9,33 @@ export const STATUS_COLORS = {
   canceled: '#C25E5E',
 };
 
-export const statusColor = (state) => STATUS_COLORS[`${state}`.toLowerCase()] || STATUS_COLORS.todo;
+export const statusColor = (state: unknown): string => STATUS_COLORS[`${state}`.toLowerCase()] || STATUS_COLORS.todo;
 
-const light = {
+export interface Tokens {
+  appBg: string;
+  topbarBg: string;
+  surface: string;
+  surfaceMuted: string;
+  inputBg: string;
+  border: string;
+  borderStrong: string;
+  text: string;
+  textBody: string;
+  textMuted: string;
+  textDim: string;
+  accent: string;
+  accentText: string;
+  accentSoft: string;
+  onAccent: string;
+  checkboxBorder: string;
+  dueText: string;
+  dueSoft: string;
+  dangerText: string;
+  dangerSoft: string;
+  hoverBg: string;
+}
+
+const light: Tokens = {
   appBg: '#F6F6F4',
   topbarBg: '#FFFFFF',
   surface: '#FFFFFF',
@@ -35,7 +59,7 @@ const light = {
   hoverBg: 'rgba(0,0,0,.04)',
 };
 
-const dark = {
+const dark: Tokens = {
   appBg: '#0E1116',
   topbarBg: '#10141B',
   surface: '#161B22',
@@ -59,6 +83,6 @@ const dark = {
   hoverBg: 'rgba(255,255,255,.04)',
 };
 
-export const useTokens = () => useColorModeValue(light, dark);
+export const useTokens = (): Tokens => useColorModeValue(light, dark);
 
 export default useTokens;

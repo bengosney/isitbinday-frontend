@@ -2,8 +2,15 @@ import { authContext } from '../Auth';
 import { useGoogleOneTapLogin, googleLogout } from '@react-oauth/google';
 import { useContext, useState, useEffect } from 'react';
 
+interface AuthContextValue {
+  loggedIn: boolean;
+  login?: (username: string, password: string) => Promise<void>;
+  logout?: () => void;
+  loginViaGoogleJWT?: (jwt?: string) => Promise<void>;
+}
+
 export const useLoginWithGoogle = () => {
-  const { loginViaGoogleJWT } = useContext(authContext);
+  const { loginViaGoogleJWT } = useContext(authContext) as AuthContextValue;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
@@ -14,7 +21,7 @@ export const useLoginWithGoogle = () => {
   useGoogleOneTapLogin({
     onSuccess: async (credentialResponse) => {
       setLoading(true);
-      await loginViaGoogleJWT(credentialResponse.credential);
+      await loginViaGoogleJWT?.(credentialResponse.credential);
     },
     onError: () => {
       setError(true);
