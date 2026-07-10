@@ -1,10 +1,9 @@
-// @ts-nocheck — Chakra v1 produces union types too complex for TS 7; remove when Chakra is upgraded
 import Auth from './Auth';
 import { db } from './db';
 import MainAppSection from './sections/MainAppSection';
-import customTheme from './theme';
+import { system } from './theme';
 import Footer from './widgets/Footer';
-import { ChakraProvider, Box, Spinner, Stack } from '@chakra-ui/react';
+import { ChakraProvider, Box, Spinner, Stack, Toaster } from '@chakra-ui/react';
 import { Portal } from '@chakra-ui/react';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import React, { useState } from 'react';
@@ -27,7 +26,8 @@ function App() {
 
   return (
     <Provider pouchdb={db}>
-      <ChakraProvider resetCSS theme={customTheme}>
+      <ChakraProvider value={system}>
+        <Toaster />
         <GoogleOAuthProvider clientId="582381464087-14q0s67afpctetcj59cfns61g8qak33s.apps.googleusercontent.com">
           <Auth>
             <Router>
