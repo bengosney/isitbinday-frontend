@@ -52,14 +52,14 @@ const TaskForm = ({ details, postSave = null, onCancel = null }) => {
         <Form.Input name="effort" />
         <Form.Input name="blocked_by" />
       </div>
-      <Flex gridGap={2} paddingTop={2}>
+      <Flex gap={2} paddingTop={2}>
         <Spacer />
         {onCancel !== null && (
           <Button variant="outline" onClick={onCancel}>
             Cancel
           </Button>
         )}
-        <Form.Button colorScheme="brand" type={'submit'}>
+        <Form.Button colorPalette="brand" type={'submit'}>
           Save task
         </Form.Button>
       </Flex>

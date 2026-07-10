@@ -55,10 +55,10 @@ const LoginForm = () => {
         >
           {() => {
             return (
-              <Stack spacing={4}>
+              <Stack gap={4}>
                 <Form.Input name={'username'} label="Email" />
                 <Form.Input name={'password'} type="password" label="Password" />
-                <Form.Button colorScheme="brand" type="submit">
+                <Form.Button colorPalette="brand" type="submit">
                   Sign in
                 </Form.Button>
               </Stack>

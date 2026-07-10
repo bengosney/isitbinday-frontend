@@ -12,7 +12,7 @@ export const AuthCard = ({ children, ...props }) => {
       borderColor={tokens.border}
       borderRadius="14px"
       padding={6}
-      spacing={4}
+      gap={4}
       {...props}
     >
       {children}
@@ -23,10 +23,10 @@ export const AuthCard = ({ children, ...props }) => {
 export const AuthShell = ({ title, subtitle = null, children }) => {
   const tokens = useTokens();
   return (
-    <Stack maxW={{ base: '100%', md: '25rem' }} width="100%" margin="auto" spacing={6} paddingY={10}>
-      <Stack align="center" spacing={3.5}>
+    <Stack maxW={{ base: '100%', md: '25rem' }} width="100%" margin="auto" gap={6} paddingY={10}>
+      <Stack align="center" gap={3.5}>
         <LogoMark size="40px" radius="12px" />
-        <Stack align="center" spacing={1}>
+        <Stack align="center" gap={1}>
           <Heading fontSize="20px" fontWeight={600} letterSpacing="-.01em" textAlign="center">
             {title}
           </Heading>

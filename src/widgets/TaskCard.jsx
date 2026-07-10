@@ -132,11 +132,11 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }) => {
       background={resolved ? tokens.surfaceMuted : tokens.surface}
       paddingX="15px"
       paddingY="13px"
-      gridGap={3}
+      gap={3}
       align="flex-start"
     >
       {stateMark}
-      <Stack spacing={2} minW={0} flex="1">
+      <Stack gap={2} minW={0} flex="1">
         <Text
           fontSize="14px"
           fontWeight={500}
@@ -147,7 +147,7 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }) => {
           {displayTitle}
         </Text>
         {chips.length > 0 && (
-          <Flex wrap="wrap" gridGap={1.5}>
+          <Flex wrap="wrap" gap={1.5}>
             {chips}
           </Flex>
         )}

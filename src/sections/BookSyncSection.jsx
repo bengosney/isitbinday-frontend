@@ -19,8 +19,8 @@ const BookSyncSection = ({ booksUrl = '/iibd/books' }) => {
   const addUrl = getUrl('/add');
 
   return (
-    <Stack marginTop={2} spacing={4}>
-      <Flex align="center" wrap="wrap" gridGap={2}>
+    <Stack marginTop={2} gap={4}>
+      <Flex align="center" wrap="wrap" gap={2}>
         <Heading fontSize="22px" fontWeight={600} letterSpacing="-.01em">
           Book sync
         </Heading>
@@ -28,8 +28,8 @@ const BookSyncSection = ({ booksUrl = '/iibd/books' }) => {
         <Button size="sm" variant="outline" onClick={() => history.push(booksUrl)}>
           Back to books
         </Button>
-        <Button size="sm" colorScheme="brand" leftIcon={<MdAdd />} onClick={() => history.push(addUrl)}>
-          Add sync setting
+        <Button size="sm" colorPalette="brand" onClick={() => history.push(addUrl)}>
+          <MdAdd />Add sync setting
         </Button>
       </Flex>
       <Text fontSize="13.5px" color={tokens.textMuted}>

@@ -17,7 +17,7 @@ const Module = ({ title, action = null, children }) => {
       borderRadius="14px"
       paddingX={6}
       paddingY={5}
-      spacing={3.5}
+      gap={3.5}
     >
       <Flex align="baseline">
         <Text fontSize="14px" fontWeight={600}>
@@ -50,8 +50,8 @@ const DashboardSection = () => {
     .slice(0, 5);
 
   return (
-    <Stack spacing={5} marginTop={2}>
-      <Flex align="baseline" gridGap={3}>
+    <Stack gap={5} marginTop={2}>
+      <Flex align="baseline" gap={3}>
         <Heading fontSize="22px" fontWeight={600} letterSpacing="-.01em">
           Dashboard
         </Heading>
@@ -71,9 +71,9 @@ const DashboardSection = () => {
               </ChakraLink>
             }
           >
-            <Stack spacing={2.5}>
+            <Stack gap={2.5}>
               {states.map((state) => (
-                <Flex key={state} align="center" gridGap={2.5}>
+                <Flex key={state} align="center" gap={2.5}>
                   <Box width="8px" height="8px" borderRadius="full" background={statusColor(state)} flex="none" />
                   <Text fontSize="13px" color={tokens.textBody}>
                     {UCFirst(state)}
@@ -92,7 +92,7 @@ const DashboardSection = () => {
                 No tasks have due dates.
               </Text>
             ) : (
-              <Stack spacing={2.5}>
+              <Stack gap={2.5}>
                 {dueSoon.map((task) => {
                   const dateObj = new Date(task.due_date);
                   const days = Math.floor((dateObj.getTime() - new Date().getTime()) / 8.64e7);
@@ -102,7 +102,7 @@ const DashboardSection = () => {
                     <Flex
                       key={task.id}
                       align="center"
-                      gridGap={2.5}
+                      gap={2.5}
                       background={tokens.hoverBg}
                       border="1px solid"
                       borderColor={tokens.border}

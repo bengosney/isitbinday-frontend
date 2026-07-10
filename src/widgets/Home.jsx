@@ -9,13 +9,17 @@ const Home = () => {
   usePageTitle();
   return (
     <AuthShell title="Is it bin day?" subtitle="A practical task list for the house">
-      <Stack spacing={2.5}>
-        <Button as={Link} to="/login" colorScheme="brand" rightIcon={<IconLogin />}>
-          Sign in
-        </Button>
-        <Button as={Link} to="/register" variant="outline" rightIcon={<IconRegister />}>
-          Create an account
-        </Button>
+      <Stack gap={2.5}>
+        <Link to="/login">
+          <Button colorPalette="brand" width="100%">
+            Sign in<IconLogin />
+          </Button>
+        </Link>
+        <Link to="/register">
+          <Button variant="outline" width="100%">
+            Create an account<IconRegister />
+          </Button>
+        </Link>
       </Stack>
     </AuthShell>
   );

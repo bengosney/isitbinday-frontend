@@ -36,7 +36,7 @@ const RecipeList = ({ refreshKey = 0 }) => {
           transition=".15s ease-in-out border-color, .15s ease-in-out background"
           _hover={{ borderColor: tokens.borderStrong, background: tokens.hoverBg }}
         >
-          <Flex align="flex-start" gridGap={3}>
+          <Flex align="flex-start" gap={3}>
             <Flex
               width="32px"
               height="32px"
@@ -50,7 +50,7 @@ const RecipeList = ({ refreshKey = 0 }) => {
             >
               <BiFoodMenu />
             </Flex>
-            <Stack spacing={1} minW={0}>
+            <Stack gap={1} minW={0}>
               <Text fontSize="14px" fontWeight={600} lineHeight={1.4} wordBreak="break-word">
                 {recipe.name}
               </Text>

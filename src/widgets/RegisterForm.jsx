@@ -51,7 +51,7 @@ const RegisterForm = () => {
         </Text>
       }
     >
-      <Flex gridGap={1.5}>
+      <Flex gap={1.5}>
         <Box flex={1} height="3px" borderRadius="full" background={tokens.accent} />
         <Box flex={1} height="3px" borderRadius="full" background={step === 2 ? tokens.accent : tokens.borderStrong} />
       </Flex>
@@ -91,13 +91,13 @@ const RegisterForm = () => {
         >
           {(props, formik) => {
             return (
-              <Stack spacing={4}>
+              <Stack gap={4}>
                 {step === 1 ? (
                   <>
                     <Form.Input name={'email'} />
                     <Form.Input name={'password'} type="password" />
                     <Form.Input name={'passwordConfirmation'} type="password" label="Confirm password" />
-                    <Button colorScheme="brand" type="button" onClick={() => continueToProfile(formik)}>
+                    <Button colorPalette="brand" type="button" onClick={() => continueToProfile(formik)}>
                       Continue
                     </Button>
                   </>
@@ -107,7 +107,7 @@ const RegisterForm = () => {
                       <Form.Input name={'firstName'} label="First name" />
                       <Form.Input name={'lastName'} label="Last name" />
                     </Grid>
-                    <Form.Button colorScheme="brand" type="submit">
+                    <Form.Button colorPalette="brand" type="submit">
                       Create account
                     </Form.Button>
                   </>

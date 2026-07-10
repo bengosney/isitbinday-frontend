@@ -45,7 +45,7 @@ const RecipeDetails = () => {
   };
 
   return (
-    <Stack spacing={4} marginTop={2}>
+    <Stack gap={4} marginTop={2}>
       {error && (
         <Box color={tokens.dangerText} fontWeight="bold">
           {error}
@@ -58,7 +58,7 @@ const RecipeDetails = () => {
         {' / '}
         {slug}
       </Text>
-      <Flex align="flex-start" gridGap={5}>
+      <Flex align="flex-start" gap={5}>
         <Heading fontSize={{ base: '26px', md: '32px' }} fontWeight={600} letterSpacing="-.02em" lineHeight={1.15}>
           {details.name}
         </Heading>
@@ -100,7 +100,7 @@ const RecipeDetails = () => {
           <Text fontSize="14px" fontWeight={600} marginBottom={3}>
             Ingredients
           </Text>
-          <Stack spacing={0}>
+          <Stack gap={0}>
             {details.ingredients.map((ingredient, index) => (
               <Grid
                 key={ingredient.id}
@@ -118,12 +118,12 @@ const RecipeDetails = () => {
             ))}
           </Stack>
         </Box>
-        <Stack spacing={5}>
+        <Stack gap={5}>
           <Text fontSize="14px" fontWeight={600}>
             Instructions
           </Text>
           {details.steps.map((step, index) => (
-            <Flex key={step.id} gridGap={4}>
+            <Flex key={step.id} gap={4}>
               <Flex
                 flex="none"
                 width="26px"

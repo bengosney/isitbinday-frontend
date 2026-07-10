@@ -38,8 +38,8 @@ const TaskSection = () => {
         <ArchiveList />
       </Route>
       <Route path={listUrl}>
-        <Flex align="center" mt={2} wrap="wrap" gridGap={2}>
-          <Flex align="baseline" gridGap={3}>
+        <Flex align="center" mt={2} wrap="wrap" gap={2}>
+          <Flex align="baseline" gap={3}>
             <Heading fontSize="22px" fontWeight={600} letterSpacing="-.01em">
               Tasks
             </Heading>
@@ -50,8 +50,8 @@ const TaskSection = () => {
             )}
           </Flex>
           <Spacer />
-          <Button size="sm" colorScheme="brand" leftIcon={<MdAdd />} onClick={() => history.push(newUrl)}>
-            New task
+          <Button size="sm" colorPalette="brand" onClick={() => history.push(newUrl)}>
+            <MdAdd />New task
           </Button>
         </Flex>
         <Stack my={6}>

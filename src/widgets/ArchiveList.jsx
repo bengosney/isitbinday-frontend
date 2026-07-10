@@ -40,14 +40,14 @@ const ArchiveList = ({ limit = 25, offset = 0 }) => {
   const { results: archivedTasks = [] } = data;
 
   return (
-    <Stack spacing={2.5}>
+    <Stack gap={2.5}>
       {archivedTasks.length === 0 && <Text color={tokens.textDim}>No archived tasks</Text>}
       {archivedTasks.map((task) => {
         return (
           <Flex
             key={task.id}
             align="center"
-            gridGap={3}
+            gap={3}
             border="1px solid"
             borderColor={tokens.border}
             borderRadius="10px"

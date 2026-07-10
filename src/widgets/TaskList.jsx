@@ -203,7 +203,7 @@ const TaskList = ({ onCountChange = null }) => {
     <React.Fragment>
       <DragDropContext onDragEnd={(e) => dragEnd(e)} onDragStart={(e) => dragStart(e)}>
         {actions.length > 0 && (
-          <Flex gridGap={5} marginBottom={5}>
+          <Flex gap={5} marginBottom={5}>
             {actions.map((action) => (
               <Droppable key={action} droppableId={action}>
                 {(provided, snapshot) => (
@@ -213,7 +213,7 @@ const TaskList = ({ onCountChange = null }) => {
                     flex="1"
                     align="center"
                     justify="center"
-                    gridGap={2}
+                    gap={2}
                     minHeight="42px"
                     border="1px dashed"
                     borderColor={
@@ -250,8 +250,8 @@ const TaskList = ({ onCountChange = null }) => {
             const empty = emptyColumnCopy(state);
 
             return (
-              <Stack key={state} spacing={2.5}>
-                <Flex align="center" gridGap={2} paddingX={1}>
+              <Stack key={state} gap={2.5}>
+                <Flex align="center" gap={2} paddingX={1}>
                   <Box width="8px" height="8px" borderRadius="full" background={statusColor(state)} flex="none" />
                   <Text
                     fontSize="11.5px"
@@ -275,7 +275,7 @@ const TaskList = ({ onCountChange = null }) => {
                       <Stack
                         {...provided.droppableProps}
                         ref={provided.innerRef}
-                        spacing={2.5}
+                        gap={2.5}
                         border="1px solid"
                         borderRadius="10px"
                         height={'100%'}

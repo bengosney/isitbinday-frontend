@@ -26,7 +26,7 @@ const BookSection = () => {
         <BookSyncSection booksUrl={listUrl} />
       </Route>
       <Route path={listUrl}>
-        <Flex align="center" mt={2} wrap="wrap" gridGap={2}>
+        <Flex align="center" mt={2} wrap="wrap" gap={2}>
           <Heading fontSize="22px" fontWeight={600} letterSpacing="-.01em">
             Books
           </Heading>
@@ -34,8 +34,8 @@ const BookSection = () => {
           <Button size="sm" variant="outline" onClick={() => history.push(syncUrl)}>
             Sync settings
           </Button>
-          <Button size="sm" colorScheme="brand" leftIcon={<BiBookAdd />} onClick={() => history.push(addUrl)}>
-            Add book
+          <Button size="sm" colorPalette="brand" onClick={() => history.push(addUrl)}>
+            <BiBookAdd />Add book
           </Button>
         </Flex>
         <Stack my={6}>

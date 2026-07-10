@@ -26,7 +26,7 @@ export const NavItem = ({ children, active = false, ...props }) => {
 export const NavBrand = () => {
   const tokens = useTokens();
   return (
-    <Flex align="center" gridGap={2.5} flex="none" mr={4}>
+    <Flex align="center" gap={2.5} flex="none" mr={4}>
       <LogoMark />
       <Text fontSize="14px" fontWeight={600} color={tokens.text} whiteSpace="nowrap">
         Is it bin day?
@@ -39,7 +39,7 @@ const Nav = ({ children, ...props }) => {
   const tokens = useTokens();
   return (
     <Box overflowX="auto" background={tokens.topbarBg} borderBottom="1px solid" borderBottomColor={tokens.border}>
-      <Flex as="nav" align="center" height="56px" px={{ base: 4, md: 10 }} gridGap={1.5} {...props}>
+      <Flex as="nav" align="center" height="56px" px={{ base: 4, md: 10 }} gap={1.5} {...props}>
         {children}
       </Flex>
     </Box>

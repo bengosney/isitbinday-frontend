@@ -16,13 +16,13 @@ const BookSyncSettingsList = () => {
   const { results } = data;
 
   return (
-    <Stack spacing={2.5}>
+    <Stack gap={2.5}>
       {results.length === 0 && <Text color={tokens.textDim}>No sync settings yet</Text>}
       {results.map((settings) => (
         <Flex
           key={settings.id}
           align="center"
-          gridGap={3}
+          gap={3}
           background={tokens.surface}
           border="1px solid"
           borderColor={tokens.border}

@@ -3,7 +3,7 @@ import React from 'react';
 
 const ContactSection = () => (
   <Box maxW="600px" margin="auto" p={8}>
-    <VStack spacing={4} align="start">
+    <VStack gap={4} align="start">
       <Heading as="h1" size="lg">
         Contact Us
       </Heading>

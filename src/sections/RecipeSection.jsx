@@ -31,8 +31,8 @@ const RecipeSection = () => {
         Recipes
       </Heading>
       <Spacer />
-      <Button size="sm" colorScheme="brand" leftIcon={<MdAdd />} onClick={() => history.push(urlUrl)}>
-        Add recipe
+      <Button size="sm" colorPalette="brand" onClick={() => history.push(urlUrl)}>
+        <MdAdd />Add recipe
       </Button>
     </Flex>
   );

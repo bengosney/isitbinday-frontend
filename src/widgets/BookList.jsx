@@ -69,8 +69,8 @@ const BookList = ({ page = 0 }) => {
   };
 
   const pagi = (
-    <Flex justify={'space-between'} align={'center'} wrap="wrap" gridGap={2}>
-      <HStack hidden={totalPages < 1} align={'center'} spacing={2}>
+    <Flex justify={'space-between'} align={'center'} wrap="wrap" gap={2}>
+      <HStack hidden={totalPages < 1} align={'center'} gap={2}>
         <IconButton
           icon={<BiLeftArrowAlt />}
           aria-label="Previous page"
@@ -91,7 +91,7 @@ const BookList = ({ page = 0 }) => {
           disabled={offset + npp >= count}
         />
       </HStack>
-      <HStack spacing={2}>
+      <HStack gap={2}>
         <Select size={'xs'} width="auto" value={npp} onChange={(e) => setNpp(e.target.value)}>
           {npps.map((n) => (
             <option key={n} value={n}>
@@ -107,7 +107,7 @@ const BookList = ({ page = 0 }) => {
   );
 
   return (
-    <Stack spacing={4}>
+    <Stack gap={4}>
       <Input placeholder="Search books" value={search} onChange={(event) => setSearch(event.target.value)} />
       {pagi}
       {apiResults !== null && books.length === 0 && <Text color={tokens.textDim}>No books found</Text>}
@@ -116,7 +116,7 @@ const BookList = ({ page = 0 }) => {
           <Flex
             key={book.isbn}
             align="flex-start"
-            gridGap={3}
+            gap={3}
             background={tokens.surface}
             border="1px solid"
             borderColor={tokens.border}
@@ -137,7 +137,7 @@ const BookList = ({ page = 0 }) => {
             >
               <BiBook />
             </Flex>
-            <Stack spacing={1} minW={0}>
+            <Stack gap={1} minW={0}>
               <Text fontSize="14px" fontWeight={600} lineHeight={1.4} wordBreak="break-word">
                 {book.title}
               </Text>
