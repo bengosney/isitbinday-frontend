@@ -1,5 +1,4 @@
-import { useMediaQuery } from '@chakra-ui/react';
-
+import { useColorMode } from './colorMode';
 
 export const STATUS_COLORS: Record<string, string> = {
   todo: '#6C7686',
@@ -85,8 +84,8 @@ const dark: Tokens = {
 };
 
 export const useTokens = (): Tokens => {
-  const [isDark] = useMediaQuery(['(prefers-color-scheme: dark)']);
-  return isDark ? dark : light;
+  const { resolved } = useColorMode();
+  return resolved === 'dark' ? dark : light;
 };
 
 export default useTokens;
