@@ -18,8 +18,8 @@ importers:
         specifier: ^18.0.1
         version: 18.0.1(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@react-oauth/google':
-        specifier: ^0.12.2
-        version: 0.12.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^0.13.5
+        version: 0.13.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       events:
         specifier: ^3.3.0
         version: 3.3.0
@@ -48,8 +48,8 @@ importers:
         specifier: ^18
         version: 18.3.1(react@18.3.1)
       react-icons:
-        specifier: ^4.2.0
-        version: 4.12.0(react@18.3.1)
+        specifier: ^5.7.0
+        version: 5.7.0(react@18.3.1)
       react-qr-barcode-scanner:
         specifier: ^2.1.25
         version: 2.1.25(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -521,9 +521,9 @@ packages:
       { integrity: sha512-RWxInlS+lGgKiF0fB0HO76vsJFgRvbavm5Z25/GqqN8MPHXYA6n5rZnfdp4itEXy5DJkQ9vt3yrwa2IKiuhtrA== }
     engines: { node: '>=20' }
 
-  '@react-oauth/google@0.12.2':
+  '@react-oauth/google@0.13.5':
     resolution:
-      { integrity: sha512-d1GVm2uD4E44EJft2RbKtp8Z1fp/gK8Lb6KHgs3pHlM0PxCXGLaq8LLYQYENnN4xPWO1gkL4apBtlPKzpLvZwg== }
+      { integrity: sha512-xQWri2s/3nNekZJ4uuov2aAfQYu83bN3864KcFqw2pK1nNbFurQIjPFDXhWaKH3IjYJ2r/9yyIIpsn5lMqrheQ== }
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
@@ -2779,9 +2779,9 @@ packages:
     resolution:
       { integrity: sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw== }
 
-  react-icons@4.12.0:
+  react-icons@5.7.0:
     resolution:
-      { integrity: sha512-IBaDuHiShdZqmfc/TwHu6+d6k2ltNCf3AszxNmjJc1KUfXdEeRJOKyNvLmAHaarhzGmTSVygNdyu8/opXv2gaw== }
+      { integrity: sha512-LBLy340Rzqy6+/yVhZKT3B/QpP1BZaesGqasf09HPOBzRarcDIFH0WwXlXQfE7q7ipxK4MSiC5DIBWURCny6fw== }
     peerDependencies:
       react: '*'
 
@@ -3953,7 +3953,7 @@ snapshots:
 
   '@pandacss/is-valid-prop@1.11.4': {}
 
-  '@react-oauth/google@0.12.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@react-oauth/google@0.13.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -6233,7 +6233,7 @@ snapshots:
 
   react-fast-compare@2.0.4: {}
 
-  react-icons@4.12.0(react@18.3.1):
+  react-icons@5.7.0(react@18.3.1):
     dependencies:
       react: 18.3.1
 
