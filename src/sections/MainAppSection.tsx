@@ -1,3 +1,4 @@
+import { authContext } from '../Auth';
 import PrivateSection from '../sections/PrivateSection';
 import PrivateRoute from '../utils/PrivateRoute';
 import PublicRoute from '../utils/PublicRoute';
@@ -6,12 +7,40 @@ import FullPage from '../widgets/FullPage';
 import Home from '../widgets/Home';
 import LoginForm from '../widgets/LoginForm';
 import Logout from '../widgets/Logout';
+import Nav from '../widgets/Nav';
 import ContactSection from './ContactSection';
 import PrivacyPolicySection from './PrivacyPolicySection';
 import RegisterSection from './RegisterSection';
 import TermsSection from './TermsSection';
-import React, { useEffect } from 'react';
-import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { Spacer } from '@chakra-ui/react';
+import React, { useContext, useEffect } from 'react';
+import { Routes, Route, useLocation, Navigate, Link } from 'react-router-dom';
+
+// Topbar for public static pages (privacy, terms, contact) so they aren't
+// rendered headerless with no way back into the app.
+const StaticPage = ({ children }: { children: React.ReactNode }) => {
+  const { loggedIn } = useContext(authContext);
+  return (
+    <>
+      <Nav>
+        <Link to={loggedIn ? '/iibd' : '/'}>
+          <Nav.Brand />
+        </Link>
+        <Spacer />
+        {loggedIn ? (
+          <Nav.Item as={Link} to="/iibd">
+            Dashboard
+          </Nav.Item>
+        ) : (
+          <Nav.Item as={Link} to="/login">
+            Sign in
+          </Nav.Item>
+        )}
+      </Nav>
+      <FullPage>{children}</FullPage>
+    </>
+  );
+};
 
 const MainAppSection = () => {
   const { pathname } = useLocation();
@@ -62,25 +91,25 @@ const MainAppSection = () => {
       <Route
         path="/privacy-policy"
         element={
-          <FullPage>
+          <StaticPage>
             <PrivacyPolicySection />
-          </FullPage>
+          </StaticPage>
         }
       />
       <Route
         path="/terms-and-conditions"
         element={
-          <FullPage>
+          <StaticPage>
             <TermsSection />
-          </FullPage>
+          </StaticPage>
         }
       />
       <Route
         path="/contact"
         element={
-          <FullPage>
+          <StaticPage>
             <ContactSection />
-          </FullPage>
+          </StaticPage>
         }
       />
       <Route
