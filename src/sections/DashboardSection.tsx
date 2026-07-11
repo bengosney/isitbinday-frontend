@@ -67,7 +67,6 @@ const DashboardSection = () => {
 
   const dateLabel = new Date().toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
 
-  // eslint-disable-next-line no-undef
   const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
   const dueSoon = tasks
     .filter((t) => t.due_date && !['done', 'cancelled', 'canceled'].includes(`${t.state}`.toLowerCase()))

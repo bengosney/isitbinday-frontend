@@ -56,7 +56,6 @@ const Field = ({ as, children, processor, name, label = null, showLabel = true, 
     <Stack>
       <Box color={_error ? 'form.error' : ''}>
         {showLabel ? (
-          // eslint-disable-next-line jsx-a11y/label-has-associated-control
           <label htmlFor={name} style={{ display: 'block', fontSize: '12px', fontWeight: 600, opacity: 0.75, marginBottom: '6px' }}>
             {_label}
             {_error && errors}

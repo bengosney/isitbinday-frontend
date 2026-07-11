@@ -184,7 +184,7 @@ export const apiFetch = async (url: string, args: FetchArgs = null, method: stri
 
   let res = await fetchFromOrigin(url, options);
   if (res.status === 401) {
-    let refreshed: boolean | null = false;
+    let refreshed: boolean | null;
     try {
       refreshed = await refreshToken();
     } catch {

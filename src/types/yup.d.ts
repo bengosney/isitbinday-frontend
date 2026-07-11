@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare module 'yup' {
   interface SchemaDescription {
     fields: Record<string, unknown>;
@@ -22,15 +21,11 @@ declare module 'yup' {
     matches(regex: RegExp, message?: string): this;
     moreThan(limit: number, message?: string): this;
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   type StringSchema = BaseSchema<string>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   type NumberSchema = BaseSchema<number>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   type DateSchema = BaseSchema<Date>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   type ArraySchema = BaseSchema<any[]>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   type ObjectSchema<T = Record<string, unknown>> = BaseSchema<T>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   type MixedSchema = BaseSchema<any>;

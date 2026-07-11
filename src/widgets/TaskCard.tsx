@@ -46,7 +46,6 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }: TaskCardPro
 
   let due = null;
   if (due_date) {
-    // eslint-disable-next-line no-undef
     const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
     const dateObj = new Date(due_date);
     const days = Math.floor((dateObj.getTime() - new Date().getTime()) / 8.64e7);
