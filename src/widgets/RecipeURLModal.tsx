@@ -3,19 +3,18 @@ import apiFetch from '../utils/apiFetch';
 import Modal from './Modal';
 import { Stack } from '@chakra-ui/react';
 import React from 'react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 interface RecipeURLModalProps {
   onClose?: () => void;
 }
 
 const RecipeURLModal = ({ onClose = () => undefined }: RecipeURLModalProps) => {
-  const { path } = useRouteMatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const close = () => {
     onClose();
-    history.push(path.substring(0, path.lastIndexOf('/')));
+    navigate('/iibd/recipes');
   };
 
   return (

@@ -6,24 +6,18 @@ import RecipeURLModal from '../widgets/RecipeURLModal';
 import { Button, Flex, Heading, Spacer, Stack } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { MdAdd } from 'react-icons/md';
-import { useRouteMatch, Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+
+const BASE_URL = '/iibd/recipes';
 
 const RecipeSection = () => {
   usePageTitle('Recipes');
   const [refreshKey, setRefreshKey] = useState(0);
   const incrementRefreshKey = () => setRefreshKey((prevKey) => prevKey + 1);
-  const { path } = useRouteMatch();
 
-  const getUrl = (slug: string) => {
-    return slug ? `${path}/${slug}`.replace('//', '/') : path;
-  };
+  const urlUrl = `${BASE_URL}/from-url`;
 
-  const listUrl = getUrl('');
-  const viewUrl = getUrl('/:slug');
-  const addUrl = getUrl('add');
-  const urlUrl = getUrl('from-url');
-
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const header = (
     <Flex align="center" mt={2}>
@@ -31,37 +25,49 @@ const RecipeSection = () => {
         Recipes
       </Heading>
       <Spacer />
-      <Button size="sm" colorPalette="brand" onClick={() => history.push(urlUrl)}>
-        <MdAdd />Add recipe
+      <Button size="sm" colorPalette="brand" onClick={() => navigate(urlUrl)}>
+        <MdAdd />
+        Add recipe
       </Button>
     </Flex>
   );
 
   return (
-    <React.Fragment>
-      <Switch>
-        <Route path={addUrl}>
-          {header}
-          <RecipeForm />
-        </Route>
-        <Route path={urlUrl}>
-          {header}
-          <Stack my={6}>
-            <RecipeList refreshKey={refreshKey} />
-            <RecipeURLModal onClose={() => incrementRefreshKey()} />
-          </Stack>
-        </Route>
-        <Route path={viewUrl}>
-          <RecipeDetails />
-        </Route>
-        <Route path={listUrl}>
-          {header}
-          <Stack my={6}>
-            <RecipeList />
-          </Stack>
-        </Route>
-      </Switch>
-    </React.Fragment>
+    <Routes>
+      <Route
+        path="add"
+        element={
+          <>
+            {header}
+            <RecipeForm />
+          </>
+        }
+      />
+      <Route
+        path="from-url"
+        element={
+          <>
+            {header}
+            <Stack my={6}>
+              <RecipeList refreshKey={refreshKey} />
+              <RecipeURLModal onClose={() => incrementRefreshKey()} />
+            </Stack>
+          </>
+        }
+      />
+      <Route path=":slug" element={<RecipeDetails />} />
+      <Route
+        index
+        element={
+          <>
+            {header}
+            <Stack my={6}>
+              <RecipeList />
+            </Stack>
+          </>
+        }
+      />
+    </Routes>
   );
 };
 

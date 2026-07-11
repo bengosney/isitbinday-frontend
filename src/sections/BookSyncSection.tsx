@@ -5,22 +5,17 @@ import Modal from '../widgets/Modal';
 import { Button, Flex, Heading, Spacer, Stack, Text } from '@chakra-ui/react';
 import React from 'react';
 import { MdAdd } from 'react-icons/md';
-import { useRouteMatch, Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 
 interface BookSyncSectionProps {
   booksUrl?: string;
 }
 
 const BookSyncSection = ({ booksUrl = '/iibd/books' }: BookSyncSectionProps) => {
-  const { path } = useRouteMatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const tokens = useTokens();
 
-  const getUrl = (slug: string) => {
-    return `${path}/${slug}`.replace('//', '/');
-  };
-
-  const addUrl = getUrl('/add');
+  const addUrl = `${booksUrl}/sync/add`;
 
   return (
     <Stack marginTop={2} gap={4}>
@@ -29,24 +24,28 @@ const BookSyncSection = ({ booksUrl = '/iibd/books' }: BookSyncSectionProps) => 
           Book sync
         </Heading>
         <Spacer />
-        <Button size="sm" variant="outline" onClick={() => history.push(booksUrl)}>
+        <Button size="sm" variant="outline" onClick={() => navigate(booksUrl)}>
           Back to books
         </Button>
-        <Button size="sm" colorPalette="brand" onClick={() => history.push(addUrl)}>
-          <MdAdd />Add sync setting
+        <Button size="sm" colorPalette="brand" onClick={() => navigate(addUrl)}>
+          <MdAdd />
+          Add sync setting
         </Button>
       </Flex>
       <Text fontSize="13.5px" color={tokens.textMuted}>
         Sync your books with the books.isitbinday.com couchdb instance.
       </Text>
       <BookSyncSettingsList />
-      <Switch>
-        <Route path={addUrl}>
-          <Modal open={true} showFooter={false} onClose={() => history.goBack()} title="Add sync setting">
-            <BookSyncForm postSave={() => history.goBack()} />
-          </Modal>
-        </Route>
-      </Switch>
+      <Routes>
+        <Route
+          path="add"
+          element={
+            <Modal open={true} showFooter={false} onClose={() => navigate(-1)} title="Add sync setting">
+              <BookSyncForm postSave={() => navigate(-1)} />
+            </Modal>
+          }
+        />
+      </Routes>
     </Stack>
   );
 };

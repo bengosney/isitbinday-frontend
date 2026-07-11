@@ -11,7 +11,7 @@ import PrivacyPolicySection from './PrivacyPolicySection';
 import RegisterSection from './RegisterSection';
 import TermsSection from './TermsSection';
 import React, { useEffect } from 'react';
-import { Switch, Route, useLocation, Redirect } from 'react-router-dom';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 
 const MainAppSection = () => {
   const { pathname } = useLocation();
@@ -25,46 +25,81 @@ const MainAppSection = () => {
     })();
   }, []);
 
+  if (pathname !== '/' && pathname.endsWith('/')) {
+    return <Navigate to={pathname.replace(/\/+$/, '')} replace />;
+  }
+
   return (
-    <Switch>
-      <Redirect from="/:url*(/+)" to={pathname.slice(0, -1)} />
-      <Route exact path="/">
-        <FullPage>
-          <Home />
-        </FullPage>
-      </Route>
-      <PublicRoute path={['/login/:action', '/login']}>
-        <FullPage>
-          <LoginForm />
-        </FullPage>
-      </PublicRoute>
-      <PublicRoute path="/register">
-        <FullPage>
-          <RegisterSection />
-        </FullPage>
-      </PublicRoute>
-      <Route path="/privacy-policy">
-        <FullPage>
-          <PrivacyPolicySection />
-        </FullPage>
-      </Route>
-      <Route path="/terms-and-conditions">
-        <FullPage>
-          <TermsSection />
-        </FullPage>
-      </Route>
-      <Route path="/contact">
-        <FullPage>
-          <ContactSection />
-        </FullPage>
-      </Route>
-      <PrivateRoute path="/iibd">
-        <PrivateSection />
-      </PrivateRoute>
-      <PrivateRoute path="/logout">
-        <Logout />
-      </PrivateRoute>
-    </Switch>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <FullPage>
+            <Home />
+          </FullPage>
+        }
+      />
+      <Route
+        path="/login/:action?"
+        element={
+          <PublicRoute>
+            <FullPage>
+              <LoginForm />
+            </FullPage>
+          </PublicRoute>
+        }
+      />
+      <Route
+        path="/register/*"
+        element={
+          <PublicRoute>
+            <FullPage>
+              <RegisterSection />
+            </FullPage>
+          </PublicRoute>
+        }
+      />
+      <Route
+        path="/privacy-policy"
+        element={
+          <FullPage>
+            <PrivacyPolicySection />
+          </FullPage>
+        }
+      />
+      <Route
+        path="/terms-and-conditions"
+        element={
+          <FullPage>
+            <TermsSection />
+          </FullPage>
+        }
+      />
+      <Route
+        path="/contact"
+        element={
+          <FullPage>
+            <ContactSection />
+          </FullPage>
+        }
+      />
+      <Route
+        path="/iibd/*"
+        element={
+          <PrivateRoute>
+            <PrivateSection />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/logout"
+        element={
+          <PrivateRoute>
+            <Logout />
+          </PrivateRoute>
+        }
+      />
+    </Routes>
   );
 };
 

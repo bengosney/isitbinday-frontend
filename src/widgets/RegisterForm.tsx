@@ -5,7 +5,7 @@ import useTokens from '../utils/useTokens';
 import AuthShell, { AuthCard } from '../widgets/AuthShell';
 import { Box, Button, Flex, Grid, Link as ChakraLink, Stack, Text } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import { useHistory, useRouteMatch, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
 const registerSchema = Yup.object().shape({
@@ -23,8 +23,7 @@ const STEP_ONE_FIELDS = ['email', 'password', 'passwordConfirmation'];
 
 const RegisterForm = () => {
   usePageTitle('Register');
-  const history = useHistory();
-  const { url } = useRouteMatch();
+  const navigate = useNavigate();
   const tokens = useTokens();
 
   const [step, setStep] = useState(1);
@@ -74,14 +73,14 @@ const RegisterForm = () => {
               password: password,
               first_name: firstName,
               last_name: lastName,
-              url_template: `${window.location.origin}${url}/activate/{{ uid }}/{{ token }}`,
+              url_template: `${window.location.origin}/register/activate/{{ uid }}/{{ token }}`,
             };
 
             try {
               const result = await apiFetch('api/accounts/create/', params);
 
               if (result.email) {
-                history.push(`${url}/${result.email}`);
+                navigate(`/register/${result.email}`);
               }
             } catch (e) {
               setError(`${e}`);

@@ -2,19 +2,19 @@ import apiFetch from '../utils/apiFetch';
 import { NarrowStack } from '../widgets/NarrowStack';
 import { Spinner, Box, Center } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const RegisterActivate = () => {
   const params = useParams();
   const [error, setError] = useState(false);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   apiFetch('api/accounts/activate/', params).then((result) => {
     const { email = false } = result;
     if (!email) {
       setError(!email);
     } else {
-      history.replace('/login/activated');
+      navigate('/login/activated', { replace: true });
     }
   });
 

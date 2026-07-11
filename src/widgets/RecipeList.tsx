@@ -3,8 +3,7 @@ import useTokens from '../utils/useTokens';
 import { Box, Flex, Grid, Stack, Text } from '@chakra-ui/react';
 import React from 'react';
 import { BiFoodMenu } from 'react-icons/bi';
-import { useRouteMatch } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 interface RecipeListProps {
   refreshKey?: number;
@@ -15,7 +14,8 @@ const RecipeList = ({ refreshKey = 0 }: RecipeListProps) => {
   const apiResults = useApiFetch('api/recipes/recipe/', null, refreshKey);
   const { results: recipes = [] } = (apiResults as { results?: unknown[] }) || {};
 
-  const { path } = useRouteMatch();
+  // Recipe list base — strip the from-url modal segment if present
+  const path = useLocation().pathname.replace(/\/from-url\/?$/, '');
   const getUrl = (slug: string) => {
     return `${path}/${slug}`.replace('//', '/');
   };

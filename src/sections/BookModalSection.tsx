@@ -3,21 +3,15 @@ import usePageTitle from '../utils/usePageTitle';
 import BarcodeModal from '../widgets/BarcodeModal';
 import Loader from '../widgets/Loader';
 import React, { useState } from 'react';
-import { useRouteMatch, Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
 const BookModalSection = () => {
   usePageTitle('Book List');
   const [scanning, setScanning] = useState(true);
-  const { path } = useRouteMatch();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
-  const getUrl = (slug: string) => {
-    return `${path}/${slug}`.replace('//', '/');
-  };
-
-  const addUrl = getUrl('add');
-
-  const history = useHistory();
-  const close = () => history.push(path);
+  const close = () => navigate(pathname.replace(/\/add\/?$/, ''));
 
   const onScan = (data: string) => {
     setScanning(false);
@@ -29,13 +23,16 @@ const BookModalSection = () => {
   };
 
   return (
-    <Switch>
-      <Route path={addUrl}>
-        <Loader loading={!scanning}>
-          <BarcodeModal onScan={(data) => onScan(data)} />
-        </Loader>
-      </Route>
-    </Switch>
+    <Routes>
+      <Route
+        path="add"
+        element={
+          <Loader loading={!scanning}>
+            <BarcodeModal onScan={(data) => onScan(data)} />
+          </Loader>
+        }
+      />
+    </Routes>
   );
 };
 

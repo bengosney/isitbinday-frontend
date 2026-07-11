@@ -4,7 +4,7 @@ import { Box, Flex, IconButton, Link as ChakraLink, Stack, Text } from '@chakra-
 import { find } from 'linkifyjs';
 import React from 'react';
 import { MdClose, MdDone, MdModeEdit } from 'react-icons/md';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 interface Task {
   id: number;
@@ -31,7 +31,8 @@ const hostname = (href: string): string => {
 
 const TaskCard = ({ task, showDueDate = true, onSateChange = null }: TaskCardProps) => {
   const { id, title, state, due_date, available_state_transitions } = task;
-  const { path } = useRouteMatch();
+  // Base list URL — strip any open modal segment from the current location
+  const path = useLocation().pathname.replace(/\/(new|edit\/[^/]+)\/?$/, '');
   const tokens = useTokens();
 
   const links = find(title || '', 'url');

@@ -1,22 +1,16 @@
 import { authContext } from '../Auth';
 import React, { useContext } from 'react';
-import { Route, Redirect, RouteProps } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 
-interface PublicRouteProps extends RouteProps {
+interface PublicRouteProps {
   children: React.ReactNode;
 }
 
-const PublicRoute = ({ children, ...rest }: PublicRouteProps) => {
+const PublicRoute = ({ children }: PublicRouteProps) => {
   const { loggedIn = false } = useContext(authContext);
+  const location = useLocation();
 
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        !loggedIn ? children : <Redirect to={{ pathname: '/iibd', state: { from: location } }} />
-      }
-    />
-  );
+  return !loggedIn ? <>{children}</> : <Navigate to="/iibd" replace state={{ from: location }} />;
 };
 
 export default PublicRoute;

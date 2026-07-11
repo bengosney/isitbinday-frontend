@@ -16,11 +16,11 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import React from 'react';
-import { useParams, useHistory, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 
 const RecipeDetails = () => {
   const { slug } = useParams<{ slug?: string }>();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { open, onOpen, onClose } = useDisclosure();
   const [isDeleting, setIsDeleting] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -37,7 +37,7 @@ const RecipeDetails = () => {
     setError(null);
     try {
       await apiFetch(`api/recipes/recipe/${slug}/`, null, 'DELETE');
-      history.replace('/iibd/recipes');
+      navigate('/iibd/recipes', { replace: true });
     } catch (e) {
       setIsDeleting(false);
       setError((e as Error).message);

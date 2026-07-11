@@ -8,7 +8,7 @@ import SprintSection from './SprintSection';
 import TaskSection from './TaskSection';
 import { Spacer } from '@chakra-ui/react';
 import React from 'react';
-import { useRouteMatch, Route, Switch, useLocation, Link } from 'react-router-dom';
+import { Route, Routes, useLocation, Link } from 'react-router-dom';
 
 interface MenuItem {
   name: string;
@@ -16,15 +16,12 @@ interface MenuItem {
 }
 
 const PrivateSection = () => {
-  const { path } = useRouteMatch();
-
   const getUrl = (slug: string) => {
-    return `${path}/${slug}`.replace('//', '/');
+    return `/iibd/${slug}`.replace(/\/$/, '');
   };
 
   const dashboardUrl = getUrl('');
   const tasksUrl = getUrl('tasks');
-  const sprintsUrl = getUrl('sprints');
   const booksUrl = getUrl('books');
   const recipeUrl = getUrl('recipes');
 
@@ -33,7 +30,7 @@ const PrivateSection = () => {
     { name: 'Tasks', url: tasksUrl },
     { name: 'Books', url: booksUrl },
     { name: 'Recipes', url: recipeUrl },
-    // { name: 'Sprints', url: sprintsUrl },
+    // { name: 'Sprints', url: getUrl('sprints') },
   ];
 
   const { pathname } = useLocation();
@@ -58,23 +55,13 @@ const PrivateSection = () => {
         </Nav.Item>
       </Nav>
       <MaxWidth marginTop={4}>
-        <Switch>
-          <Route exact path={dashboardUrl}>
-            <DashboardSection />
-          </Route>
-          <Route path={tasksUrl}>
-            <TaskSection />
-          </Route>
-          <Route path={sprintsUrl}>
-            <SprintSection />
-          </Route>
-          <Route path={booksUrl}>
-            <BookSection />
-          </Route>
-          <Route path={recipeUrl}>
-            <RecipeSection />
-          </Route>
-        </Switch>
+        <Routes>
+          <Route index element={<DashboardSection />} />
+          <Route path="tasks/*" element={<TaskSection />} />
+          <Route path="sprints/*" element={<SprintSection />} />
+          <Route path="books/*" element={<BookSection />} />
+          <Route path="recipes/*" element={<RecipeSection />} />
+        </Routes>
       </MaxWidth>
     </div>
   );

@@ -5,9 +5,9 @@ import useTokens, { statusColor } from '../utils/useTokens';
 import Loader from './Loader';
 import TaskCard from './TaskCard';
 import { Stack, Grid, Flex, Text, Box, useBreakpointValue } from '@chakra-ui/react';
-import React, { useCallback, useEffect, useReducer } from 'react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
-import { Redirect, useLocation } from 'react-router-dom';
+import React, { useCallback, useEffect, useReducer } from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
 import * as Yup from 'yup';
 
 interface TaskItem {
@@ -88,7 +88,7 @@ const TaskList = ({ onCountChange = null }: TaskListProps) => {
           throw new Error(`Unsupported action type: ${action.type as string}`);
         }
     }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   }, (stateShape as any).cast({}) as TaskListState);
 
   const { states, actions, tasks, transitionMap, droppableStates, dragItem, currentRefreshKey, dueDateStates } =
@@ -226,7 +226,7 @@ const TaskList = ({ onCountChange = null }: TaskListProps) => {
 
   if (tasks.length === 0) {
     const redirectTo = `${location.pathname}/new`.replace('//', '/');
-    const redirect = location.pathname.endsWith('new') ? null : <Redirect to={redirectTo} />;
+    const redirect = location.pathname.endsWith('new') ? null : <Navigate to={redirectTo} replace />;
     return (
       <>
         {redirect}
