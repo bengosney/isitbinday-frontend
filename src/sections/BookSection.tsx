@@ -12,7 +12,7 @@ const BookSection = () => {
   const { path } = useRouteMatch();
   const history = useHistory();
 
-  const getUrl = (slug) => {
+  const getUrl = (slug: string) => {
     return slug ? `${path}/${slug}`.replace('//', '/') : path;
   };
 

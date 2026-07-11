@@ -7,7 +7,32 @@ import { Box, Flex, Grid, Heading, Link as ChakraLink, Spacer, Stack, Text } fro
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Module = ({ title, action = null, children }) => {
+interface Task {
+  id: number;
+  state?: string;
+  due_date?: string;
+  title?: string;
+}
+
+interface TasksResponse {
+  results: Task[];
+}
+
+interface State {
+  name: string;
+}
+
+interface StatesResponse {
+  states: State[];
+}
+
+interface ModuleProps {
+  title: React.ReactNode;
+  action?: React.ReactNode | null;
+  children?: React.ReactNode;
+}
+
+const Module = ({ title, action = null, children }: ModuleProps) => {
   const tokens = useTokens();
   return (
     <Stack
@@ -34,8 +59,8 @@ const DashboardSection = () => {
   usePageTitle('Dashboard');
   const tokens = useTokens();
 
-  const data = useApiFetch('api/tasks/tasks/?limit=100&offset=0');
-  const statesResponse = useApiFetch('api/tasks/tasks/states/');
+  const data = useApiFetch('api/tasks/tasks/?limit=100&offset=0') as TasksResponse | null;
+  const statesResponse = useApiFetch('api/tasks/tasks/states/') as StatesResponse | null;
 
   const tasks = data?.results || [];
   const states = (statesResponse?.states || []).map((s) => s.name);
@@ -46,7 +71,7 @@ const DashboardSection = () => {
   const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
   const dueSoon = tasks
     .filter((t) => t.due_date && !['done', 'cancelled', 'canceled'].includes(`${t.state}`.toLowerCase()))
-    .sort((a, b) => new Date(a.due_date) - new Date(b.due_date))
+    .sort((a, b) => new Date(a.due_date!).getTime() - new Date(b.due_date!).getTime())
     .slice(0, 5);
 
   return (
@@ -96,7 +121,7 @@ const DashboardSection = () => {
             ) : (
               <Stack gap={2.5}>
                 {dueSoon.map((task) => {
-                  const dateObj = new Date(task.due_date);
+                  const dateObj = new Date(task.due_date!);
                   const days = Math.floor((dateObj.getTime() - new Date().getTime()) / 8.64e7);
                   const overdue = days < 0;
 

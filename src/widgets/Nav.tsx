@@ -5,6 +5,7 @@ import React from 'react';
 
 interface NavItemProps extends BoxProps {
   active?: boolean;
+  to?: string;
 }
 
 export const NavItem = ({ children, active = false, ...props }: NavItemProps) => {

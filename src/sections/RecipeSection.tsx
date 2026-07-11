@@ -14,7 +14,7 @@ const RecipeSection = () => {
   const incrementRefreshKey = () => setRefreshKey((prevKey) => prevKey + 1);
   const { path } = useRouteMatch();
 
-  const getUrl = (slug) => {
+  const getUrl = (slug: string) => {
     return slug ? `${path}/${slug}`.replace('//', '/') : path;
   };
 

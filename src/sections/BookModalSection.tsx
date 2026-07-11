@@ -10,7 +10,7 @@ const BookModalSection = () => {
   const [scanning, setScanning] = useState(true);
   const { path } = useRouteMatch();
 
-  const getUrl = (slug) => {
+  const getUrl = (slug: string) => {
     return `${path}/${slug}`.replace('//', '/');
   };
 
@@ -19,7 +19,7 @@ const BookModalSection = () => {
   const history = useHistory();
   const close = () => history.push(path);
 
-  const onScan = (data) => {
+  const onScan = (data: string) => {
     setScanning(false);
     apiFetch(`api/books/book/lookup/${data}/`)
       .then(() => close())
@@ -32,7 +32,7 @@ const BookModalSection = () => {
     <Switch>
       <Route path={addUrl}>
         <Loader loading={!scanning}>
-          <BarcodeModal onScan={(data) => onScan(data)} onClose={close} />
+          <BarcodeModal onScan={(data) => onScan(data)} />
         </Loader>
       </Route>
     </Switch>

@@ -7,12 +7,16 @@ import React from 'react';
 import { MdAdd } from 'react-icons/md';
 import { useRouteMatch, Route, Switch, useHistory } from 'react-router-dom';
 
-const BookSyncSection = ({ booksUrl = '/iibd/books' }) => {
+interface BookSyncSectionProps {
+  booksUrl?: string;
+}
+
+const BookSyncSection = ({ booksUrl = '/iibd/books' }: BookSyncSectionProps) => {
   const { path } = useRouteMatch();
   const history = useHistory();
   const tokens = useTokens();
 
-  const getUrl = (slug) => {
+  const getUrl = (slug: string) => {
     return `${path}/${slug}`.replace('//', '/');
   };
 

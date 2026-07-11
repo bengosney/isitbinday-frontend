@@ -10,10 +10,15 @@ import { Spacer } from '@chakra-ui/react';
 import React from 'react';
 import { useRouteMatch, Route, Switch, useLocation, Link } from 'react-router-dom';
 
+interface MenuItem {
+  name: string;
+  url: string;
+}
+
 const PrivateSection = () => {
   const { path } = useRouteMatch();
 
-  const getUrl = (slug) => {
+  const getUrl = (slug: string) => {
     return `${path}/${slug}`.replace('//', '/');
   };
 
@@ -23,7 +28,7 @@ const PrivateSection = () => {
   const booksUrl = getUrl('books');
   const recipeUrl = getUrl('recipes');
 
-  const menuItems = [
+  const menuItems: MenuItem[] = [
     { name: 'Dashboard', url: dashboardUrl },
     { name: 'Tasks', url: tasksUrl },
     { name: 'Books', url: booksUrl },
@@ -33,7 +38,7 @@ const PrivateSection = () => {
 
   const { pathname } = useLocation();
 
-  const isActive = (url) => (url === dashboardUrl ? pathname === url : pathname.startsWith(url));
+  const isActive = (url: string) => (url === dashboardUrl ? pathname === url : pathname.startsWith(url));
 
   return (
     <div>

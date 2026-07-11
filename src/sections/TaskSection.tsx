@@ -11,9 +11,9 @@ const TaskSection = () => {
   usePageTitle('Task List');
   const { path } = useRouteMatch();
   const tokens = useTokens();
-  const [openCount, setOpenCount] = useState(null);
+  const [openCount, setOpenCount] = useState<number | null>(null);
 
-  const getUrl = (slug) => {
+  const getUrl = (slug: string) => {
     return slug ? `${path}/${slug}`.replace('//', '/') : path;
   };
 

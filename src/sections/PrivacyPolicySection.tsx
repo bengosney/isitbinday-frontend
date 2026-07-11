@@ -40,7 +40,7 @@ const PrivacyPolicySection = () => {
         identifiable information that can be used to contact or identify you ("<strong>Personal Data</strong>"). This
         may include, but is not limited to:
       </Text>
-      <ul mb={2} pl={6}>
+      <ul>
         <li>
           <strong>Email address:</strong> Used for account verification, password resets, and sending important updates
           about your account or the Service.
@@ -61,7 +61,7 @@ const PrivacyPolicySection = () => {
         b. User-Generated Content
       </Heading>
       <Text mb={2}>As part of the IsItBinDay Service, you will create and store data. This includes:</Text>
-      <ul mb={2} pl={6}>
+      <ul>
         <li>
           <strong>To-Do List Items:</strong> Tasks, notes, deadlines, and any other information you input into your
           to-do lists.
@@ -84,7 +84,7 @@ const PrivacyPolicySection = () => {
         Service by or through a mobile device ("<strong>Usage Data</strong>"). This Usage Data may include information
         such as:
       </Text>
-      <ul mb={2} pl={6}>
+      <ul>
         <li>Your computer's Internet Protocol address (e.g., IP address)</li>
         <li>Browser type and version</li>
         <li>The pages of our Service that you visit</li>
@@ -110,7 +110,7 @@ const PrivacyPolicySection = () => {
         do not accept cookies, you may not be able to use some portions of our Service.
       </Text>
       <Text mb={2}>Examples of Cookies we use:</Text>
-      <ul mb={2} pl={6}>
+      <ul>
         <li>
           <strong>Session Cookies:</strong> We use Session Cookies to operate our Service.
         </li>
@@ -126,7 +126,7 @@ const PrivacyPolicySection = () => {
         2. How We Use Your Information
       </Heading>
       <Text mb={2}>IsItBinDay uses the collected data for various purposes:</Text>
-      <ul mb={2} pl={6}>
+      <ul>
         <li>
           To provide and maintain our Service: This includes enabling user accounts, allowing you to create and manage
           to-do lists and recipes, and ensuring the proper functioning of the website.
@@ -158,14 +158,14 @@ const PrivacyPolicySection = () => {
         3. Disclosure Of Your Information
       </Heading>
       <Text mb={2}>We may share your personal information in the following situations:</Text>
-      <ul mb={2} pl={6}>
+      <ul>
         <li>
           <strong>With Service Providers:</strong> We may employ third-party companies and individuals to facilitate our
           Service ("<strong>Service Providers</strong>"), to provide the Service on our behalf, to perform
           Service-related services (e.g., database hosting, analytics, email delivery), or to assist us in analyzing how
           our Service is used. These third parties have access to your Personal Data only to perform these tasks on our
           behalf and are obligated not to disclose or use it for any other purpose.
-          <ul pl={6}>
+          <ul>
             <li>
               <em>Examples of Service Providers may include:</em> hosting providers (e.g., AWS, Google Cloud), analytics
               providers (e.g., Google Analytics), email service providers.
@@ -180,7 +180,7 @@ const PrivacyPolicySection = () => {
         <li>
           <strong>For Legal Requirements:</strong> We may disclose your Personal Data in the good faith belief that such
           action is necessary to:
-          <ul pl={6}>
+          <ul>
             <li>Comply with a legal obligation (e.g., a court order or subpoena).</li>
             <li>Protect and defend the rights or property of IsItBinDay.</li>
             <li>Prevent or investigate possible wrongdoing in connection with the Service.</li>
@@ -208,7 +208,7 @@ const PrivacyPolicySection = () => {
         5. Your Data Protection Rights
       </Heading>
       <Text mb={2}>Depending on your location, you may have the following data protection rights:</Text>
-      <ul mb={2} pl={6}>
+      <ul>
         <li>
           <strong>The right to access:</strong> You have the right to request copies of your personal data.
         </li>
@@ -288,7 +288,7 @@ const PrivacyPolicySection = () => {
         9. Contact Us
       </Heading>
       <Text mb={2}>If you have any questions about this Privacy Policy, please contact us:</Text>
-      <ul mb={2} pl={6}>
+      <ul>
         <li>
           By email:{' '}
           <Link href="mailto:privacy@isitbinday.com" color="blue.500">

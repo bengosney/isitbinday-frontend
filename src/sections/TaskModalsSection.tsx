@@ -4,16 +4,24 @@ import NewTask from '../widgets/NewTask';
 import React from 'react';
 import { useRouteMatch, Route, Switch, useHistory, useParams } from 'react-router-dom';
 
-const EditTaskRoute = ({ ...props }) => {
-  let { id } = useParams();
+interface EditTaskRouteProps {
+  onCancel?: () => void;
+  postSave?: () => void;
+}
 
+const EditTaskRoute = (props: EditTaskRouteProps) => {
+  const { id } = useParams<{ id: string }>();
   return <EditTask taskID={id} {...props} />;
 };
 
-const TaskModalSection = ({ refresh }) => {
+interface TaskModalSectionProps {
+  refresh: () => void;
+}
+
+const TaskModalSection = ({ refresh }: TaskModalSectionProps) => {
   const { path } = useRouteMatch();
 
-  const getUrl = (slug) => {
+  const getUrl = (slug: string) => {
     return `${path}/${slug}`.replace('//', '/');
   };
 

@@ -187,7 +187,7 @@ const TermsSection = () => {
         12. Contact Us
       </Heading>
       <Text mb={2}>If you have any questions about these Terms, please contact us:</Text>
-      <ul mb={2} pl={6}>
+      <ul>
         <li>
           By email:{' '}
           <Link href="mailto:support@isitbinday.com" color="blue.500">
