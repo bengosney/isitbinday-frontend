@@ -1,7 +1,6 @@
 import { ToTitleCase } from '../utils/string';
 import ErrorMessage from '../widgets/ErrorMessage';
 import Loader from '../widgets/Loader';
-import './Form.css';
 import {
   Input,
   NativeSelect,
@@ -16,7 +15,6 @@ import {
 } from '@chakra-ui/react';
 import { useFormikContext, Field as FormikField, useField, Formik, FormikConfig, FormikValues } from 'formik';
 import * as React from 'react';
-import 'react-day-picker/lib/style.css';
 
 interface OptionItem {
   key: string | number;
