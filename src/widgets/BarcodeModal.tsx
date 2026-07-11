@@ -1,6 +1,6 @@
 import Modal from './Modal';
 import React from 'react';
-import BarcodeScannerComponent from 'react-webcam-barcode-scanner';
+import BarcodeScannerComponent from 'react-qr-barcode-scanner';
 
 interface BarcodeModalProps {
   onScan: (barcode: string) => void;
@@ -12,7 +12,7 @@ const BarcodeModal = ({ onScan }: BarcodeModalProps) => {
       <BarcodeScannerComponent
         onUpdate={(err, result) => {
           if (result) {
-            onScan(result.text);
+            onScan(result.getText());
           }
         }}
       />
