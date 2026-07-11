@@ -4,21 +4,38 @@ import apiFetch from '../utils/apiFetch';
 import { Button, Flex, Grid, Spacer } from '@chakra-ui/react';
 import React, { useState } from 'react';
 
-const TaskForm = ({ details, postSave = null, onCancel = null }) => {
+interface TaskFormValues {
+  id: number;
+  title: string;
+  due_date: Date | string | null;
+  effort: number;
+  blocked_by: string;
+  repeats: string;
+  [key: string]: unknown;
+}
+
+interface TaskFormProps {
+  details?: Record<string, unknown>;
+  postSave?: ((resetForm: () => void) => void) | null;
+  onCancel?: (() => void) | null;
+}
+
+const TaskForm = ({ details, postSave = null, onCancel = null }: TaskFormProps) => {
   const [apiLoading, setApiLoading] = useState(false);
 
   return (
-    <Form
-      initialValues={TaskSchema.cast(details, { stripUnknown: true })}
+    <Form<TaskFormValues>
+      initialValues={TaskSchema.cast(details, { stripUnknown: true }) as TaskFormValues}
       validationSchema={TaskSchema}
       loading={apiLoading}
       onSubmit={async (values, { resetForm: _resetForm }) => {
         setApiLoading(true);
         const { due_date } = values;
         if (typeof due_date == 'object' && due_date !== null) {
-          const year = `${due_date.getFullYear()}`;
-          const month = `${due_date.getMonth() + 1}`.padStart(2, '0');
-          const date = `${due_date.getDate()}`.padStart(2, '0');
+          const d = due_date as Date;
+          const year = `${d.getFullYear()}`;
+          const month = `${d.getMonth() + 1}`.padStart(2, '0');
+          const date = `${d.getDate()}`.padStart(2, '0');
           values.due_date = [year, month, date].join('-');
         }
         if (values.due_date === '') {

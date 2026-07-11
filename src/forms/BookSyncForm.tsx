@@ -3,7 +3,12 @@ import { Form } from '../utils/Form';
 import apiFetch from '../utils/apiFetch';
 import React, { useState } from 'react';
 
-const BookSyncForm = ({ details, postSave = null }) => {
+interface BookSyncFormProps {
+  details?: Record<string, unknown>;
+  postSave?: ((resetForm: () => void) => void) | null;
+}
+
+const BookSyncForm = ({ details, postSave = null }: BookSyncFormProps) => {
   const [apiLoading, setApiLoading] = useState(false);
 
   return (
