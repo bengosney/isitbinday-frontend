@@ -26,6 +26,7 @@ interface TaskListState {
   transitionMap: Record<string, string>;
   droppableStates: string[];
   dragItem: TaskItem | null | undefined;
+  dragItemHeight: number;
   currentRefreshKey: number;
   actions: string[];
 }
@@ -34,12 +35,38 @@ interface TaskListProps {
   onCountChange?: ((count: number | null) => void) | null;
 }
 
-const reorder = (list: TaskItem[], startIndex: number, endIndex: number): TaskItem[] => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
+// Rebuild the flat task list after a drag: remove the dragged item from its
+// source column (by local index) and insert it into the destination column
+// (by local index), keeping all other columns untouched.
+const reorder = (
+  tasks: TaskItem[],
+  sourceState: string,
+  sourceIndex: number,
+  destState: string,
+  destIndex: number
+): TaskItem[] => {
+  const byColumn = new Map<string, TaskItem[]>();
+  const columnOrder: string[] = [];
+  tasks.forEach((t) => {
+    const key = `${t.state}`;
+    if (!byColumn.has(key)) {
+      byColumn.set(key, []);
+      columnOrder.push(key);
+    }
+    byColumn.get(key)!.push(t);
+  });
 
-  return result;
+  const source = byColumn.get(sourceState) || [];
+  const [moved] = source.splice(sourceIndex, 1);
+  if (!moved) return tasks;
+
+  if (!byColumn.has(destState)) {
+    byColumn.set(destState, []);
+    columnOrder.push(destState);
+  }
+  byColumn.get(destState)!.splice(destIndex, 0, moved);
+
+  return columnOrder.flatMap((key) => byColumn.get(key)!);
 };
 
 const stateShape = Yup.object().shape({
@@ -50,6 +77,7 @@ const stateShape = Yup.object().shape({
   transitionMap: Yup.object().default({}),
   droppableStates: Yup.array().default([]),
   dragItem: Yup.mixed().nullable().default(0),
+  dragItemHeight: Yup.number().default(0),
   currentRefreshKey: Yup.number().default(0),
   actions: Yup.array().default([]),
 });
@@ -91,8 +119,17 @@ const TaskList = ({ onCountChange = null }: TaskListProps) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   }, (stateShape as any).cast({}) as TaskListState);
 
-  const { states, actions, tasks, transitionMap, droppableStates, dragItem, currentRefreshKey, dueDateStates } =
-    widgetState;
+  const {
+    states,
+    actions,
+    tasks,
+    transitionMap,
+    droppableStates,
+    dragItem,
+    dragItemHeight,
+    currentRefreshKey,
+    dueDateStates,
+  } = widgetState;
 
   const refresh = () => dispatch({ type: 'currentRefreshKey', data: currentRefreshKey + 1 });
 
@@ -170,11 +207,20 @@ const TaskList = ({ onCountChange = null }: TaskListProps) => {
   }
 
   const dragEnd = (result: import('@hello-pangea/dnd').DropResult) => {
+    dispatch({ type: 'dragItem', data: null });
+    dispatch({ type: 'droppableStates', data: [] });
+
     if (!result.destination) {
       return;
     }
 
-    const items = reorder(tasks, result.source.index, result.destination.index);
+    const items = reorder(
+      tasks,
+      result.source.droppableId,
+      result.source.index,
+      result.destination.droppableId,
+      result.destination.index
+    );
 
     const _dragItem = tasks.find((t) => t.id === parseInt(result.draggableId));
     if (!_dragItem) return;
@@ -198,13 +244,16 @@ const TaskList = ({ onCountChange = null }: TaskListProps) => {
       .reduce((acc, cur) => cur, 0);
 
     dispatch({ type: 'tasks', data: items });
-    dispatch({ type: 'dragItem', data: null });
-    dispatch({ type: 'droppableStates', data: [] });
   };
 
   const dragStart = (e: import('@hello-pangea/dnd').DragStart) => {
     const _dragItem = tasks.find((t) => t.id === parseInt(e.draggableId));
     dispatch({ type: 'dragItem', data: _dragItem });
+
+    // Reserve drop space in destination columns so the layout doesn't
+    // shift mid-drag when the dnd placeholder appears (see spacer below).
+    const draggedEl = document.querySelector(`[data-rfd-draggable-id="${e.draggableId}"]`);
+    dispatch({ type: 'dragItemHeight', data: draggedEl instanceof HTMLElement ? draggedEl.offsetHeight : 0 });
 
     const availableStates: string[] = [];
 
@@ -269,7 +318,8 @@ const TaskList = ({ onCountChange = null }: TaskListProps) => {
                     >
                       {dragItem ? `Drop to ${action}` : UCFirst(action)}
                     </Text>
-                    {provided.placeholder}
+                    {/* Hidden: these zones are fixed-size targets, the inline placeholder would stretch them mid-drag */}
+                    <Box display="none">{provided.placeholder}</Box>
                   </Flex>
                 )}
               </Droppable>
@@ -308,7 +358,7 @@ const TaskList = ({ onCountChange = null }: TaskListProps) => {
                     droppableId={state}
                     isDropDisabled={!droppableStates.includes(state) && state !== (dragItem || {}).state}
                   >
-                    {(provided) => (
+                    {(provided, snapshot) => (
                       <Stack
                         {...provided.droppableProps}
                         ref={provided.innerRef}
@@ -319,7 +369,7 @@ const TaskList = ({ onCountChange = null }: TaskListProps) => {
                         minHeight={'10vh'}
                         {...getDropProps(state)}
                       >
-                        {count === 0 && !dragItem && (
+                        {count === 0 && !snapshot.isDraggingOver && !(dragItem && droppableStates.includes(state)) && (
                           <Box
                             border="1px dashed"
                             borderColor={tokens.borderStrong}
@@ -338,27 +388,36 @@ const TaskList = ({ onCountChange = null }: TaskListProps) => {
                             )}
                           </Box>
                         )}
-                        {tasks.map((task, index) => {
-                          const { id, state: taskState } = task;
-                          if (state !== taskState) {
-                            return null;
-                          }
+                        {tasks
+                          .filter((task) => task.state === state)
+                          .map((task, index) => {
+                            const { id } = task;
 
-                          return (
-                            <Draggable key={id} draggableId={`${id}`} index={index}>
-                              {(provided) => (
-                                <Box ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                  <TaskCard
-                                    task={task}
-                                    showDueDate={dueDateStates.includes(state)}
-                                    onSateChange={() => refresh()}
-                                  />
-                                </Box>
-                              )}
-                            </Draggable>
-                          );
-                        })}
+                            return (
+                              <Draggable key={id} draggableId={`${id}`} index={index}>
+                                {(provided) => (
+                                  <Box
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    {...provided.dragHandleProps}
+                                  >
+                                    <TaskCard
+                                      task={task}
+                                      showDueDate={dueDateStates.includes(state)}
+                                      onSateChange={() => refresh()}
+                                    />
+                                  </Box>
+                                )}
+                              </Draggable>
+                            );
+                          })}
                         {provided.placeholder}
+                        {/* Spacer pre-reserves the dnd placeholder's space in valid destination
+                            columns so content below doesn't jump when the placeholder appears */}
+                        {!!dragItem &&
+                          dragItem.state !== state &&
+                          droppableStates.includes(state) &&
+                          !snapshot.isDraggingOver && <Box height={`${dragItemHeight}px`} flex="none" />}
                       </Stack>
                     )}
                   </Droppable>
