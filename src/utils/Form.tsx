@@ -230,6 +230,7 @@ interface FormProps<T extends FormikValues = FormikValues> extends Omit<FormikCo
   children?: React.ReactNode | ((props: Omit<FormProps<T>, 'children'>, formik: Record<string, unknown>) => React.ReactNode);
   loading?: boolean | string;
   validateOnChange?: boolean;
+  error?: string;
 }
 
 type FormComponent = {

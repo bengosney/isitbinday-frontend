@@ -7,7 +7,8 @@ import React from 'react';
 const BookSyncSettingsList = () => {
   const tokens = useTokens();
   const url = 'api/books/sync/';
-  const data = useApiFetch(url);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const data = useApiFetch(url) as any;
 
   if (data === null) {
     return <Loader />;
@@ -18,7 +19,8 @@ const BookSyncSettingsList = () => {
   return (
     <Stack gap={2.5}>
       {results.length === 0 && <Text color={tokens.textDim}>No sync settings yet</Text>}
-      {results.map((settings) => (
+      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+      {results.map((settings: any) => (
         <Flex
           key={settings.id}
           align="center"

@@ -5,7 +5,11 @@ import { Stack } from '@chakra-ui/react';
 import React from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 
-const RecipeURLModal = ({ onClose = () => undefined }) => {
+interface RecipeURLModalProps {
+  onClose?: () => void;
+}
+
+const RecipeURLModal = ({ onClose = () => undefined }: RecipeURLModalProps) => {
   const { path } = useRouteMatch();
   const history = useHistory();
 

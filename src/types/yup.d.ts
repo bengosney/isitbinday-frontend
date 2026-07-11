@@ -1,41 +1,40 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare module 'yup' {
   interface SchemaDescription {
     fields: Record<string, unknown>;
   }
-  interface BaseSchema<T = unknown> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  interface BaseSchema<T = any> {
     describe(): SchemaDescription;
     cast(value?: unknown, options?: unknown): T;
     validate(value?: unknown, options?: unknown): Promise<T>;
-  }
-  interface StringSchema extends BaseSchema<string> {
+    nullable(): this;
+    default(value: unknown): this;
     required(message?: string): this;
     max(limit: number, message?: string): this;
     min(limit: number, message?: string): this;
+    shape(fields: Record<string, BaseSchema>): this;
+    of(schema: BaseSchema): this;
+    ensure(): this;
+    oneOf(values: unknown[], message?: string): this;
     email(message?: string): this;
     url(message?: string): this;
     matches(regex: RegExp, message?: string): this;
-    ensure(): this;
-    oneOf(values: unknown[], message?: string): this;
-  }
-  interface NumberSchema extends BaseSchema<number> {
-    required(message?: string): this;
     moreThan(limit: number, message?: string): this;
-    default(value: number): this;
   }
-  interface DateSchema extends BaseSchema<Date> {
-    nullable(): this;
-  }
-  interface ArraySchema extends BaseSchema<unknown[]> {
-    of(schema: BaseSchema): this;
-    ensure(): this;
-  }
-  interface ObjectSchema<T = Record<string, unknown>> extends BaseSchema<T> {
-    shape(fields: Record<string, BaseSchema>): this;
-  }
-  interface MixedSchema extends BaseSchema {
-    nullable(): this;
-    default(value: unknown): this;
-  }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  type StringSchema = BaseSchema<string>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  type NumberSchema = BaseSchema<number>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  type DateSchema = BaseSchema<Date>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  type ArraySchema = BaseSchema<any[]>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  type ObjectSchema<T = Record<string, unknown>> = BaseSchema<T>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  type MixedSchema = BaseSchema<any>;
+
   function string(): StringSchema;
   function number(): NumberSchema;
   function date(): DateSchema;

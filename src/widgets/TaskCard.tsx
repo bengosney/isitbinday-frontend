@@ -6,7 +6,22 @@ import React from 'react';
 import { MdClose, MdDone, MdModeEdit } from 'react-icons/md';
 import { Link, useRouteMatch } from 'react-router-dom';
 
-const hostname = (href) => {
+interface Task {
+  id: number;
+  title?: string;
+  state?: string;
+  due_date?: string | null;
+  available_state_transitions?: string[];
+  [key: string]: unknown;
+}
+
+interface TaskCardProps {
+  task: Task;
+  showDueDate?: boolean;
+  onSateChange?: ((state: string) => void) | null;
+}
+
+const hostname = (href: string): string => {
   try {
     return new URL(href).hostname.replace(/^www\./, '');
   } catch {
@@ -14,7 +29,7 @@ const hostname = (href) => {
   }
 };
 
-const TaskCard = ({ task, showDueDate = true, onSateChange = null }) => {
+const TaskCard = ({ task, showDueDate = true, onSateChange = null }: TaskCardProps) => {
   const { id, title, state, due_date, available_state_transitions } = task;
   const { path } = useRouteMatch();
   const tokens = useTokens();
@@ -39,7 +54,7 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }) => {
   }
 
   const toDone = () => {
-    apiFetch(`api/tasks/tasks/${id}/done/`).then(() => onSateChange('done'));
+    apiFetch(`api/tasks/tasks/${id}/done/`).then(() => onSateChange?.('done'));
   };
 
   const stateName = `${state}`.toLowerCase();
@@ -65,13 +80,29 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }) => {
         {isDone ? <MdDone size="11px" /> : <MdClose size="11px" />}
       </Flex>
     );
+  } else if (canDone) {
+    stateMark = (
+      <button
+        type="button"
+        aria-label="Mark as done"
+        onClick={toDone}
+        style={{
+          width: '16px',
+          height: '16px',
+          borderRadius: '9999px',
+          border: `1.5px solid ${tokens.checkboxBorder}`,
+          flex: 'none',
+          marginTop: '2px',
+          cursor: 'pointer',
+          background: 'transparent',
+          padding: 0,
+        }}
+      />
+    );
   } else {
     stateMark = (
       <Box
-        as={canDone ? 'button' : 'span'}
-        type={canDone ? 'button' : undefined}
-        aria-label={canDone ? 'Mark as done' : undefined}
-        onClick={canDone ? toDone : undefined}
+        as="span"
         width="16px"
         height="16px"
         borderRadius="full"
@@ -79,8 +110,6 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }) => {
         borderColor={tokens.checkboxBorder}
         flex="none"
         marginTop="2px"
-        cursor={canDone ? 'pointer' : undefined}
-        _hover={canDone ? { borderColor: statusColor('done') } : undefined}
       />
     );
   }

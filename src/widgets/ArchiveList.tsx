@@ -4,10 +4,27 @@ import Loader from './Loader';
 import { Button, Group, Flex, Stack, Text, Box } from '@chakra-ui/react';
 import React, { useReducer } from 'react';
 
-const ArchiveList = ({ limit = 25, offset = 0 }) => {
+interface ArchiveListProps {
+  limit?: number;
+  offset?: number;
+}
+
+interface ArchiveState {
+  limit: number;
+  offset: number;
+  url?: string;
+}
+
+interface ArchiveAction {
+  url?: string;
+  limit?: number;
+  offset?: number;
+}
+
+const ArchiveList = ({ limit = 25, offset = 0 }: ArchiveListProps) => {
   const tokens = useTokens();
   const [state, dispatch] = useReducer(
-    (state, action) => {
+    (state: ArchiveState, action: ArchiveAction): ArchiveState => {
       const { url, limit, offset } = action;
       const newState = { ...state };
 
@@ -31,7 +48,8 @@ const ArchiveList = ({ limit = 25, offset = 0 }) => {
   );
 
   const { url = `api/tasks/archived-tasks/?limit=${limit}&offset=${offset}` } = state;
-  const data = useApiFetch(url);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const data = useApiFetch(url) as any;
 
   if (data === null) {
     return <Loader />;
@@ -42,7 +60,8 @@ const ArchiveList = ({ limit = 25, offset = 0 }) => {
   return (
     <Stack gap={2.5}>
       {archivedTasks.length === 0 && <Text color={tokens.textDim}>No archived tasks</Text>}
-      {archivedTasks.map((task) => {
+      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+      {archivedTasks.map((task: any) => {
         return (
           <Flex
             key={task.id}

@@ -9,7 +9,11 @@ import { Grid, Input, Stack, Text, IconButton, HStack, NativeSelect, Flex } from
 import React, { useEffect, useState } from 'react';
 import { BiBook, BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
 
-const BookList = ({ page = 0 }) => {
+interface BookListProps {
+  page?: number;
+}
+
+const BookList = ({ page = 0 }: BookListProps) => {
   const tokens = useTokens();
   const [npp, _setNpp] = useState(50);
   const npps = [5, 10, 25, 50, 100];
@@ -17,8 +21,8 @@ const BookList = ({ page = 0 }) => {
   const [offset, setOffset] = useState(page * npp);
   const [count, setCount] = useState(0);
 
-  const setNpp = (n) => {
-    _setNpp(parseInt(n));
+  const setNpp = (n: string | number) => {
+    _setNpp(parseInt(`${n}`));
     setOffset(0);
   };
 
@@ -32,10 +36,12 @@ const BookList = ({ page = 0 }) => {
   }, [debouncedSearch]);
 
   const fetchUrl = `api/books/book/?limit=${npp}&offset=${offset}&search=${debouncedSearch}`;
-  const apiResults = useApiFetch(fetchUrl);
-  const [results, setResults] = useState(apiResults);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const apiResults = useApiFetch(fetchUrl) as any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [results, setResults] = useState<any>(apiResults);
   const { results: books = [] } = results || {};
-  const addMessage = (message, status = 'success') => {
+  const addMessage = (message: string, status = 'success') => {
     if (status !== 'success') {
       const audio = new Audio(error);
       audio.play();
@@ -57,7 +63,7 @@ const BookList = ({ page = 0 }) => {
     }
   }, [apiResults]);
 
-  const onScan = (barcode) => {
+  const onScan = (barcode: string) => {
     addMessage(`Scanned ${barcode}`);
     apiFetch(`api/books/book/lookup/${barcode}/`)
       .then(() => apiFetch(fetchUrl))
@@ -70,24 +76,26 @@ const BookList = ({ page = 0 }) => {
     <Flex justify={'space-between'} align={'center'} wrap="wrap" gap={2}>
       <HStack hidden={totalPages < 1} align={'center'} gap={2}>
         <IconButton
-          icon={<BiLeftArrowAlt />}
           aria-label="Previous page"
           size={'sm'}
           variant={'outline'}
           onClick={() => setOffset((o) => o - npp)}
           disabled={offset - npp < 0}
-        />
+        >
+          <BiLeftArrowAlt />
+        </IconButton>
         <Text fontFamily="mono" fontSize="11px" color={tokens.textMuted}>
           {currentPage + 1}&nbsp;of&nbsp;{Math.max(totalPages, 1)}
         </Text>
         <IconButton
-          icon={<BiRightArrowAlt />}
           aria-label="Next page"
           size={'sm'}
           variant={'outline'}
           onClick={() => setOffset((o) => o + npp)}
           disabled={offset + npp >= count}
-        />
+        >
+          <BiRightArrowAlt />
+        </IconButton>
       </HStack>
       <HStack gap={2}>
         <NativeSelect.Root size={'xs'} width="auto">
@@ -113,7 +121,8 @@ const BookList = ({ page = 0 }) => {
       {pagi}
       {apiResults !== null && books.length === 0 && <Text color={tokens.textDim}>No books found</Text>}
       <Grid templateColumns={{ base: '1fr', sm: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap={4}>
-        {books.map((book) => (
+        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+        {books.map((book: any) => (
           <Flex
             key={book.isbn}
             align="flex-start"
@@ -143,7 +152,8 @@ const BookList = ({ page = 0 }) => {
                 {book.title}
               </Text>
               <Text fontSize="12.5px" color={tokens.textMuted} wordBreak="break-word">
-                {book.authors.map((author) => author.name).join(', ')}
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                {book.authors.map((author: any) => author.name).join(', ')}
               </Text>
             </Stack>
           </Flex>

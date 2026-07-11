@@ -9,19 +9,27 @@ const StepForm = () => {
   return <Text>StepForm</Text>;
 };
 
-const RecipeForm = ({ details = {} }) => {
+interface RecipeFormProps {
+  details?: Record<string, unknown>;
+}
+
+const RecipeForm = ({ details = {} }: RecipeFormProps) => {
   const jsonSchema = useApiFetch('openapi/?format=openapi-json');
-  const units = useApiFetch('api/recipes/unit/');
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const units = useApiFetch('api/recipes/unit/') as any;
 
   if (jsonSchema == null || units == null) {
     return <Text>Loading...</Text>;
   }
 
-  const unitOptions = units.results.map((item) => ({ key: item.id, value: item.id, text: item.name }));
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const unitOptions = units.results.map((item: any) => ({ key: item.id, value: item.id, text: item.name }));
 
   return (
-    <Form initialValues={RecipeSchema.cast(details, { stripUnknown: true })} validationSchema={RecipeSchema}>
-      {(_, { values }) => {
+    <Form initialValues={RecipeSchema.cast(details, { stripUnknown: true })} validationSchema={RecipeSchema} onSubmit={() => {}}>
+      {(_, rest) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const { values } = rest as any;
         return (
           <>
             <Form.Input name="Name" />
@@ -30,7 +38,8 @@ const RecipeForm = ({ details = {} }) => {
             <FieldArray name="ingredients">
               {({ remove, push }) => (
                 <>
-                  {values.ingredients.map((ingredient, index) => (
+                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                  {(values?.ingredients || []).map((ingredient: any, index: number) => (
                     <Stack key={index} direction={'row'}>
                       <Box>{index}</Box>
                       <Form.Input name={`ingredients.name.${index}`} label={'Name'} />
@@ -46,7 +55,7 @@ const RecipeForm = ({ details = {} }) => {
                       </Button>
                     </Stack>
                   ))}
-                  <Button variant="link" onClick={() => push({ name: '', quantity: 0, unit: '' })}>
+                  <Button variant="plain" onClick={() => push({ name: '', quantity: 0, unit: '' })}>
                     Add Ingredient
                   </Button>
                 </>

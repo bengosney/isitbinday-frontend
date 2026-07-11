@@ -19,13 +19,14 @@ import React from 'react';
 import { useParams, useHistory, Link } from 'react-router-dom';
 
 const RecipeDetails = () => {
-  const { slug } = useParams();
+  const { slug } = useParams<{ slug?: string }>();
   const history = useHistory();
   const { open, onOpen, onClose } = useDisclosure();
   const [isDeleting, setIsDeleting] = React.useState(false);
-  const [error, setError] = React.useState(null);
+  const [error, setError] = React.useState<string | null>(null);
   const tokens = useTokens();
-  const details = useApiFetch(`api/recipes/recipe/${slug}`);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const details = useApiFetch(`api/recipes/recipe/${slug}`) as any;
 
   if (details === null) {
     return <Loader />;
@@ -39,7 +40,7 @@ const RecipeDetails = () => {
       history.replace('/iibd/recipes');
     } catch (e) {
       setIsDeleting(false);
-      setError(e.message);
+      setError((e as Error).message);
       onClose();
     }
   };
@@ -103,7 +104,8 @@ const RecipeDetails = () => {
             Ingredients
           </Text>
           <Stack gap={0}>
-            {details.ingredients.map((ingredient, index) => (
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+            {details.ingredients.map((ingredient: any, index: number) => (
               <Grid
                 key={ingredient.id}
                 templateColumns="110px 1fr"
@@ -124,7 +126,8 @@ const RecipeDetails = () => {
           <Text fontSize="14px" fontWeight={600}>
             Instructions
           </Text>
-          {details.steps.map((step, index) => (
+          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+          {details.steps.map((step: any, index: number) => (
             <Flex key={step.id} gap={4}>
               <Flex
                 flex="none"
