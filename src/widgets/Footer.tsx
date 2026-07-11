@@ -1,26 +1,34 @@
 import { getConfig } from '../config';
-import { Flex, Spacer, Link, Text } from '@chakra-ui/react';
+import useTokens from '../utils/useTokens';
+import MaxWidth from './MaxWidth';
+import { Box, Flex, Link, Spacer, Text } from '@chakra-ui/react';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
-export const FooterHeight = '3rem';
+export const Footer = () => {
+  const tokens = useTokens();
 
-export const Footer = () => (
-  <Flex direction="row" gap={4} height={FooterHeight} alignItems="center">
-    <Link asChild>
-      <RouterLink to="/privacy-policy">Privacy Policy</RouterLink>
-    </Link>
-    <Link asChild>
-      <RouterLink to="/terms-and-conditions">Terms and Conditions</RouterLink>
-    </Link>
-    <Link asChild>
-      <RouterLink to="/contact">Contact</RouterLink>
-    </Link>
-    <Spacer />
-    <Text fontSize="xs" fontFamily="Monaco, Lucida Console, Courier New, Courier">
-      Build: {getConfig('build')}
-    </Text>
-  </Flex>
-);
+  return (
+    <Box borderTop="1px solid" borderColor={tokens.border} marginTop={10}>
+      <MaxWidth>
+        <Flex wrap="wrap" columnGap={5} rowGap={1} paddingY={4} alignItems="center">
+          {[
+            { to: '/privacy-policy', label: 'Privacy Policy' },
+            { to: '/terms-and-conditions', label: 'Terms and Conditions' },
+            { to: '/contact', label: 'Contact' },
+          ].map(({ to, label }) => (
+            <Link key={to} asChild fontSize="12px" color={tokens.textMuted} _hover={{ color: tokens.text }}>
+              <RouterLink to={to}>{label}</RouterLink>
+            </Link>
+          ))}
+          <Spacer />
+          <Text fontFamily="mono" fontSize="11px" color={tokens.textDim}>
+            Build: {getConfig('build')}
+          </Text>
+        </Flex>
+      </MaxWidth>
+    </Box>
+  );
+};
 
 export default Footer;

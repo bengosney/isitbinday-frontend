@@ -55,9 +55,7 @@ function App() {
                   <Box flexGrow={1}>
                     <MainAppSection />
                   </Box>
-                  <Box paddingX={16}>
-                    <Footer />
-                  </Box>
+                  <Footer />
                 </Stack>
               </Router>
             </Auth>
