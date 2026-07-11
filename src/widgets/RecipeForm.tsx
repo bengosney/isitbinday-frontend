@@ -26,7 +26,11 @@ const RecipeForm = ({ details = {} }: RecipeFormProps) => {
   const unitOptions = units.results.map((item: any) => ({ key: item.id, value: item.id, text: item.name }));
 
   return (
-    <Form initialValues={RecipeSchema.cast(details, { stripUnknown: true })} validationSchema={RecipeSchema} onSubmit={() => {}}>
+    <Form
+      initialValues={RecipeSchema.cast(details, { stripUnknown: true })}
+      validationSchema={RecipeSchema}
+      onSubmit={() => {}}
+    >
       {(_, rest) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const { values } = rest as any;

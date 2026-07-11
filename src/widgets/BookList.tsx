@@ -1,10 +1,10 @@
 import error from '../sounds/error';
 import success from '../sounds/success';
 import apiFetch, { useApiFetch } from '../utils/apiFetch';
+import { toaster } from '../utils/toaster';
 import useDebounced from '../utils/useDebounced';
 import useTokens from '../utils/useTokens';
 import BarcodeInput from './BarcodeInput';
-import { toaster } from '../utils/toaster';
 import { Grid, Input, Stack, Text, IconButton, HStack, NativeSelect, Flex } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { BiBook, BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';

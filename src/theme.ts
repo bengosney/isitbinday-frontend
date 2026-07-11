@@ -5,7 +5,7 @@ const config = defineConfig({
     tokens: {
       colors: {
         brand: {
-          50:  { value: '#EEF0FE' },
+          50: { value: '#EEF0FE' },
           100: { value: '#DDE1FD' },
           200: { value: '#C3C9FB' },
           300: { value: '#A5AEFA' },
@@ -19,8 +19,8 @@ const config = defineConfig({
       },
       fonts: {
         heading: { value: "'Instrument Sans', system-ui, -apple-system, sans-serif" },
-        body:    { value: "'Instrument Sans', system-ui, -apple-system, sans-serif" },
-        mono:    { value: "'JetBrains Mono', Menlo, Consolas, 'Courier New', monospace" },
+        body: { value: "'Instrument Sans', system-ui, -apple-system, sans-serif" },
+        mono: { value: "'JetBrains Mono', Menlo, Consolas, 'Courier New', monospace" },
       },
     },
     semanticTokens: {

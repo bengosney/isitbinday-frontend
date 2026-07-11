@@ -12,12 +12,14 @@ const Home = () => {
       <Stack gap={2.5}>
         <Link to="/login">
           <Button colorPalette="brand" width="100%">
-            Sign in<IconLogin />
+            Sign in
+            <IconLogin />
           </Button>
         </Link>
         <Link to="/register">
           <Button variant="outline" width="100%">
-            Create an account<IconRegister />
+            Create an account
+            <IconRegister />
           </Button>
         </Link>
       </Stack>

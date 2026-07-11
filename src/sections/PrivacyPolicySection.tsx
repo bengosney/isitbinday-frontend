@@ -131,12 +131,8 @@ const PrivacyPolicySection = () => {
           To provide and maintain our Service: This includes enabling user accounts, allowing you to create and manage
           to-do lists and recipes, and ensuring the proper functioning of the website.
         </li>
-        <li>
-          To personalize your experience: To display your personal to-do lists and recipe collections.
-        </li>
-        <li>
-          To notify you about changes to our Service: Such as updates to our terms of service or privacy policy.
-        </li>
+        <li>To personalize your experience: To display your personal to-do lists and recipe collections.</li>
+        <li>To notify you about changes to our Service: Such as updates to our terms of service or privacy policy.</li>
         <li>
           To provide customer support: To respond to your inquiries and resolve issues related to your account or the
           Service.
@@ -145,9 +141,7 @@ const PrivacyPolicySection = () => {
           To monitor the usage of our Service: To analyze trends, track user activity, and gather anonymous demographic
           information to improve our features.
         </li>
-        <li>
-          To detect, prevent, and address technical issues: Ensuring the security and stability of our platform.
-        </li>
+        <li>To detect, prevent, and address technical issues: Ensuring the security and stability of our platform.</li>
         <li>
           [Optional, if you plan to]: To send you marketing and promotional communications about new features or
           services on IsItBinDay (with your consent, if required by law). You can opt-out of receiving these

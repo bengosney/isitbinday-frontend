@@ -101,23 +101,26 @@ const TaskList = ({ onCountChange = null }: TaskListProps) => {
     type: keyof TaskListState;
     data?: unknown;
   }
-  const [widgetState, dispatch] = useReducer((state: TaskListState, action: WidgetAction): TaskListState => {
-    const makeState = (newState: Partial<TaskListState>): TaskListState => {
-      const _newState = { ...state, ...newState };
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return (stateShape as any).cast(_newState) as TaskListState;
-    };
+  const [widgetState, dispatch] = useReducer(
+    (state: TaskListState, action: WidgetAction): TaskListState => {
+      const makeState = (newState: Partial<TaskListState>): TaskListState => {
+        const _newState = { ...state, ...newState };
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return (stateShape as any).cast(_newState) as TaskListState;
+      };
 
-    switch (action.type) {
-      default:
-        if (typeof state[action.type] !== 'undefined') {
-          return makeState({ [action.type]: action.data ?? undefined });
-        } else {
-          throw new Error(`Unsupported action type: ${action.type as string}`);
-        }
-    }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  }, (stateShape as any).cast({}) as TaskListState);
+      switch (action.type) {
+        default:
+          if (typeof state[action.type] !== 'undefined') {
+            return makeState({ [action.type]: action.data ?? undefined });
+          } else {
+            throw new Error(`Unsupported action type: ${action.type as string}`);
+          }
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    },
+    (stateShape as any).cast({}) as TaskListState
+  );
 
   const {
     states,

@@ -54,7 +54,10 @@ const Field = ({ as, children, processor, name, label = null, showLabel = true, 
     <Stack>
       <Box color={_error ? 'form.error' : ''}>
         {showLabel ? (
-          <label htmlFor={name} style={{ display: 'block', fontSize: '12px', fontWeight: 600, opacity: 0.75, marginBottom: '6px' }}>
+          <label
+            htmlFor={name}
+            style={{ display: 'block', fontSize: '12px', fontWeight: 600, opacity: 0.75, marginBottom: '6px' }}
+          >
             {_label}
             {_error && errors}
           </label>
@@ -75,7 +78,13 @@ interface MyCheckboxProps {
 }
 
 const MyCheckbox = ({ label, isChecked, name, id, onChange, ...props }: MyCheckboxProps) => (
-  <Checkbox.Root checked={isChecked} name={name} id={id} onCheckedChange={(e) => onChange?.({ target: { name, value: !!e.checked } })} {...props}>
+  <Checkbox.Root
+    checked={isChecked}
+    name={name}
+    id={id}
+    onCheckedChange={(e) => onChange?.({ target: { name, value: !!e.checked } })}
+    {...props}
+  >
     <Checkbox.HiddenInput />
     <Checkbox.Control />
     <Checkbox.Label>{label}</Checkbox.Label>
@@ -197,8 +206,12 @@ FancyInput.displayName = 'FancyInput';
 
 const FormField = (props: Record<string, unknown>) => <Field as={Input} {...props} />;
 const FormButton = (props: Record<string, unknown>) => <FormikField as={Button} {...props} />;
-const FormCheckbox = (props: Record<string, unknown>) => <Field as={MyCheckbox} processor={checkBoxProcessor} showLabel={false} {...props} />;
-const FormDropdown = (props: Record<string, unknown>) => <Field as={AutoSelect} processor={dropdownProcessor} {...props} />;
+const FormCheckbox = (props: Record<string, unknown>) => (
+  <Field as={MyCheckbox} processor={checkBoxProcessor} showLabel={false} {...props} />
+);
+const FormDropdown = (props: Record<string, unknown>) => (
+  <Field as={AutoSelect} processor={dropdownProcessor} {...props} />
+);
 const FormInput = (props: Record<string, unknown>) => <Field as={FancyInput} {...props} />;
 const FormDateField = (props: Record<string, unknown>) => <Field as={DateField} {...props} />;
 const FormRadio = (props: Record<string, unknown>) => <Field as={AutoRadio} processor={radioProcessor} {...props} />;
@@ -224,7 +237,8 @@ export const InnerForm = React.forwardRef<HTMLFormElement, InnerFormProps>((prop
 InnerForm.displayName = 'InnerForm';
 
 interface FormProps<T extends FormikValues = FormikValues> extends Omit<FormikConfig<T>, 'children'> {
-  children?: React.ReactNode | ((props: Omit<FormProps<T>, 'children'>, formik: Record<string, unknown>) => React.ReactNode);
+  children?:
+    React.ReactNode | ((props: Omit<FormProps<T>, 'children'>, formik: Record<string, unknown>) => React.ReactNode);
   loading?: boolean | string;
   validateOnChange?: boolean;
   error?: string;
@@ -256,7 +270,10 @@ export const Form: FormComponent = (<T extends FormikValues = FormikValues>({
   let _initialValues: Record<string, unknown> = initialValues as Record<string, unknown>;
 
   if (validationSchema !== null) {
-    const schema = validationSchema as { describe: () => { fields: Record<string, unknown> }; cast: (v: unknown, o: unknown) => Record<string, unknown> };
+    const schema = validationSchema as {
+      describe: () => { fields: Record<string, unknown> };
+      cast: (v: unknown, o: unknown) => Record<string, unknown>;
+    };
     const { fields } = schema.describe();
 
     _initialValues = schema.cast(_initialValues, { stripUnknown: true });
@@ -303,11 +320,19 @@ export const Form: FormComponent = (<T extends FormikValues = FormikValues>({
         const formContent = (
           <>
             <ErrorMessage title={'There was an issue saving details'} message={`${error}`} />
-            <InnerForm>{typeof children === 'function' ? children(props as Omit<FormProps<T>, 'children'>, rest as Record<string, unknown>) : children}</InnerForm>
+            <InnerForm>
+              {typeof children === 'function'
+                ? children(props as Omit<FormProps<T>, 'children'>, rest as Record<string, unknown>)
+                : children}
+            </InnerForm>
           </>
         );
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        return <Loader loading={isLoading} content={loadingContent}>{formContent as any}</Loader>;
+        return (
+          <Loader loading={isLoading} content={loadingContent}>
+            {formContent as any}
+          </Loader>
+        );
       }}
     </Formik>
   );
