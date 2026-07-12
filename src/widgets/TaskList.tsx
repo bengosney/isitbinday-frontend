@@ -327,12 +327,7 @@ const TaskList = ({ onCountChange = null }: TaskListProps) => {
             ))}
           </Flex>
         )}
-        <Grid
-          minHeight={'50vh'}
-          templateColumns={direction === 'row' ? '1' : `repeat(${states.length}, 1fr)`}
-          gap={5}
-          alignItems={'start'}
-        >
+        <Grid minHeight={'50vh'} templateColumns={direction === 'row' ? '1' : `repeat(${states.length}, 1fr)`} gap={5}>
           {states.map((state) => {
             const count = tasks.filter((t) => t.state === state).length;
             const empty = emptyColumnCopy(state);
