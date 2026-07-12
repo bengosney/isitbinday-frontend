@@ -405,7 +405,7 @@ const TaskList = ({ onCountChange = null }: TaskListProps) => {
                                     <TaskCard
                                       task={task}
                                       showDueDate={dueDateStates.includes(state)}
-                                      onSateChange={() => refresh()}
+                                      onStateChange={() => refresh()}
                                     />
                                   </Box>
                                 )}

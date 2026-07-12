@@ -10,18 +10,18 @@ const Home = () => {
   return (
     <AuthShell title="Is it bin day?" subtitle="A practical task list for the house">
       <Stack gap={2.5}>
-        <Link to="/login">
-          <Button colorPalette="brand" width="100%">
+        <Button asChild colorPalette="brand" width="100%">
+          <Link to="/login">
             Sign in
             <IconLogin />
-          </Button>
-        </Link>
-        <Link to="/register">
-          <Button variant="outline" width="100%">
+          </Link>
+        </Button>
+        <Button asChild variant="outline" width="100%">
+          <Link to="/register">
             Create an account
             <IconRegister />
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </Stack>
     </AuthShell>
   );

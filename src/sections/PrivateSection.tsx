@@ -38,7 +38,7 @@ const PrivateSection = () => {
   const isActive = (url: string) => (url === dashboardUrl ? pathname === url : pathname.startsWith(url));
 
   return (
-    <div>
+    <>
       <Nav>
         <Nav.Brand />
         {menuItems.map((i) => {
@@ -63,7 +63,7 @@ const PrivateSection = () => {
           <Route path="recipes/*" element={<RecipeSection />} />
         </Routes>
       </MaxWidth>
-    </div>
+    </>
   );
 };
 

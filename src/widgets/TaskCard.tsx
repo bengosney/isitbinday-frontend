@@ -19,10 +19,10 @@ interface Task {
 interface TaskCardProps {
   task: Task;
   showDueDate?: boolean;
-  onSateChange?: ((state: string) => void) | null;
+  onStateChange?: ((state: string) => void) | null;
 }
 
-const TaskCard = ({ task, showDueDate = true, onSateChange = null }: TaskCardProps) => {
+const TaskCard = ({ task, showDueDate = true, onStateChange = null }: TaskCardProps) => {
   const { id, title, state, due_date, available_state_transitions } = task;
   // Base list URL — strip any open modal segment from the current location
   const path = useLocation().pathname.replace(/\/(new|edit\/[^/]+)\/?$/, '');
@@ -37,7 +37,7 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }: TaskCardPro
   }
 
   const toDone = () => {
-    apiFetch(`api/tasks/tasks/${id}/done/`).then(() => onSateChange?.('done'));
+    apiFetch(`api/tasks/tasks/${id}/done/`).then(() => onStateChange?.('done'));
   };
 
   const stateName = `${state}`.toLowerCase();
