@@ -32,7 +32,8 @@
     "preview": "vite preview",
     "test": "vitest",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "favicon": "pnpx realfavicon generate public/logo.svg favicon-settings.json output-data.json public/ && pnpx realfavicon inject output-data.json . index.html"
   },
   "pnpm": {
     "overrides": {

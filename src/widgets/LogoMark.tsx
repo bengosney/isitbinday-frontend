@@ -1,27 +1,18 @@
 import useTokens from '../utils/useTokens';
-import { Flex, Box, type FlexProps } from '@chakra-ui/react';
+import { chakra, type HTMLChakraProps } from '@chakra-ui/react';
 import React from 'react';
 
-interface LogoMarkProps extends FlexProps {
+interface LogoMarkProps extends HTMLChakraProps<'svg'> {
   size?: string;
-  radius?: string;
 }
 
-const LogoMark = ({ size = '22px', radius = '7px', ...props }: LogoMarkProps) => {
+const LogoMark = ({ size = '22px', ...props }: LogoMarkProps) => {
   const tokens = useTokens();
   return (
-    <Flex
-      width={size}
-      height={size}
-      borderRadius={radius}
-      background={tokens.accent}
-      align="center"
-      justify="center"
-      flex="none"
-      {...props}
-    >
-      <Box width="36%" height="36%" borderRadius="full" background={tokens.appBg} />
-    </Flex>
+    <chakra.svg width={size} height={size} viewBox="0 0 32 32" flex="none" aria-hidden="true" {...props}>
+      <rect width="32" height="32" rx="10" fill={tokens.accent} />
+      <circle cx="16" cy="16" r="5.75" fill={tokens.appBg} />
+    </chakra.svg>
   );
 };
 

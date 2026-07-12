@@ -1,0 +1,30 @@
+{
+  "icon": {
+    "desktop": {
+      "regularIconTransformation": {
+        "type": "none"
+      },
+      "darkIconType": "none"
+    },
+    "touch": {
+      "transformation": {
+        "type": "background",
+        "backgroundColor": "#ffffff",
+        "backgroundRadius": 0,
+        "imageScale": 0.8
+      },
+      "appTitle": "Is It Bin Day"
+    },
+    "webAppManifest": {
+      "transformation": {
+        "type": "none"
+      },
+      "backgroundColor": "#ffffff",
+      "name": "Is It Bin Day",
+      "shortName": "Is It Bin Day",
+      "themeColor": "#0e1116"
+    }
+  },
+  "path": "/",
+  "skipMetadataInjection": false
+}

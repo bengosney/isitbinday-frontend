@@ -31,7 +31,7 @@ export const AuthShell = ({ title, subtitle = null, children }: AuthShellProps) 
   return (
     <Stack maxW={{ base: '100%', md: '25rem' }} width="100%" margin="auto" gap={6} paddingY={10}>
       <Stack align="center" gap={3.5}>
-        <LogoMark size="40px" radius="12px" />
+        <LogoMark size="40px" />
         <Stack align="center" gap={1}>
           <Heading fontSize="20px" fontWeight={600} letterSpacing="-.01em" textAlign="center">
             {title}
