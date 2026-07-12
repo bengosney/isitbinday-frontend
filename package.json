@@ -22,7 +22,7 @@
     "react-dom": "^19.2.7",
     "react-icons": "^5.7.0",
     "react-qr-barcode-scanner": "^2.1.25",
-    "react-router-dom": "^6.30.4",
+    "react-router-dom": "^7.18.1",
     "use-pouchdb": "^2.0.3",
     "yup": "^1.7.1"
   },
