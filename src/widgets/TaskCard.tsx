@@ -1,9 +1,10 @@
 import apiFetch from '../utils/apiFetch';
 import useTokens, { statusColor } from '../utils/useTokens';
-import { Box, Flex, IconButton, Link as ChakraLink, Stack, Text } from '@chakra-ui/react';
-import { find } from 'linkifyjs';
+import { Box, Flex, IconButton, Stack, Text, Link as LinkElement } from '@chakra-ui/react';
+import Linkify from 'linkify-react';
+import type { IntermediateRepresentation } from 'linkifyjs';
 import React from 'react';
-import { MdClose, MdDone, MdModeEdit } from 'react-icons/md';
+import { MdClose, MdDone, MdModeEdit, MdOpenInNew } from 'react-icons/md';
 import { Link, useLocation } from 'react-router-dom';
 
 interface Task {
@@ -21,29 +22,11 @@ interface TaskCardProps {
   onSateChange?: ((state: string) => void) | null;
 }
 
-const hostname = (href: string): string => {
-  try {
-    return new URL(href).hostname.replace(/^www\./, '');
-  } catch {
-    return href;
-  }
-};
-
 const TaskCard = ({ task, showDueDate = true, onSateChange = null }: TaskCardProps) => {
   const { id, title, state, due_date, available_state_transitions } = task;
   // Base list URL — strip any open modal segment from the current location
   const path = useLocation().pathname.replace(/\/(new|edit\/[^/]+)\/?$/, '');
   const tokens = useTokens();
-
-  const links = find(title || '', 'url');
-  let displayTitle = title || '';
-  links.forEach((link) => {
-    displayTitle = displayTitle.replace(link.value, '');
-  });
-  displayTitle = displayTitle.replace(/\s{2,}/g, ' ').trim();
-  if (displayTitle === '' && links.length > 0) {
-    displayTitle = hostname(links[0].href);
-  }
 
   let due = null;
   if (due_date) {
@@ -115,26 +98,6 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }: TaskCardPro
   }
 
   const chips = [];
-  links.forEach((link) => {
-    chips.push(
-      <ChakraLink
-        key={`link-${link.href}`}
-        href={link.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        fontFamily="mono"
-        fontSize="10.5px"
-        color={resolved ? tokens.textDim : tokens.accentText}
-        background={resolved ? tokens.hoverBg : tokens.accentSoft}
-        paddingX={2}
-        paddingY="2px"
-        borderRadius="full"
-        _hover={{ textDecoration: 'none', opacity: 0.8 }}
-      >
-        {hostname(link.href)}
-      </ChakraLink>
-    );
-  });
   if (showDueDate && due) {
     chips.push(
       <Text
@@ -153,6 +116,27 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }: TaskCardPro
       </Text>
     );
   }
+
+  const renderLink = ({ attributes, content }: IntermediateRepresentation) => {
+    return (
+      <LinkElement
+        color={resolved ? tokens.textDim : tokens.accentText}
+        textDecoration="underline"
+        textUnderlineOffset="2px"
+        overflowWrap="anywhere"
+        gap={'0.15em'}
+        _hover={{
+          color: tokens.accent,
+          textDecoration: 'underline',
+        }}
+
+        {...attributes}
+      >
+        <Text as="span">{content}</Text>
+        <MdOpenInNew />
+      </LinkElement>
+    );
+  };
 
   return (
     <Flex
@@ -174,7 +158,7 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }: TaskCardPro
           wordBreak="break-word"
           color={resolved ? tokens.textMuted : tokens.text}
         >
-          {displayTitle}
+          <Linkify options={{ render: renderLink, target: '_blank', rel: 'noopener noreferrer' }}>{title}</Linkify>
         </Text>
         {chips.length > 0 && (
           <Flex wrap="wrap" gap={1.5}>
@@ -182,14 +166,9 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }: TaskCardPro
           </Flex>
         )}
       </Stack>
-      <Link to={`${path}/edit/${id}`.replace('//', '/')}>
-        <IconButton
-          variant="ghost"
-          size="xs"
-          aria-label="Edit"
-          color={resolved ? tokens.textDim : tokens.textMuted}
-          flex="none"
-        >
+      {/* Negative margin centres the (taller) icon button against the first text line */}
+      <Link to={`${path}/edit/${id}`.replace('//', '/')} style={{ flex: 'none', marginTop: '-2px' }}>
+        <IconButton variant="ghost" size="xs" aria-label="Edit" color={resolved ? tokens.textDim : tokens.textMuted}>
           <MdModeEdit />
         </IconButton>
       </Link>
