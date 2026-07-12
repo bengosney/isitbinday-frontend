@@ -37,3 +37,5 @@ vite.config.ts.timestamp-*
 !.vscode/launch.json
 !.vscode/extensions.json
 *.code-workspace
+
+output-data.json
