@@ -327,9 +327,9 @@ export const Form: FormComponent = (<T extends FormikValues = FormikValues>({
             </InnerForm>
           </>
         );
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return (
           <Loader loading={isLoading} content={loadingContent}>
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             {formContent as any}
           </Loader>
         );

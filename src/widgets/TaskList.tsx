@@ -105,8 +105,7 @@ const TaskList = ({ onCountChange = null }: TaskListProps) => {
     (state: TaskListState, action: WidgetAction): TaskListState => {
       const makeState = (newState: Partial<TaskListState>): TaskListState => {
         const _newState = { ...state, ...newState };
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        return (stateShape as any).cast(_newState) as TaskListState;
+        return stateShape.cast(_newState) as TaskListState;
       };
 
       switch (action.type) {
@@ -117,9 +116,8 @@ const TaskList = ({ onCountChange = null }: TaskListProps) => {
             throw new Error(`Unsupported action type: ${action.type as string}`);
           }
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     },
-    (stateShape as any).cast({}) as TaskListState
+    stateShape.cast({}) as TaskListState
   );
 
   const {
