@@ -1,68 +1,65 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Is it bin day?
 
-## Available Scripts
+A practical task list for the house. Frontend for [isitbinday](https://github.com/bengosney/isitbinday) — tasks, books, and recipes, backed by a Django REST API.
 
-In the project directory, you can run:
+Built with React 19, TypeScript, Vite, and Chakra UI v3. Data is cached locally in PouchDB so previously fetched pages render instantly while fresh data loads.
 
-### `yarn start`
+## Requirements
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Node 22+ (see `.nvmrc`)
+- pnpm 10 (via corepack: `corepack enable`)
+- A running [backend API](https://github.com/bengosney/isitbinday) (defaults to `http://localhost:8000`)
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Getting started
 
-### `yarn test`
+```sh
+corepack enable
+pnpm install
+pnpm start
+```
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The app runs at http://localhost:5173. To point it at a different API:
 
-### `yarn build`
+```sh
+VITE_API_URL=https://api.example.com pnpm start
+```
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Scripts
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+| Command        | What it does                                                 |
+| -------------- | ------------------------------------------------------------ |
+| `pnpm start`   | Dev server with HMR                                          |
+| `pnpm build`   | Type-check (`tsc --noEmit`) then production build to `dist/` |
+| `pnpm preview` | Serve the production build locally                           |
+| `pnpm test`    | Run tests with Vitest                                        |
+| `pnpm lint`    | ESLint over `src/`                                           |
+| `pnpm format`  | Prettier over `src/`                                         |
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Project structure
 
-### `yarn eject`
+```
+src/
+  sections/   Route-level components (tasks, books, recipes, auth, static pages)
+  widgets/    Reusable UI pieces (TaskCard, TaskList, Nav, forms…)
+  forms/      Formik form definitions
+  schemas/    Yup validation schemas
+  utils/      apiFetch (auth + refresh token handling), Form helpers, design tokens
+  db.ts       PouchDB local cache
+  config.ts   Runtime config (API origin, build stamp)
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Routing lives under `/iibd/*` for the authenticated app (react-router v7); auth uses JWT with automatic refresh, plus optional Google sign-in.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Deployment
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Pushes to `master` are built and deployed automatically by AWS Amplify using `amplify.yml` (pnpm install → build → serve `dist/` with an SPA rewrite rule). DNS is on Cloudflare.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+The infrastructure is managed with OpenTofu/Terraform in [`infrastructure/`](infrastructure/); state and tfvars live in S3. From that directory:
 
-## Learn More
+```sh
+make init    # fetch tfvars/imports from S3 and init
+make apply   # plan + apply
+make upload  # push updated tfvars back to S3
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Required env vars for the Makefile: `TERAFORM_BUCKET`, `TERAFORM_BUCKET_REGION`, `TERAFORM_BUCKET_PATH` (see `infrastructure/.envrc`).
