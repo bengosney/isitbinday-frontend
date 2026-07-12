@@ -18,8 +18,8 @@
     "onscan.js": "^1.5.2",
     "pouchdb-browser": "^9.0.0",
     "pouchdb-upsert": "^2.2.0",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
     "react-icons": "^5.7.0",
     "react-qr-barcode-scanner": "^2.1.25",
     "react-router-dom": "^6.30.4",
@@ -36,8 +36,8 @@
   },
   "pnpm": {
     "overrides": {
-      "@types/react": "^18.0.0",
-      "@types/react-dom": "^18.0.0"
+      "@types/react": "^19.0.0",
+      "@types/react-dom": "^19.0.0"
     }
   },
   "lint-staged": {
@@ -59,8 +59,8 @@
     "@types/node": "^26.1.1",
     "@types/pouchdb-browser": "^6.1.5",
     "@types/pouchdb-upsert": "^2.2.9",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^6.0.3",
     "eslint": "^9.39.5",
     "eslint-config-prettier": "^10.1.8",
