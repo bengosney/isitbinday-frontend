@@ -1,16 +1,31 @@
 html {
-  overflow: auto !important;
+  overflow-y: scroll;
+  min-height: 100%;
 }
 
 body {
-  font-family: -apple-system, blinkmacsystemfont, segoe ui, helvetica, arial, sans-serif, apple color emoji,
-    segoe ui emoji, segoe ui symbol;
+  font-family:
+    'Instrument Sans',
+    system-ui,
+    -apple-system,
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #f6f6f4;
+  color: #1a1d23;
+}
+
+.dark body {
+  background: #0e1116;
+  color: #e6e9ef;
+}
+
+a {
+  transition: 0.2s ease-in-out all;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-family: 'JetBrains Mono', Menlo, Consolas, 'Courier New', monospace;
 }
 
 #root abbr[title] {

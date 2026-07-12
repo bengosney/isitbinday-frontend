@@ -1,0 +1,76 @@
+import { RecipeSchema } from '../schemas/RecipeSchema';
+import { Form } from '../utils/Form';
+import { useApiFetch } from '../utils/apiFetch';
+import { Text, Box, Stack, Button } from '@chakra-ui/react';
+import { FieldArray } from 'formik';
+import React from 'react';
+
+const StepForm = () => {
+  return <Text>StepForm</Text>;
+};
+
+interface RecipeFormProps {
+  details?: Record<string, unknown>;
+}
+
+const RecipeForm = ({ details = {} }: RecipeFormProps) => {
+  const jsonSchema = useApiFetch('openapi/?format=openapi-json');
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const units = useApiFetch('api/recipes/unit/') as any;
+
+  if (jsonSchema == null || units == null) {
+    return <Text>Loading...</Text>;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const unitOptions = units.results.map((item: any) => ({ key: item.id, value: item.id, text: item.name }));
+
+  return (
+    <Form
+      initialValues={RecipeSchema.cast(details, { stripUnknown: true })}
+      validationSchema={RecipeSchema}
+      onSubmit={() => {}}
+    >
+      {(_, rest) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const { values } = rest as any;
+        return (
+          <>
+            <Form.Input name="Name" />
+            <Form.Input name="Description" />
+            <Form.Input name="Time to cook" />
+            <FieldArray name="ingredients">
+              {({ remove, push }) => (
+                <>
+                  {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                  {(values?.ingredients || []).map((ingredient: any, index: number) => (
+                    <Stack key={index} direction={'row'}>
+                      <Box>{index}</Box>
+                      <Form.Input name={`ingredients.name.${index}`} label={'Name'} />
+                      <Form.Input name={`ingredients.quantity.${index}`} label={'Quantity'} type="number" />
+                      <Form.Select name={`ingredients.unit.${index}`} label={'Unit'} options={unitOptions} />
+                      <Button
+                        onClick={() => {
+                          remove(index);
+                          console.log(`remove ${index}`);
+                        }}
+                      >
+                        Remove
+                      </Button>
+                    </Stack>
+                  ))}
+                  <Button variant="plain" onClick={() => push({ name: '', quantity: 0, unit: '' })}>
+                    Add Ingredient
+                  </Button>
+                </>
+              )}
+            </FieldArray>
+            <StepForm />
+          </>
+        );
+      }}
+    </Form>
+  );
+};
+
+export default RecipeForm;

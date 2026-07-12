@@ -3,13 +3,14 @@ frontend:
   phases:
     preBuild:
       commands:
-        - npm install
-        - sed -i "s/%%date%%/$(date '+%Y%m%d.%H%M')/g" src/config.js
+        - corepack enable
+        - pnpm install --frozen-lockfile
+        - sed -i "s/%%date%%/$(date '+%Y%m%d.%H%M')/g" src/config.ts
     build:
       commands:
-        - npm run build
+        - pnpm run build
   artifacts:
-    baseDirectory: build
+    baseDirectory: dist
     files:
       - '**/*'
   cache:

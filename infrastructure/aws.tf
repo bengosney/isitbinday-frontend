@@ -15,9 +15,7 @@ resource "aws_amplify_branch" "master" {
   framework   = "React"
   stage       = "PRODUCTION"
   environment_variables = {
-    REACT_APP_API_URL = "https://api.${var.domain}"
-    PUBLIC_URL        = "https://www.${var.domain}"
-    NODE_ENV          = "production"
+    VITE_API_URL = "https://api.${var.domain}"
   }
 }
 

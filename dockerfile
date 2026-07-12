@@ -2,16 +2,18 @@ FROM node:22 as build
 
 WORKDIR /app
 
-COPY package.json /app
-COPY package-lock.json /app
+RUN corepack enable
 
-RUN npm install
+COPY package.json /app
+COPY pnpm-lock.yaml /app
+
+RUN pnpm install --frozen-lockfile
 
 COPY . /app
 
-RUN npm run build
+RUN pnpm run build
 
 ## ----------------------------
 FROM nginx
 
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build /app/dist /usr/share/nginx/html
