@@ -57,7 +57,7 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }: TaskCardPro
         align="center"
         justify="center"
         flex="none"
-        marginTop="2px"
+        marginTop="6px"
         color={tokens.appBg}
       >
         {isDone ? <MdDone size="11px" /> : <MdClose size="11px" />}
@@ -75,7 +75,7 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }: TaskCardPro
           borderRadius: '9999px',
           border: `1.5px solid ${tokens.checkboxBorder}`,
           flex: 'none',
-          marginTop: '2px',
+          marginTop: '6px',
           cursor: 'pointer',
           background: 'transparent',
           padding: 0,
@@ -92,7 +92,7 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }: TaskCardPro
         border="1.5px solid"
         borderColor={tokens.checkboxBorder}
         flex="none"
-        marginTop="2px"
+        marginTop="6px"
       />
     );
   }
@@ -150,7 +150,7 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }: TaskCardPro
       align="flex-start"
     >
       {stateMark}
-      <Stack gap={2} minW={0} flex="1">
+      <Stack paddingTop={'4px'} gap={2} minW={0} flex="1">
         <Text
           fontSize="14px"
           fontWeight={500}
