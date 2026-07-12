@@ -3,7 +3,7 @@ import apiFetch from '../utils/apiFetch';
 import usePageTitle from '../utils/usePageTitle';
 import useTokens from '../utils/useTokens';
 import AuthShell, { AuthCard } from '../widgets/AuthShell';
-import { Box, Button, Flex, Grid, Link as ChakraLink, Stack, Text } from '@chakra-ui/react';
+import { Box, Button, chakra, Flex, Grid, Link as ChakraLink, Stack, Text } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -132,15 +132,18 @@ const RegisterForm = () => {
           </Link>
         </Text>
       ) : (
-        <button
+        <chakra.button
           type="button"
           onClick={() => setStep(1)}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', width: '100%' }}
+          background="none"
+          border="none"
+          cursor="pointer"
+          width="100%"
         >
           <ChakraLink as="span" textAlign="center" fontSize="13px" fontWeight={500} color={tokens.accentText}>
             ← Back to account details
           </ChakraLink>
-        </button>
+        </chakra.button>
       )}
     </AuthShell>
   );

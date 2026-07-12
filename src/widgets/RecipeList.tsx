@@ -28,45 +28,47 @@ const RecipeList = ({ refreshKey = 0 }: RecipeListProps) => {
     <Grid templateColumns={{ base: '1fr', sm: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap={4}>
       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
       {(recipes as any[]).map((recipe) => (
-        <Link key={recipe.slug} to={getUrl(recipe.slug)} style={{ textDecoration: 'none' }}>
-          <Box
-            background={tokens.surface}
-            border="1px solid"
-            borderColor={tokens.border}
-            borderRadius="14px"
-            paddingX={5}
-            paddingY={4}
-            height="100%"
-            transition=".15s ease-in-out border-color, .15s ease-in-out background"
-            _hover={{ borderColor: tokens.borderStrong, background: tokens.hoverBg }}
-          >
-            <Flex align="flex-start" gap={3}>
-              <Flex
-                width="32px"
-                height="32px"
-                borderRadius="9px"
-                background={tokens.accentSoft}
-                color={tokens.accentText}
-                align="center"
-                justify="center"
-                flex="none"
-                fontSize="16px"
-              >
-                <BiFoodMenu />
-              </Flex>
-              <Stack gap={1} minW={0}>
-                <Text fontSize="14px" fontWeight={600} lineHeight={1.4} wordBreak="break-word">
-                  {recipe.name}
-                </Text>
-                {recipe.time && (
-                  <Text fontFamily="mono" fontSize="11px" color={tokens.textDim}>
-                    {recipe.time}
+        <Box asChild key={recipe.slug} textDecoration="none">
+          <Link to={getUrl(recipe.slug)}>
+            <Box
+              background={tokens.surface}
+              border="1px solid"
+              borderColor={tokens.border}
+              borderRadius="14px"
+              paddingX={5}
+              paddingY={4}
+              height="100%"
+              transition=".15s ease-in-out border-color, .15s ease-in-out background"
+              _hover={{ borderColor: tokens.borderStrong, background: tokens.hoverBg }}
+            >
+              <Flex align="flex-start" gap={3}>
+                <Flex
+                  width="32px"
+                  height="32px"
+                  borderRadius="9px"
+                  background={tokens.accentSoft}
+                  color={tokens.accentText}
+                  align="center"
+                  justify="center"
+                  flex="none"
+                  fontSize="16px"
+                >
+                  <BiFoodMenu />
+                </Flex>
+                <Stack gap={1} minW={0}>
+                  <Text fontSize="14px" fontWeight={600} lineHeight={1.4} wordBreak="break-word">
+                    {recipe.name}
                   </Text>
-                )}
-              </Stack>
-            </Flex>
-          </Box>
-        </Link>
+                  {recipe.time && (
+                    <Text fontFamily="mono" fontSize="11px" color={tokens.textDim}>
+                      {recipe.time}
+                    </Text>
+                  )}
+                </Stack>
+              </Flex>
+            </Box>
+          </Link>
+        </Box>
       ))}
     </Grid>
   );

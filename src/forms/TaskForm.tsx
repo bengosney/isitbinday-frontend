@@ -1,7 +1,7 @@
 import { TaskSchema } from '../schemas/TaskSchema';
 import { Form } from '../utils/Form';
 import apiFetch from '../utils/apiFetch';
-import { Button, Flex, Grid, Spacer } from '@chakra-ui/react';
+import { Box, Button, Flex, Grid, Spacer } from '@chakra-ui/react';
 import React, { useState } from 'react';
 
 interface TaskFormValues {
@@ -65,10 +65,10 @@ const TaskForm = ({ details, postSave = null, onCancel = null }: TaskFormProps) 
         <Form.DateField name="due_date" label="Due date" />
         <Form.Input name="repeats" label="Repeat" />
       </Grid>
-      <div style={{ display: 'none' }}>
+      <Box display="none">
         <Form.Input name="effort" />
         <Form.Input name="blocked_by" />
-      </div>
+      </Box>
       <Flex gap={2} paddingTop={2}>
         <Spacer />
         {onCancel !== null && (

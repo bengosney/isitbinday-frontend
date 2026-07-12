@@ -2,6 +2,7 @@ import { ToTitleCase } from '../utils/string';
 import ErrorMessage from '../widgets/ErrorMessage';
 import Loader from '../widgets/Loader';
 import {
+  chakra,
   Input,
   NativeSelect,
   Button,
@@ -54,13 +55,17 @@ const Field = ({ as, children, processor, name, label = null, showLabel = true, 
     <Stack>
       <Box color={_error ? 'form.error' : ''}>
         {showLabel ? (
-          <label
+          <chakra.label
             htmlFor={name}
-            style={{ display: 'block', fontSize: '12px', fontWeight: 600, opacity: 0.75, marginBottom: '6px' }}
+            display="block"
+            fontSize="12px"
+            fontWeight={600}
+            opacity={0.75}
+            marginBottom="6px"
           >
             {_label}
             {_error && errors}
-          </label>
+          </chakra.label>
         ) : null}
         {element}
       </Box>

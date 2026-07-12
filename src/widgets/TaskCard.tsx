@@ -1,6 +1,6 @@
 import apiFetch from '../utils/apiFetch';
 import useTokens, { statusColor } from '../utils/useTokens';
-import { Box, Flex, IconButton, Stack, Text, Link as LinkElement } from '@chakra-ui/react';
+import { chakra, Flex, IconButton, Stack, Text, Link as LinkElement } from '@chakra-ui/react';
 import Linkify from 'linkify-react';
 import type { IntermediateRepresentation } from 'linkifyjs';
 import React from 'react';
@@ -46,56 +46,30 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }: TaskCardPro
   const resolved = isDone || isCancelled;
   const canDone = (available_state_transitions || []).includes('done');
 
-  let stateMark;
-  if (resolved) {
-    stateMark = (
-      <Flex
-        width="16px"
-        height="16px"
-        borderRadius="full"
-        background={statusColor(stateName)}
-        align="center"
-        justify="center"
-        flex="none"
-        marginTop="7px"
-        color={tokens.appBg}
-      >
-        {isDone ? <MdDone size="11px" /> : <MdClose size="11px" />}
-      </Flex>
-    );
-  } else if (canDone) {
-    stateMark = (
-      <button
-        type="button"
-        aria-label="Mark as done"
-        onClick={toDone}
-        style={{
-          width: '16px',
-          height: '16px',
-          borderRadius: '9999px',
-          border: `1.5px solid ${tokens.checkboxBorder}`,
-          flex: 'none',
-          marginTop: '7px',
-          cursor: 'pointer',
-          background: 'transparent',
-          padding: 0,
-        }}
-      />
-    );
-  } else {
-    stateMark = (
-      <Box
-        as="span"
-        width="16px"
-        height="16px"
-        borderRadius="full"
-        border="1.5px solid"
-        borderColor={tokens.checkboxBorder}
-        flex="none"
-        marginTop="7px"
-      />
-    );
-  }
+  const stateMark = (
+    <chakra.button
+      type="button"
+      aria-label={resolved ? stateName : 'Mark as done'}
+      onClick={toDone}
+      disabled={!canDone}
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      width="16px"
+      height="16px"
+      borderRadius="full"
+      flex="none"
+      marginTop="7px"
+      padding={0}
+      cursor={canDone ? 'pointer' : 'default'}
+      border={resolved ? 'none' : '1.5px solid'}
+      borderColor={tokens.checkboxBorder}
+      background={resolved ? statusColor(stateName) : 'transparent'}
+      color={tokens.appBg}
+    >
+      {resolved && (isDone ? <MdDone size="11px" /> : <MdClose size="11px" />)}
+    </chakra.button>
+  );
 
   const chips = [];
   if (showDueDate && due) {
@@ -168,11 +142,19 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }: TaskCardPro
       </Stack>
       {/* Negative margin centres the (taller) icon button on the first text line's optical centre,
           which sits ~1px below the line-box centre for mostly-lowercase text */}
-      <Link to={`${path}/edit/${id}`.replace('//', '/')} style={{ flex: 'none', marginTop: '-1px' }}>
-        <IconButton variant="ghost" size="xs" aria-label="Edit" color={resolved ? tokens.textDim : tokens.textMuted}>
+      <IconButton
+        asChild
+        variant="ghost"
+        size="xs"
+        aria-label="Edit"
+        color={resolved ? tokens.textDim : tokens.textMuted}
+        flex="none"
+        marginTop="-1px"
+      >
+        <Link to={`${path}/edit/${id}`.replace('//', '/')}>
           <MdModeEdit />
-        </IconButton>
-      </Link>
+        </Link>
+      </IconButton>
     </Flex>
   );
 };
