@@ -276,7 +276,9 @@ export const Form: FormComponent = (<T extends FormikValues = FormikValues>({
     };
     const { fields } = schema.describe();
 
-    _initialValues = schema.cast(_initialValues, { stripUnknown: true });
+    // assert: false — yup 1.x cast throws on required fields missing from
+    // initial values; the reduce below fills the gaps with '' instead.
+    _initialValues = schema.cast(_initialValues, { stripUnknown: true, assert: false });
     _initialValues = Object.keys(fields).reduce((iv: Record<string, unknown>, f) => {
       if (typeof _initialValues[f] == 'undefined' || _initialValues[f] == null) {
         iv[f] = '';

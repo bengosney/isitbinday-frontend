@@ -9,13 +9,15 @@ import { useNavigate, Link } from 'react-router-dom';
 import * as Yup from 'yup';
 
 const registerSchema = Yup.object().shape({
-  email: Yup.string().email().required('Email is required'),
-  password: Yup.string().required('Required'),
+  email: Yup.string().email().required('Email is required').ensure(),
+  password: Yup.string().required('Required').ensure(),
   /*.matches(
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
       'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character'
-    )*/ passwordConfirmation: Yup.string().oneOf([Yup.ref('password')], 'Passwords must match'),
-  firstName: Yup.string().required('First name is required'),
+    )*/ passwordConfirmation: Yup.string()
+    .oneOf([Yup.ref('password')], 'Passwords must match')
+    .ensure(),
+  firstName: Yup.string().required('First name is required').ensure(),
   lastName: Yup.string().required('Last name is required').ensure(),
 });
 
