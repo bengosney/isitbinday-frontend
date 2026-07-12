@@ -57,7 +57,7 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }: TaskCardPro
         align="center"
         justify="center"
         flex="none"
-        marginTop="6px"
+        marginTop="7px"
         color={tokens.appBg}
       >
         {isDone ? <MdDone size="11px" /> : <MdClose size="11px" />}
@@ -75,7 +75,7 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }: TaskCardPro
           borderRadius: '9999px',
           border: `1.5px solid ${tokens.checkboxBorder}`,
           flex: 'none',
-          marginTop: '6px',
+          marginTop: '7px',
           cursor: 'pointer',
           background: 'transparent',
           padding: 0,
@@ -92,7 +92,7 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }: TaskCardPro
         border="1.5px solid"
         borderColor={tokens.checkboxBorder}
         flex="none"
-        marginTop="6px"
+        marginTop="7px"
       />
     );
   }
@@ -166,8 +166,9 @@ const TaskCard = ({ task, showDueDate = true, onSateChange = null }: TaskCardPro
           </Flex>
         )}
       </Stack>
-      {/* Negative margin centres the (taller) icon button against the first text line */}
-      <Link to={`${path}/edit/${id}`.replace('//', '/')} style={{ flex: 'none', marginTop: '-2px' }}>
+      {/* Negative margin centres the (taller) icon button on the first text line's optical centre,
+          which sits ~1px below the line-box centre for mostly-lowercase text */}
+      <Link to={`${path}/edit/${id}`.replace('//', '/')} style={{ flex: 'none', marginTop: '-1px' }}>
         <IconButton variant="ghost" size="xs" aria-label="Edit" color={resolved ? tokens.textDim : tokens.textMuted}>
           <MdModeEdit />
         </IconButton>
