@@ -3,7 +3,7 @@ resource "aws_amplify_app" "isitbinday" {
   repository = var.repo
 
   custom_rule {
-    source = "</^[^.]+$|\\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|ttf|map|json)$)([^.]+$)/>"
+    source = "</^[^.]+$|\\.(?!(css|gif|ico|jpg|js|png|txt|svg|woff|ttf|map|json|webmanifest)$)([^.]+$)/>"
     status = "200"
     target = "/index.html"
   }
