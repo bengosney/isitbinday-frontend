@@ -2,11 +2,60 @@
 import react from '@vitejs/plugin-react';
 import { createRequire } from 'node:module';
 import { defineConfig } from 'vite';
+import { VitePWA } from 'vite-plugin-pwa';
 
 const require = createRequire(import.meta.url);
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      injectRegister: 'auto',
+      manifest: {
+        name: 'Is it bin day?',
+        short_name: 'isitbinday',
+        description: 'A practical task list',
+        start_url: '/iibd',
+        display: 'standalone',
+        theme_color: '#7B87F7',
+        background_color: '#ffffff',
+        icons: [
+          {
+            src: '/web-app-manifest-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+            purpose: 'any',
+          },
+          {
+            src: '/web-app-manifest-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any',
+          },
+          {
+            src: '/web-app-manifest-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
+        ],
+        shortcuts: [
+          {
+            name: 'Task List',
+            short_name: 'Tasks',
+            description: 'The task list',
+            url: '/iibd/tasks',
+            icons: [{ src: '/web-app-manifest-192x192.png', sizes: '192x192' }],
+          },
+        ],
+      },
+      workbox: {
+        // SPA: serve index.html for navigations the SW hasn't precached
+        navigateFallback: '/index.html',
+      },
+    }),
+  ],
   define: {
     // pouchdb and friends expect the node "global" object
     global: 'globalThis',
