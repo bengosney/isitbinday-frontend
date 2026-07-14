@@ -52,8 +52,34 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // SPA: serve index.html for navigations the SW hasn't precached
+        // Precache the built app shell so it loads offline.
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,woff,woff2}'],
+        cleanupOutdatedCaches: true,
+        // SPA: serve index.html for navigations the SW hasn't precached.
         navigateFallback: '/index.html',
+        runtimeCaching: [
+          {
+            // Google Fonts stylesheets — refresh in the background, serve cached offline.
+            urlPattern: ({ url }) => url.origin === 'https://fonts.googleapis.com',
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'google-fonts-stylesheets',
+            },
+          },
+          {
+            // Google Fonts webfont files — immutable, cache long-term.
+            urlPattern: ({ url }) => url.origin === 'https://fonts.gstatic.com',
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'google-fonts-webfonts',
+              cacheableResponse: { statuses: [0, 200] },
+              expiration: {
+                maxEntries: 30,
+                maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
+              },
+            },
+          },
+        ],
       },
     }),
   ],
